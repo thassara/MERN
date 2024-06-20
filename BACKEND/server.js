@@ -28,5 +28,5 @@ const studentRouter = require("./Roots/students.js");
 app.use("/student",studentRouter);
 
 app.listen(PORT, () => {
-    console.log(`Server is up and running on Port numberbbb: ${PORT}`);
+    console.log(`Server is up and running on and Port numberbbb: ${PORT}`);
 });
