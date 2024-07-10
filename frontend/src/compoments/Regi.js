@@ -1,19 +1,30 @@
 import React, { useState } from "react";
 import '../style/style.css';
+import axios from "axios";
 
 function Regi() {
 
-    const [name,setName] = useState('');
-   // let name = 'Madushas'
+    const [name, setname] = useState("");
+    const [age, setage] = useState("");
+    const [gender, setgender] = useState("");
 
-    const onNameChange = (e)=>{
-        console.log(e.target.value);
-        setName(e.target.value);
-        //name = e.target.value;
-    }
+    function sendData(e) {
+        e.preventDefault();
 
-    const onSubmitClick = ()=>{
-        
+        const newStudent = {
+            name,
+            age,
+            gender
+        }
+        axios.post("http://localhost:8070/student/add", newStudent).then(() => {
+            alert("Student Add $$")
+            setname("");
+            setage("");
+            setgender("");
+
+        }).catch((err) => {
+            alert("Student not add!!");
+        })
     }
 
     return (
@@ -21,26 +32,34 @@ function Regi() {
 
             <div className="form-container">
                 <h1>Registraion Form</h1>
-                <form>
-                    <div>`Hello {name}`</div>
+                <form onSubmit={sendData}>
+                    <div>`YOUR NAME: {name}`</div>
+                    <div>`AGE: {age}`</div>
+                    <div>`GPA: {gender}`</div>
                     <div className="form-group">
                         <label htmlFor="name">Name:</label>
-                        <input type="text" id="name" name="name" required onChange={onNameChange} />
+                        <input type="text" id="name" name="name" required onChange={(e) => {
+                            setname(e.target.value);
+                        }} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="age">Age:</label>
-                        <input type="number" id="age" name="age" required />
+                        <input type="number" id="age" name="age" required onChange={(e) => {
+                            setage(e.target.value);
+                        }} />
                     </div>
                     <div className="form-group">
                         <label htmlFor="gpa">GPA:</label>
-                        <input type="text" id="gpa" name="gpa" required />
+                        <input type="text" id="gender" name="gender" required onChange={(e) => {
+                            setgender(e.target.value);
+                        }} />
                     </div>
                     <div className="form-group">
-                        <button type="submit" onClick={onSubmitClick}>Submit</button>
+                        <button type="submit" >Submit</button>
                     </div>
                 </form>
             </div>
-            
+
         </div>
     );
 }
