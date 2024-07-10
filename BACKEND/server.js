@@ -5,7 +5,7 @@ const cors = require('cors');
 const app = express();
 require('dotenv').config();
 
-const PORT = process.env.PORT||8070; // Changed the port number
+const PORT = process.env.PORT||8070;
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -20,7 +20,7 @@ mongoose.connect(URL,{
 });
 
 const connection = mongoose.connection;
-connection.once("open", () => { 
+connection.once("open", () => { npm z
     console.log("MongoDB Connection Success");
 });
 
@@ -28,5 +28,5 @@ const studentRouter = require("./Roots/students.js");
 app.use("/student",studentRouter);
 
 app.listen(PORT, () => {
-    console.log(`Server is up and running on Port number: ${PORT}`);
+    console.log(`Server is up and running on Port numberbbgg: ${PORT}`);
 });

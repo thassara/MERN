@@ -10,12 +10,7 @@ root.render(
     <App />
   </React.StrictMode>
 );
-const root1 = ReactDOM.createRoot(document.getElementById('root2'));
-root1.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
