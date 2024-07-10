@@ -33,9 +33,9 @@ function Regi() {
             <div className="form-container">
                 <h1>Registraion Form</h1>
                 <form onSubmit={sendData}>
-                    <div>`YOUR NAME: {name}`</div>
-                    <div>`AGE: {age}`</div>
-                    <div>`GPA: {gender}`</div>
+                    <div>YOUR NAME: {name}</div>
+                    <div>AGE: {age}</div>
+                    <div>GPA: {gender}</div>
                     <div className="form-group">
                         <label htmlFor="name">Name:</label>
                         <input type="text" id="name" name="name" required onChange={(e) => {
