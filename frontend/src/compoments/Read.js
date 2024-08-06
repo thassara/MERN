@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import '../style/table.css';
+import '../style/Comman css/table.css';
 
 function Read() {
     const [students, setStudents] = useState([]);

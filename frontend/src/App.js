@@ -5,6 +5,7 @@ import Footer from './compoments/Footer';
 import Regi from './compoments/Regi';
 import Update from './compoments/Update';
 import Read from './compoments/Read';
+import Add from 'C:/Users/HP/Documents/GitHub/MERN/frontend/src/compoments/Order/AddForm'
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -13,9 +14,10 @@ function App() {
       <div>
         <Header />
         <Routes>
-        <Route path="/add" element={<Regi />} />
+        <Route path="/Regi" element={<Regi />} />
         <Route path="/update" element={<Update />} />
         <Route path="/read" element={<Read />} />
+        <Route path="/add" element={<Add/>}/> 
         </Routes>
        
         <Footer />
