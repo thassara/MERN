@@ -59,7 +59,7 @@ button{
 button:hover{
     background-color: rgba(0,136,169,0.8); 
 }
-form{
+.search-form{
     position: relative;
     top: 50%;
     left: 0%;
@@ -105,16 +105,16 @@ form{
     transition: all 1s;
 }
 
-form:hover{
+.search-form:hover{
     width: 300px;
     cursor: pointer;
 }
 
-form:hover input{
+.search-form:hover input{
     display: block;
 }
 
-form:hover .fa{
+.search-form:hover .fa{
     background: #8c52ff;
     color: white;
 }

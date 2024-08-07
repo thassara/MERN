@@ -14,10 +14,10 @@ function Header() {
                 </form>
                 <nav>
                     <ul className="nav_links">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">Packages</a></li>
+                        <li><a href="/Regi">Home</a></li>
+                        <li><a href="/update">About</a></li>
+                        <li><a href="/read">Services</a></li>
+                        <li><a href="/add">Packages</a></li>
                         <li><a href="#">Admin</a></li>
                     </ul>
                 </nav>
