@@ -5,7 +5,7 @@ import Footer from './compoments/Footer';
 import Regi from './compoments/Regi';
 import Update from './compoments/Update';
 import Read from './compoments/Read';
-import Add from 'C:/Users/HP/Documents/GitHub/MERN/frontend/src/compoments/Order/AddForm'
+import Add from './compoments/Order/AddForm';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
