@@ -77,7 +77,7 @@ const OrderForm = () => {
           </select>
         </div>
         <br />
-        <button type="submit">Submit Order</button>
+        <button className='buttonx' type="submit">Submit Order</button>
       </form>
     </div>
   );

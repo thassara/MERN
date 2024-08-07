@@ -33,8 +33,8 @@ input {
     border-radius: 4px;
 }
 
-button {
-    background-color: #4CAF50;
+.buttonx {
+    background-color: #3098c9;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -42,6 +42,6 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.buttonx:hover {
     background-color: #45a049;
 }
