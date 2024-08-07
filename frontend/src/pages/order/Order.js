@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from 'C:/Users/HP/Documents/GitHub/MERN/frontend/src/compoments/Header';
-import Footer from 'C:/Users/HP/Documents/GitHub/MERN/frontend/src/compoments/Footer';
-import Add from 'C:/Users/HP/Documents/GitHub/MERN/frontend/src/compoments/Order/AddForm'
+import Header from '../../compoments/Header'; // Adjusted path for Header
+import Footer from '../../compoments/Footer'; // Adjusted path for Footer
+import Add from '../../compoments/Order/AddForm';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 
