@@ -12,7 +12,7 @@ function Order(){
         <div>
            
         <Routes>
-            <Route path="/add" element={<Add/>}/>   
+            <Route  path="/add" element={<Add/>}/>   
         </Routes>
         
         </div>
