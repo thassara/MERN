@@ -1,37 +1,93 @@
-//src/components/Footer.js
 import React from 'react';
+import './../style/Comman css/footer.css';
+// import fb from '..';
+// import twitter from '..';
+// import linkedin from '..';
+// import Instagram from '..';
 
 function Footer() {
     return (
-        <footer className="bg-body-tertiary py-4 mt-auto">
-            <div className="container">
-                <div className="row">
-                    <div className="col-md-6">
-                        <h5>About Us</h5>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+        <div className='footer'>
+            <div className='sb_footer section_padding'>
+                <div className='sb_footer-links'>
+                    <div className='sb_footer-links-div'>
+                        <h4>For Business</h4>
+                        <a href='/employee'>
+                            <p>Employee</p>
+                        </a>
+                        <a href='/packages'>
+                            <p>Packages</p>
+                        </a>
+                        <a href='/orders'>
+                            <p>Orders</p>
+                        </a>
                     </div>
-                    <div className="col-md-3">
-                        <h5>Links</h5>
-                        <ul className="list-unstyled">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
+                    <div className='sb_footer-links-div'>
+                        <h4>Resources</h4>
+                        <a href='/resources'>
+                            <p>Resources</p>
+                        </a>
+                        <a href='/packages'>
+                            <p>Packages</p>
+                        </a>
+                        <a href='/orders'>
+                            <p>Orders</p>
+                        </a>
                     </div>
-                    <div className="col-md-3">
-                        <h5>Follow Us</h5>
-                        <ul className="list-unstyled">
-                            <li><a href="#">Facebook</a></li>
-                            <li><a href="#">Twitter</a></li>
-                            <li><a href="#">Instagram</a></li>
-                        </ul>
+                    <div className='sb_footer-links-div'>
+                        <h4>Partners</h4>
+                        <a href='/partners'>
+                            <p>Maliban</p>
+                        </a>
+                        <a href='/packages'>
+                            <p>Jone Keells</p>
+                        </a>
+                        <a href='/orders'>
+                            <p>Unilever</p>
+                        </a>
+                    </div>
+                    <div className='sb_footer-links-div'>
+                        <h4>Company</h4>
+                        <a href='/about'>
+                            <p>About</p>
+                        </a>
+                        <a href='/press'>
+                            <p>History</p>
+                        </a>
+                        <a href='/career'>
+                            <p>Career</p>
+                        </a>
+                        <a href='/contact'>
+                            <p>Contact</p>
+                        </a>
+                    </div>
+                    <div className='sb_footer-links-div'>
+                        <h4>Social Contact</h4>
+                        <div className='socialmedia'>
+                            <p><i class="fab fa-facebook-f fa-2x" style={{ color: '#3b5998' }}></i></p>
+                            <p><i class="fab fa-twitter fa-2x" style= {{color: '#55acee'}}></i></p>
+                            <p><i class="fab fa-linkedin-in fa-2x" style={{color: '#0082ca'}}></i></p>
+                            <p><i class="fab fa-instagram fa-2x" style={{color: '#ac2bac'}}></i></p>
+                        </div>
                     </div>
                 </div>
-                <div className="text-center mt-3">
-                    <p>&copy; {new Date().getFullYear()} Your Company. All rights reserved.</p>
+                <hr></hr>
+                <div className='sb_footer-below'>
+                    <div className='sb_footer-copyright'>
+                        <p>
+                            @{new Date().getFullYear()} TeamPisso. All right reserver.
+                        </p>
+                    </div>
+                    <div className='sb_footer-below-links'>
+                        <a href="/terms"><div className=''><p>Terms & Conditions</p></div></a>
+                        <a href="/terms"><div className=''><p>Privacy</p></div></a>
+                        <a href="/terms"><div className=''><p>Security</p></div></a>
+                        <a href="/terms"><div className=''><p>Cooke Declaration</p></div></a>
+
+                    </div>
                 </div>
             </div>
-        </footer>
+        </div>
     );
 }
 
