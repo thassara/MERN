@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-//gggs
+//from janindu to main
 const studentSchema = new Schema({
     name : {
         type : String,
