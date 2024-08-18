@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-
+//gggs
 const studentSchema = new Schema({
     name : {
         type : String,
