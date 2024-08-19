@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
-//from janindu to main
+
 const studentSchema = new Schema({
     name : {
         type : String,
@@ -20,4 +20,4 @@ const studentSchema = new Schema({
 const Student = mongoose.model("Student",studentSchema);
 module.exports = Student; 
 
-//ebjsb d
+

@@ -5,7 +5,7 @@ import Footer from './compoments/Footer';
 import Regi from './compoments/Regi';
 import Update from './compoments/Update';
 import Read from './compoments/Read';
-import Add from './compoments/Order/AddForm';
+import AdminChoose from './compoments/AdminChoose';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function App() {
@@ -17,9 +17,12 @@ function App() {
         <Route path="/Regi" element={<Regi />} />
         <Route path="/update" element={<Update />} />
         <Route path="/read" element={<Read />} />
-        <Route path="/add" element={<Add/>}/> 
+        <Route path="/AdminChoose" element={<AdminChoose/>}/> 
         </Routes>
-       
+
+        <h1>This is  App.js which is your home page</h1>
+
+
         <Footer />
       </div>
     </Router>
