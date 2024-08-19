@@ -4,9 +4,8 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color:#24252A;
+    background-color:#031f42;
     display: flex;
-
 } 
 
 .cta {
@@ -14,14 +13,14 @@
     right: 2%;
     top: 6%;
     transform: translateY(-50%);
-    font-family: "Montserrat",sans-serif;
-    font-weight:500;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
     font-size: 16px;
-    color:#edf0f1;
+    color: #edf0f1;
     text-decoration: none;
     padding: 9px 25px;
-    background-color: rgba(0,136,169,1);
-    border:none;
+    background-color: rgba(0, 136, 169, 1);
+    border: none;
     border-radius: 50px;
     cursor: pointer;
     transition: all 0.3s ease 0s;
@@ -47,12 +46,12 @@ nav{
     
 }
 .nav_links{
+    text-decoration: none;
     list-style: none;
     font-family: "Montserrat",sans-serif;
     font-weight:500;
     font-size: 16px;
     color:#edf0f1;
-    text-decoration: none;
 }
     
 
@@ -67,7 +66,7 @@ nav{
     color: #0088a9;
 }
 
-button:hover{
+.cta:hover{
     background-color: rgba(30, 51, 154, 0.8); 
 }
 .search-form{
