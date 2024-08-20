@@ -1,12 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 function AdminChoose() {
   const navigate = useNavigate();
 
   const handleNavigate = (path) => {
-    navigate(`/Adminchoose${path}`);
+    navigate(`/AdminChoose${path}`);
   };
   return (
         <div>
@@ -37,10 +36,10 @@ function AdminChoose() {
             </style>
           </div>
           <div  className ="ACTileLayout">
-            <button className="tilesAdmin" onClick={() => handleNavigate('/GMChoose')}>General Manager</button>
-            <button className="tilesAdmin" onClick={() => handleNavigate('/DMChoose')}>Deputy Manager</button>
-            <button className="tilesAdmin" onClick={() => handleNavigate('/PMChoose')}>Plant Manager</button>
-            <button className="tilesAdmin" onClick={() => handleNavigate('/StockDashBoard')}>Stock Manager</button>
+            <button className="tilesAdmin" onClick={() => handleNavigate('/GMLogin')}>General Manager</button>
+            <button className="tilesAdmin" onClick={() => handleNavigate('/DMLogin')}>Deputy Manager</button>
+            <button className="tilesAdmin" onClick={() => handleNavigate('/PMLogin')}>Plant Manager</button>
+            <button className="tilesAdmin" onClick={() => handleNavigate('/SMLogin')}>Stock Manager</button>
           </div>
         </div>
        

@@ -2,8 +2,14 @@ import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import '../style/Comman css/Header.css';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
+    const navigate = useNavigate();
+
+    const handleNavigate = (path) => {
+    navigate(`${path}`);
+  };
     return (
         <div className="hed">
             <header>
@@ -19,7 +25,7 @@ function Header() {
                         <li><a href="/AdminChoose">Admin</a></li>
                     </ul>
                 </nav>
-                <button className="cta" href = "" >Login</button>
+                <button className="cta" onClick={() => handleNavigate('/CustomerLogin')}>Login</button>
             </header>
         </div>
     );

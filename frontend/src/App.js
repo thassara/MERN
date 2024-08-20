@@ -3,7 +3,13 @@ import './App.css';
 import Header from './compoments/Header';
 import Footer from './compoments/Footer';
 import Intro from './compoments/Intro';
+import CustomerLogin from './compoments/Login/CustomerLogin';
+import CustomerProfile from './compoments/Customer/CustomerProfileOne';
 import AdminChoose from './compoments/AdminChoose';
+import GMLogin from './compoments/Login/GMLogin';
+import DMLogin from './compoments/Login/DMLogin';
+import PMLogin from './compoments/Login/PMLogin';
+import SMLogin from './compoments/Login/SMLogin';
 import GMChoose from './compoments/GMChoose';
 import DMChoose from './compoments/DMChoose';
 import PMChoose from './compoments/PMChoose';
@@ -25,7 +31,13 @@ function App() {
         <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/*" element={<Outlet />}/>
+        <Route path="/CustomerLogin" element={<CustomerLogin/>}/> 
+        <Route path="/CustomerProfile" element={<CustomerProfile/>}/>
         <Route path="/AdminChoose" element={<AdminChoose/>}/> 
+        <Route path="/AdminChoose/GMLogin" element={<GMLogin/>}/> 
+        <Route path="/AdminChoose/DMLogin" element={<DMLogin/>}/> 
+        <Route path="/AdminChoose/PMLogin" element={<PMLogin/>}/> 
+        <Route path="/AdminChoose/SMLogin" element={<SMLogin/>}/> 
         <Route path="/AdminChoose/GMChoose" element={<GMChoose/>}/>
         <Route path="/AdminChoose/DMChoose" element={<DMChoose/>}/>  
         <Route path="/AdminChoose/PMChoose" element={<PMChoose/>}/> 
@@ -43,5 +55,4 @@ function App() {
     </Router>
   );
 }
-// hello vhhh
 export default App;
