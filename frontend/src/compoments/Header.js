@@ -14,14 +14,12 @@ function Header() {
                 </form>
                 <nav>
                     <ul className="nav_links">
-                        <li><a href="/Regi">Home</a></li>
-                        <li><a href="/update">About</a></li>
-                        <li><a href="/read">Services</a></li>
-                        <li><a href="/add">Packages</a></li>
-                        <li><a href="#">Admin</a></li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/Regi">Register</a></li>
+                        <li><a href="/AdminChoose">Admin</a></li>
                     </ul>
                 </nav>
-                <a className="cta" href="#"><button>Login</button></a>
+                <button className="cta" href = "" >Login</button>
             </header>
         </div>
     );
