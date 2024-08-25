@@ -22,7 +22,7 @@ function Header() {
                     <ul className="nav_links">
                         <li><a href="/">Home</a></li>
                         <li><a href="/Regi">Register</a></li>
-                        <li><a href="/AdminChoose">Admin</a></li>
+                        <li><a href="/AdminLogin">Admin</a></li>
                     </ul>
                 </nav>
                 <button className="cta" onClick={() => handleNavigate('/CustomerLogin')}>Login</button>

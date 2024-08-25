@@ -12,7 +12,7 @@ function CustomerLogin({ onLogin, userType }) {
 
     // Dummy logic (need replace in backend)
     if (username && password) {
-      navigate('/CustomerProfile'); // Redirect to CustomerDashBoardOne
+      navigate('/CustomerProfilePage'); // Redirect to Customer profile
     }
   };
 
