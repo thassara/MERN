@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import '../style/style.css';
+// import '../style/style.css';
 import axios from "axios";
 
 function Update() {
