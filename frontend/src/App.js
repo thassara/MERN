@@ -25,21 +25,24 @@ function App() {
       <div>
         <Header />
         <Routes>
-        <Route path="/" element={<Intro />} />
-        <Route path="/*" element={<Outlet />}/>
-        <Route path="/AdminChoose" element={<AdminChoose/>}/> 
-        <Route path="/AdminChoose/GMChoose" element={<GMChoose/>}/>
-        <Route path="/AdminChoose/DMChoose" element={<DMChoose/>}/>  
-        <Route path="/AdminChoose/PMChoose" element={<PMChoose/>}/> 
-        <Route path="/AdminChoose/StockDashBoard" element={<StockDashBoard/>}/> 
-        <Route path="/AdminChoose/GMChoose/PackageDashBoard" element={<PackageDashBoard/>}/>
-        <Route path="/AdminChoose/GMChoose/OrderDashBoard" element={<OrderDashBoard/>}/> 
-        <Route path="/AdminChoose/GMChoose/PaymentDashBoard" element={<PaymentDashBoard/>}/> 
-        <Route path="/AdminChoose/DMChoose/EmployeeDashBoard" element={<EmployeeDashBoard/>}/> 
-        <Route path="/AdminChoose/DMChoose/CustomerDashBoard" element={<CustomerDashBoard/>}/>   
-        <Route path="/AdminChoose/PMChoose/MachineDashBoard" element={<MachineDashBoard/>}/> 
-        <Route path="/AdminChoose/PMChoose/DeliveryDashBoard" element={<DeliveryDashBoard/>}/>  
-    
+        <Route path="/" element={<Intro/>} />
+        <Route path="/*" element={<Outlet/>}/>
+        <Route path="/CustomerLogin" element={<CustomerLogin/>}/> 
+        <Route path="/CustomerProfilePage" element={<CustomerProfilePage/>}/>
+        <Route path="/AdminLogin" element={<AdminLogin/>}/> 
+        <Route path="/GMChoose" element={<GMChoose/>}/>
+        <Route path="/DMChoose" element={<DMChoose/>}/>  
+        <Route path="/PMChoose" element={<PMChoose/>}/> 
+        <Route path="/CustomerDashBoardPage" element={<CustomerDashBoardPage/>}/> 
+        <Route path="/StockDashBoardPage" element={<StockDashBoardPage/>}/> 
+        <Route path="/PackageDashBoardPage" element={<PackageDashBoardPage/>}/>
+        <Route path="/Or_add" element={<Or_add/>}/>
+        <Route path="/Or_Add/order-details" element={<Or_Confirm/>}/>
+        <Route path="/OrderDashBoardPage" element={<OrderDashBoardPage/>}/> 
+        <Route path="/PaymentDashBoardPage" element={<PaymentDashBoardPage/>}/> 
+        <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/>   
+        <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
+        <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
         </Routes>
         <Footer />
       </div>
