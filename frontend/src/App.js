@@ -10,7 +10,7 @@ import PMChoose from './compoments/PMChoose';
 import StockDashBoard from './compoments/Stock/StockDashBoardOne';
 import PackageDashBoard from './compoments/Package/PackageDashBoardOne';
 import OrderDashBoard from './compoments/Order/OrderDashBoardOne';
-import PaymentDashBoard from './compoments/Payment/PaymentDashBoardOne';
+import PaymentDashBoard from './pages/payment/PaymentDashBoardOne';
 import EmployeeDashBoard from './compoments/Employee/EmployeeDashBoardOne';
 import CustomerDashBoard from './compoments/Customer/CustomerDashBoardOne';
 import MachineDashBoard from './compoments/Machine/MachineDashBoardOne';
@@ -37,6 +37,7 @@ function App() {
         <Route path="/AdminChoose/DMChoose/CustomerDashBoard" element={<CustomerDashBoard/>}/>   
         <Route path="/AdminChoose/PMChoose/MachineDashBoard" element={<MachineDashBoard/>}/> 
         <Route path="/AdminChoose/PMChoose/DeliveryDashBoard" element={<DeliveryDashBoard/>}/>  
+    
         </Routes>
         <Footer />
       </div>
