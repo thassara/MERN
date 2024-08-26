@@ -11,7 +11,7 @@ body {
     padding: 20px;
   }
   
-  .items-section, .payment-section {
+  .items-section, .payment-UI {
     flex: 1;
     padding: 20px;
     background-color: #fff;
@@ -20,7 +20,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   }
   
-  .payment-section {
+  .payment-UI {
     margin-right: 0;
   }
   
@@ -47,16 +47,16 @@ body {
     flex-direction: column;
   }
   
-  .form-group {
+  .form-Details {
     margin-bottom: 15px;
   }
   
-  .form-group label {
+  .form-Details label {
     margin-bottom: 5px;
     display: block;
   }
   
-  .form-group input, .form-group select {
+  .form-Details input, .form-Details select {
     padding: 10px;
     font-size: 1rem;
     width: 100%;
