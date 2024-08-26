@@ -9,14 +9,16 @@ import AdminLogin from './compoments/AdminLogin';
 import GMChoose from './compoments/GMChoose';
 import DMChoose from './compoments/DMChoose';
 import PMChoose from './compoments/PMChoose';
-import StockDashBoard from './compoments/Stock/StockDashBoardOne';
-import PackageDashBoard from './compoments/Package/PackageDashBoardOne';
-import OrderDashBoard from './compoments/Order/OrderDashBoardOne';
-import PaymentDashBoard from './pages/payment/PaymentDashBoardOne';
-import EmployeeDashBoard from './compoments/Employee/EmployeeDashBoardOne';
-import CustomerDashBoard from './compoments/Customer/CustomerDashBoardOne';
-import MachineDashBoard from './compoments/Machine/MachineDashBoardOne';
-import DeliveryDashBoard from './compoments/Delivery/DeliveryDashBoardOne';
+import StockDashBoardPage from './pages/stock/StockDashBoardPage';
+import PackageDashBoardPage from './pages/package/PackageDashBoardPage';
+import OrderDashBoardPage from './pages/order/Or_Dashboard';
+import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage';
+import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage';
+import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage';
+import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
+import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
+import Or_add from './compoments/Order/AddForm';
+import Or_Confirm from './compoments/Order/Or_confirm';
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 
 function App() {
