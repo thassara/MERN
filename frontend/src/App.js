@@ -3,7 +3,9 @@ import './App.css';
 import Header from './compoments/Header';
 import Footer from './compoments/Footer';
 import Intro from './compoments/Intro';
-import AdminChoose from './compoments/AdminChoose';
+import CustomerLogin from './compoments/Login/CustomerLogin';
+import CustomerProfilePage from './pages/customer/CustomerProfilePage';
+import AdminLogin from './compoments/AdminLogin';
 import GMChoose from './compoments/GMChoose';
 import DMChoose from './compoments/DMChoose';
 import PMChoose from './compoments/PMChoose';
@@ -44,5 +46,4 @@ function App() {
     </Router>
   );
 }
-// hello vhhh
 export default App;
