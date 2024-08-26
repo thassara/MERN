@@ -5,7 +5,7 @@ function PMChoose() {
   const navigate = useNavigate();
 
   const handleNavigate = (path) => {
-    navigate(`/AdminChoose/PMChoose${path}`);
+    navigate(`${path}`);
   };
   return (
     <div>
@@ -36,8 +36,8 @@ function PMChoose() {
           </style>
         </div>
         <div className='DMCTileLayout'>
-        <button className="tilesAdmin" onClick={() => handleNavigate('/MachineDashBoard')}>Machine Management</button>
-        <button className="tilesAdmin" onClick={() => handleNavigate('/DeliveryDashBoard')}>Delivery Management</button>
+        <button className="tilesAdmin" onClick={() => handleNavigate('/MachineDashBoardPage')}>Machine Management</button>
+        <button className="tilesAdmin" onClick={() => handleNavigate('/DeliveryDashBoardPage')}>Delivery Management</button>
         </div>
       </div>
        

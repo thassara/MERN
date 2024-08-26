@@ -5,7 +5,7 @@ function GMChoose() {
   const navigate = useNavigate();
 
   const handleNavigate = (path) => {
-    navigate(`/AdminChoose/GMChoose${path}`);
+    navigate(`${path}`);
   };
   return (
     <div>
@@ -36,9 +36,9 @@ function GMChoose() {
           </style>
         </div>
         <div className='GMCTileLayout'>
-        <button className="tilesAdmin" onClick={() => handleNavigate('/PackageDashBoard')}>Packages</button>
-        <button className="tilesAdmin" onClick={() => handleNavigate('/OrderDashBoard')}>Orders</button>
-        <button className="tilesAdmin" onClick={() => handleNavigate('/PaymentDashBoard')}>Payments</button>
+        <button className="tilesAdmin" onClick={() => handleNavigate('/PackageDashBoardPage')}>Packages</button>
+        <button className="tilesAdmin" onClick={() => handleNavigate('/OrderDashBoardPage')}>Orders</button>
+        <button className="tilesAdmin" onClick={() => handleNavigate('/PaymentDashBoardPage')}>Payments</button>
         </div>
       </div>
        
