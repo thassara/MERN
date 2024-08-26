@@ -15,12 +15,14 @@ import DMChoose from './compoments/DMChoose';
 import PMChoose from './compoments/PMChoose';
 import StockDashBoard from './compoments/Stock/StockDashBoardOne';
 import PackageDashBoard from './compoments/Package/PackageDashBoardOne';
-import OrderDashBoard from './compoments/Order/OrderDashBoardOne';
+import OrderDashBoard from './pages/order/Or_Dashboard';
 import PaymentDashBoard from './compoments/Payment/PaymentDashBoardOne';
 import EmployeeDashBoard from './compoments/Employee/EmployeeDashBoardOne';
 import CustomerDashBoard from './compoments/Customer/CustomerDashBoardOne';
 import MachineDashBoard from './compoments/Machine/MachineDashBoardOne';
 import DeliveryDashBoard from './compoments/Delivery/DeliveryDashBoardOne';
+import Or_Add from "./compoments/Order/AddForm"; 
+import Or_confirm from "./compoments/Order/Or_confirm"; 
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 
 function App() {
@@ -44,6 +46,8 @@ function App() {
         <Route path="/AdminChoose/StockDashBoard" element={<StockDashBoard/>}/> 
         <Route path="/AdminChoose/GMChoose/PackageDashBoard" element={<PackageDashBoard/>}/>
         <Route path="/AdminChoose/GMChoose/OrderDashBoard" element={<OrderDashBoard/>}/> 
+        <Route path="/Or_Add" element={<Or_Add />} />
+        <Route path="Or_Add/order-details" element={<Or_confirm />} />
         <Route path="/AdminChoose/GMChoose/PaymentDashBoard" element={<PaymentDashBoard/>}/> 
         <Route path="/AdminChoose/DMChoose/EmployeeDashBoard" element={<EmployeeDashBoard/>}/> 
         <Route path="/AdminChoose/DMChoose/CustomerDashBoard" element={<CustomerDashBoard/>}/>   
