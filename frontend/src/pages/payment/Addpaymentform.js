@@ -1,15 +1,14 @@
 import React from 'react';
 import '../../style/payment/Addpayment.css';
-import PaymentformCreditcard from '../../compoments/Payment/PaymentformCreditcard.js';
 import PaymentformItemsection from '../../compoments/Payment/PaymentformItemsection.js';
-
-function Addpaymentform() {
+import PaymentformCreditcard from '../../compoments/Payment/PaymentformCreditcard.js';
+function App() {
   return (
     <div className="app-container">
       <PaymentformItemsection />
-      <PaymentformCreditcard />
+      <PaymentformCreditcard/>
     </div>
   );
 }
 
-export default Addpaymentform;
+export default App;
