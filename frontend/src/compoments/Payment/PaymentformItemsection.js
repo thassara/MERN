@@ -3,7 +3,7 @@ import React from 'react';
 function PaymentformItemsection() {
   return (
     <div className="items-section">
-      <h2>Your Package Total</h2>
+      <h2>Your Package Details section</h2>
       <div className="item">
         <img src='' alt='Product 2' />
         <p>Item Name: Product 1</p>
