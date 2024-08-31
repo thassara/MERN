@@ -1,13 +1,29 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import EmployeeDashBoardOne from '../../compoments/Employee/EmployeeDashBoardOne';
+import EmployeeDashBoardTwo from '../../compoments/Employee/EmployeeDashBoardTwo';
 
 function EmployeeDashBoardPage() {
   return (
     <div>
-      <h1>This is the Employee Dashboard Page</h1>
+      <div>
+          <style>
+            {`
+              .EDPGLayout{  
+                display:flex;
+                justify-content:center;
+              }
+            }
+          `}
+            
+          </style>
+        </div>
+        <div classname="EDPGLayout">
+          <EmployeeDashBoardOne />
+          <EmployeeDashBoardTwo />
+        </div>
+      
       <Routes>
-        <Route path="/" element={<EmployeeDashBoardOne />} />
       </Routes>
     </div>
   );
