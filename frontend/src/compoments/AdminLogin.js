@@ -45,39 +45,65 @@ function AdminLogin({ onLogin, userType }) {
   };
 
   return (
-    <div>
-      <h2>{userType} Login Page</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Username:</label>
-          <input 
-            type="text" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-            required 
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-          />
-        </div>
-        <div>
-          <label>Role:</label>
-          <select value={role} onChange={(e) => setRole(e.target.value)} required>
-            <option value="">Select Role</option>
-            <option value="Stock">Stock</option>
-            <option value="Deputy">Deputy</option>
-            <option value="Plant">Plant</option>
-            <option value="General">General</option>
-          </select>
-        </div>
-        <button type="submit">Login</button>
-      </form>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',height: '70vh'}}>
+      <div>
+        <style>
+          {`
+          .AdminLoginBox {
+              border-radius: 15px;
+              border: 3px solid #031f42;
+              width: 100%;
+              max-width: 400px;
+              padding: 20px;
+              font-weight: bold;
+              background-color: #f4f4f4;
+          }
+          `}
+        </style>
+      </div>
+      <div className="AdminLoginBox">
+        <h2 style={{ textAlign: 'center' }}>{userType} Login Page</h2>
+        <form onSubmit={handleLogin}>
+          <div>
+            <label>Username:</label>
+            <input 
+              type="text" 
+              value={username} 
+              onChange={(e) => setUsername(e.target.value)} 
+              required 
+              style={{ width: '100%', padding: '8px', margin: '10px 0' }}
+            />
+          </div>
+          <div>
+            <label>Password:</label>
+            <input 
+              type="password" 
+              value={password} 
+              onChange={(e) => setPassword(e.target.value)} 
+              required 
+              style={{ width: '100%', padding: '8px', margin: '10px 0' }}
+            />
+          </div>
+          <div>
+            <label>Role:</label>
+            <select 
+              value={role} 
+              onChange={(e) => setRole(e.target.value)} 
+              required 
+              style={{ width: '100%', padding: '8px', margin: '10px 0' }}
+            >
+              <option value="">Select Role</option>
+              <option value="Stock">Stock</option>
+              <option value="Deputy">Deputy</option>
+              <option value="Plant">Plant</option>
+              <option value="General">General</option>
+            </select>
+          </div>
+          <button type="submit" style={{ width: '100%', padding: '10px', marginTop: '16px', fontSize: '16px',borderRadius : '15px' }}>
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
