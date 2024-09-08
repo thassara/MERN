@@ -20,6 +20,12 @@ import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
 import Or_add from './compoments/Order/AddForm';
 import Or_Confirm from './compoments/Order/Or_confirm';
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
+//Employee Section
+import EditEmployee from './compoments/Employee/EditEmployee';
+import AddEmployee from './compoments/Employee/AddEmployee';
+
+
+
 
 function App() {
   return (
@@ -45,6 +51,11 @@ function App() {
         <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/>   
         <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
         <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
+        
+        /*EmployeeSection*/
+        <Route path="EditEmployee" element={<EditEmployee />} />
+        <Route path="AddEmployee" element={<AddEmployee />} />
+
         </Routes>
         <Footer />
       </div>
