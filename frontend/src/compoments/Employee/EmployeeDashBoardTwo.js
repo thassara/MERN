@@ -1,19 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function EmployeeDashBoardTwo() {
   const navigate = useNavigate();
-
   const [selectedMonth, setSelectedMonth] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [employeeData, setEmployeeData] = useState([
-    { id: 8002, name: 'S.P.Y Bumal', status: 'Present', date: '01' },
-    { id: 8002, name: 'S.P.Y Bumal', status: 'Present', date: '02' },
-    { id: 8002, name: 'S.P.Y Bumal', status: 'Present', date: '03' },
-    { id: 8015, name: 'A.N.Kumara', status: 'Absent', date: '01' },
-    { id: 8021, name: 'W.J.K Jaya', status: 'Present', date: '01' },
-    // Add more dummy data here
-  ]);
+  const [employeeData, setEmployeeData] = useState([]);
+
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      try {
+        const response = await fetch('/api/GetAttendance'); // Adjust the API endpoint as needed
+        const data = await response.json();
+        setEmployeeData(data);
+      } catch (error) {
+        console.error('Error fetching attendance data:', error);
+      }
+    };
+
+    fetchAttendanceData();
+  }, []);
 
   const handleMonthChange = (month) => {
     setSelectedMonth(month);
@@ -27,8 +33,12 @@ function EmployeeDashBoardTwo() {
     navigate(path);
   };
 
-  const filteredEmployees = employeeData.filter((employee) =>
-    employee.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const handleDelete = (path) => {
+    navigate(path);
+  };
+
+  const filteredEmployees = employeeData.filter((record) =>
+    record.EmpName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -74,18 +84,9 @@ function EmployeeDashBoardTwo() {
           <h2>Month</h2>
           <select className="dropdown" onChange={(e) => handleMonthChange(e.target.value)}>
             <option value="">Select Month</option>
-            <option value="January">January</option>
-            <option value="February">February</option>
-            <option value="March">March</option>
-            <option value="April">April</option>
-            <option value="May">May</option>
-            <option value="June">June</option>
-            <option value="July">July</option>
-            <option value="August">August</option>
-            <option value="September">September</option>
-            <option value="October">October</option>
-            <option value="November">November</option>
-            <option value="December">December</option>
+            {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map(month => (
+              <option key={month} value={month}>{month}</option>
+            ))}
           </select>
         </div>
         <div>
@@ -103,18 +104,20 @@ function EmployeeDashBoardTwo() {
               <tr>
                 <th>Employee ID</th>
                 <th>Employee Name</th>
-                <th>Date</th>
-                <th>Status</th>
+                <th>Work Date</th>
+                <th>Work Hours</th>
+                <th>OT Hours</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {filteredEmployees.map((employee) => (
-                <tr key={employee.id}>
-                  <td>{employee.id}</td>
-                  <td>{employee.name}</td>
-                  <td>{employee.date}</td>
-                  <td>{employee.status}</td>
+              {filteredEmployees.map((record) => (
+                <tr key={record.EmpID}>
+                  <td>{record.EmpID}</td>
+                  <td>{record.EmpName}</td>
+                  <td>{new Date(record.WorkDate).toLocaleDateString()}</td>
+                  <td>{record.WorkHours}</td>
+                  <td>{record.OTHours || 0}</td>
                   <td>
                     <button
                       className="buttonX"
@@ -122,6 +125,13 @@ function EmployeeDashBoardTwo() {
                       style={{ padding: '5px 10px' }}
                     >
                       Update
+                    </button>
+                    <button
+                      className="buttonX"
+                      onClick={() => handleDelete(record.EmpID)}
+                      style={{ padding: '5px 10px', marginLeft: '5px' }}
+                    >
+                      Delete
                     </button>
                   </td>
                 </tr>

@@ -1,90 +1,80 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function EmpLogin() {
-  const [empID, setEmpID] = useState('');  // EmpID as username
-  const [passKey, setPassKey] = useState('');  // PassKey as password
-  const [error, setError] = useState(null);
-
+const EmpLogin = () => {
+  const [empID, setEmpID] = useState('');
+  const [empPassKey, setEmpPassKey] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
+    // Store values in local variables
+    const EmpID = empID;
+    const EmpPassKey = empPassKey;
+  
     try {
-      const response = await fetch('http://localhost:8070/api/employees/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ empID, passKey }), // Send EmpID and PassKey
-      });
-
+      const response = await fetch(`http://localhost:8070/api/employees/${EmpID}`); // Adjust the URL as needed
+  
+      // Check if the response is okay
       if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-          navigate('/EmployeeDashboardPage'); // Redirect to dashboard on success
+        const employeeData = await response.json();
+  
+        // Check if the pass key matches
+        if (Number(employeeData.EmpPassKey) === Number(EmpPassKey)) {
+          // Successful login
+          //navigate('/EmployeeProfile'); // Redirect to the EmployeeProfile
+          navigate('/EmployeeProfile', { state: { empID: EmpID } }); // Redirect to the EmployeeProfile with the ID
         } else {
-          setError(data.message); // Show error message
+          // Handle login error
+          //setError('Invalid EmpID or PassKey');
         }
       } else {
-        const errorText = await response.text();
-        setError('Login failed: ' + errorText);
+        console.error('Failed to fetch employee:', response.status);
+        setError('Employee not found');
       }
     } catch (error) {
-      console.error('Error during login:', error);
-      setError('Error during login: ' + error.message);
+      console.error('Error fetching employee:', error);
+      setError('Error fetching employee information');
     }
   };
+  
+  
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
       <div className="EmpLoginBox">
-        <style>
-          {`
-            .EmpLoginBox {
-              border-radius: 15px;
-              border: 3px solid #031f42;
-              width: 100%;
-              max-width: 400px;
-              padding: 20px;
-              font-weight: bold;
-              background-color: #f4f4f4;
-            }
-          `}
-        </style>
         <h2 style={{ textAlign: 'center' }}>Employee Login</h2>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
         <form onSubmit={handleLogin}>
           <div>
-            <label>Employee ID:</label>
-            <input 
-              type="text" 
-              value={empID} 
-              onChange={(e) => setEmpID(e.target.value)} 
-              required 
+            <label>EmpID:</label>
+            <input
+              type="text"
+              value={empID}
+              onChange={(e) => setEmpID(e.target.value)}
+              required
               style={{ width: '100%', padding: '8px', margin: '10px 0' }}
             />
           </div>
           <div>
             <label>PassKey:</label>
-            <input 
-              type="password" 
-              value={passKey} 
-              onChange={(e) => setPassKey(e.target.value)} 
-              required 
+            <input
+              type="password"
+              value={empPassKey}
+              onChange={(e) => setEmpPassKey(e.target.value)}
+              required
               style={{ width: '100%', padding: '8px', margin: '10px 0' }}
             />
           </div>
-          <button 
-            type="submit" 
-            style={{ width: '100%', padding: '10px', marginTop: '16px', fontSize: '16px', borderRadius: '15px' }}>
+          {error && <div className="error-message" style={{ color: 'red' }}>{error}</div>}
+          <button type="submit" style={{ width: '100%', padding: '10px', marginTop: '16px', fontSize: '16px', borderRadius: '15px' }}>
             Login
           </button>
         </form>
       </div>
     </div>
   );
-}
+};
 
 export default EmpLogin;

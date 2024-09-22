@@ -1,5 +1,5 @@
 const express = require('express');
-const EmployeeProfile = require('../Models/EmployeeProfile');
+const EmployeeProfile = require('../Models/Employee');
 const router = express.Router();
 
 // POST: Add a new employee
@@ -69,5 +69,8 @@ router.put('/employees/:empId', async (req, res) => {
     res.status(500).send('Error updating employee: ' + error.message);
   }
 });
+
+
+
 
 module.exports = router;

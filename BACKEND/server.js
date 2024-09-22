@@ -6,6 +6,7 @@ require('dotenv').config();
 
 
 const employeeRoutes = require('./Routes/employeeRoutes.js'); 
+const attendanceRoutes = require('./Routes/attendanceRoutes.js');
 const app = express();
 
 // Middleware
@@ -14,7 +15,10 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 // Employee section
+
 app.use('/api', employeeRoutes);
+app.use('/api', attendanceRoutes);
+
 
 const PORT = process.env.PORT || 8070;
 

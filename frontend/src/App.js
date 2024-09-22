@@ -15,6 +15,7 @@ import PackageDashBoardPage from './pages/package/PackageDashBoardPage';
 import OrderDashBoardPage from './pages/order/Or_Dashboard';
 import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage';
 import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage';
+import EmployeeProfile from './pages/employee/EmployeeProfile';
 import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage';
 import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
 import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
@@ -50,7 +51,8 @@ function App() {
         <Route path="/Or_Add/order-details" element={<Or_Confirm/>}/>
         <Route path="/OrderDashBoardPage" element={<OrderDashBoardPage/>}/> 
         <Route path="/PaymentDashBoardPage" element={<PaymentDashBoardPage/>}/> 
-        <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/>   
+        <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/> 
+        <Route path="/EmployeeProfile" element={<EmployeeProfile/>}/>   
         <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
         <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
         
