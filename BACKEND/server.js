@@ -5,7 +5,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 
-const employeeRoutes = require('./Routes/employeeRoutes.js'); // Move this line up
+const employeeRoutes = require('./Routes/employeeRoutes.js'); 
 const app = express();
 
 // Middleware
@@ -31,9 +31,7 @@ connection.once("open", () => {
     console.log("MongoDB Connection Success");
 });
 
-// Student routes
-const studentRouter = require("./Routes/students.js");
-app.use("/student", studentRouter);
+
 
 app.listen(PORT, () => {
     console.log(`Server is up and running on Port number: ${PORT}`);

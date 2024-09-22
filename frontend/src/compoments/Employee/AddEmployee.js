@@ -130,7 +130,7 @@ function AddEmployee() {
           </div>
           <div className="form-group">
             <label htmlFor="EmpExperience">Experience:</label>
-            <input type="text" id="EmpExperience" value={formData.EmpExperiance} onChange={handleChange} />
+            <input type="text" id="EmpExperience" value={formData.EmpExperience} onChange={handleChange} />
           </div>
           <div className="form-group">
             <label htmlFor="EmpPosition">Position:</label>

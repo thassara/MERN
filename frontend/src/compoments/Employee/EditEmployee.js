@@ -1,10 +1,61 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 function EditEmployee() {
   const navigate = useNavigate();
+  const { empId } = useParams(); // Get EmpID from URL parameters
+  const [employee, setEmployee] = useState({/* initial state */});
+   
 
-  const handleNavigate = (path) => navigate(path);
+  useEffect(() => {
+    const fetchEmployee = async () => {
+      try {
+        const response = await fetch(`http://localhost:8070/api/employees/${empId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setEmployee(data);
+        } else {
+          console.error('Failed to fetch employee:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching employee:', error);
+      }
+    };
+
+    fetchEmployee();
+  }, [empId]);
+
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setEmployee((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch(`http://localhost:8070/api/employees/${employee.EmpID}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(employee),
+      });
+
+      if (response.ok) {
+        alert('Employee updated successfully');
+        navigate('/EmployeeDashBoardPage'); // Navigate back after success
+      } else {
+        const errorText = await response.text();
+        alert('Failed to update employee: ' + errorText);
+      }
+    } catch (error) {
+      console.error('Error updating employee:', error);
+    }
+  };
 
   return (
     <div>
@@ -68,50 +119,52 @@ function EditEmployee() {
       
       <div className="container">
         <h1>Edit Profile</h1>
-        <div className="form-group">
-          <label htmlFor="employee-id">Employee ID:</label>
-          <input type="text" id="employee-id" defaultValue="8001" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="emp-name">Emp Name:</label>
-          <input type="text" id="emp-name" defaultValue="S.PY Bumali" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="full-name">Full Name:</label>
-          <input type="text" id="full-name" defaultValue="Sirisenalage Premadasage Yugoslavia Bumali" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="address">Address:</label>
-          <input type="text" id="address" defaultValue="138, Athagahapu Junction, Walgama, Matara" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="qualifications">Qualifications:</label>
-          <input type="text" id="qualifications" defaultValue="NAQ-Level 4 Mechanics, NVQ-Level 2 English" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="experience">Experience:</label>
-          <input type="text" id="experience" defaultValue="3 years Machine Operator, 1 Year Class 2 Operator" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="position">Position:</label>
-          <input type="text" id="position" defaultValue="Operator - Heavy" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="salary">Salary/Wage:</label>
-          <input type="text" id="salary" defaultValue="500" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="join-date">Join Date:</label>
-          <input type="text" id="join-date" defaultValue="13/02/2012" />
-        </div>
-        <div className="form-group">
-          <label htmlFor="passkey">PassKey:</label>
-          <input type="text" id="passkey" defaultValue="9010" />
-        </div>
-        <div className="button-container">
-          <button className="button" onClick={() => handleNavigate('/EmployeeDashBoardPage')}>Go Back</button>
-          <button className="button">Submit Changes</button>
-        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="EmpID">Employee ID:</label>
+            <input type="text" id="EmpID" value={employee.EmpID} readOnly />
+          </div>
+          <div className="form-group">
+            <label htmlFor="EmpName">Emp Name:</label>
+            <input type="text" id="EmpName" value={employee.EmpName} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="EmpFullName">Full Name:</label>
+            <input type="text" id="EmpFullName" value={employee.EmpFullName} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="EmpAddress">Address:</label>
+            <input type="text" id="EmpAddress" value={employee.EmpAddress} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="EmpQualifications">Qualifications:</label>
+            <input type="text" id="EmpQualifications" value={employee.EmpQualifications} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="EmpExperience">Experience:</label>
+            <input type="text" id="EmpExperience" value={employee.EmpExperience} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="EmpPosition">Position:</label>
+            <input type="text" id="EmpPosition" value={employee.EmpPosition} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="EmpWage">Salary/Wage:</label>
+            <input type="text" id="EmpWage" value={employee.EmpWage} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="EmpJoin">Join Date:</label>
+            <input type="text" id="EmpJoin" value={employee.EmpJoin} onChange={handleChange} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="EmpPassKey">PassKey:</label>
+            <input type="text" id="EmpPassKey" value={employee.EmpPassKey} onChange={handleChange} />
+          </div>
+          <div className="button-container">
+            <button className="button" type="button" onClick={() => navigate('/EmployeeDashBoardPage')}>Go Back</button>
+            <button className="button" type="submit">Submit Changes</button>
+          </div>
+        </form>
       </div>
     </div>
   );
