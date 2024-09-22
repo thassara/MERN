@@ -26,7 +26,7 @@ function AddEmployee() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/addEmployee', {
+      const response = await fetch('http://localhost:8070/api/addEmployee', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -129,8 +129,8 @@ function AddEmployee() {
             <input type="text" id="EmpQualifications" value={formData.EmpQualifications} onChange={handleChange} />
           </div>
           <div className="form-group">
-            <label htmlFor="EmpExperiance">Experience:</label>
-            <input type="text" id="EmpExperiance" value={formData.EmpExperiance} onChange={handleChange} />
+            <label htmlFor="EmpExperience">Experience:</label>
+            <input type="text" id="EmpExperience" value={formData.EmpExperiance} onChange={handleChange} />
           </div>
           <div className="form-group">
             <label htmlFor="EmpPosition">Position:</label>

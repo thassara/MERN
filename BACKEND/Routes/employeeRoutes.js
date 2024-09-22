@@ -1,15 +1,16 @@
 // routes/employeeRoutes.js
 const express = require('express');
-const EmployeeProfile = require('../Models/EmployeeProfile');
+const EmployeeProfile = require('../Models/EmployeeProfile'); // Correct import
 const router = express.Router();
 
 // POST: Add a new employee
-router.post('/addEmployee', async (req, res) => {
+router.post('/AddEmployee', async (req, res) => {
   try {
-    const newEmployee = new EmployeeProfile(req.body);
+    const newEmployee = new EmployeeProfile(req.body); // Use EmployeeProfile instead of Employee
     await newEmployee.save();
     res.status(201).send('Employee added successfully');
   } catch (error) {
+    console.error('Error adding employee in the routes section:', error); // Log the error
     res.status(400).send('Error adding employee: ' + error.message);
   }
 });
