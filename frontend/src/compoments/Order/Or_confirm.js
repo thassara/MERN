@@ -4,11 +4,6 @@ import axios from 'axios';
 const OrderForm = () => {
     // Retrieve orderData from local storage
     const initialOrderData = JSON.parse(localStorage.getItem('orderData')) || {};
-<<<<<<< Updated upstream
-
-=======
-    
->>>>>>> Stashed changes
     // Initialize state variables
     const [customerName, setCustomerName] = useState(initialOrderData.customerName || '');
     const [customerEmail, setCustomerEmail] = useState(initialOrderData.customerEmail || '');
@@ -29,7 +24,6 @@ const OrderForm = () => {
             customerNote,
         };
 
-<<<<<<< Updated upstream
         // Log the order data to verify its structure before sending
         console.log('Order Data:', order);
 
@@ -52,15 +46,6 @@ const OrderForm = () => {
             .catch((err) => {
                 alert("Order not added: " + err.message);
                 console.error(err);
-=======
-        // Make POST request to add the order
-        axios.post("https://localhost:8070/orders/add", order)
-            .then(() => {
-                alert("Order added!");
-            })
-            .catch((err) => {
-                alert("Order not added: " + err.message);
->>>>>>> Stashed changes
             });
     };
 
@@ -137,10 +122,7 @@ const OrderForm = () => {
                                 type="text" 
                                 value={customerName} 
                                 onChange={(e) => setCustomerName(e.target.value)} 
-<<<<<<< Updated upstream
                                 required
-=======
->>>>>>> Stashed changes
                             />
                         </div>
                     </div>
@@ -152,10 +134,7 @@ const OrderForm = () => {
                                 type="email" 
                                 value={customerEmail} 
                                 onChange={(e) => setCustomerEmail(e.target.value)} 
-<<<<<<< Updated upstream
                                 required
-=======
->>>>>>> Stashed changes
                             />
                         </div>
                     </div>
@@ -167,11 +146,8 @@ const OrderForm = () => {
                                 type="number" 
                                 value={quantity} 
                                 onChange={(e) => setQuantity(e.target.value)} 
-<<<<<<< Updated upstream
                                 required
                                 min="1"
-=======
->>>>>>> Stashed changes
                             />
                         </div>
                     </div>
@@ -183,10 +159,7 @@ const OrderForm = () => {
                                 type="text" 
                                 value={packageType} 
                                 onChange={(e) => setPackageType(e.target.value)} 
-<<<<<<< Updated upstream
                                 required
-=======
->>>>>>> Stashed changes
                             />
                         </div>
                     </div>
@@ -197,10 +170,7 @@ const OrderForm = () => {
                             <textarea 
                                 value={customerNote} 
                                 onChange={(e) => setCustomerNote(e.target.value)} 
-<<<<<<< Updated upstream
                                 rows="3"
-=======
->>>>>>> Stashed changes
                             />
                         </div>
                     </div>
