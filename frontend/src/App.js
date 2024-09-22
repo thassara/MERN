@@ -6,6 +6,7 @@ import Intro from './compoments/Intro';
 import CustomerLogin from './compoments/Login/CustomerLogin';
 import CustomerProfilePage from './pages/customer/CustomerProfilePage';
 import AdminLogin from './compoments/AdminLogin';
+import EmpLogin from './compoments/EmpLogin';
 import GMChoose from './compoments/GMChoose';
 import DMChoose from './compoments/DMChoose';
 import PMChoose from './compoments/PMChoose';
@@ -38,6 +39,7 @@ function App() {
         <Route path="/CustomerLogin" element={<CustomerLogin/>}/> 
         <Route path="/CustomerProfilePage" element={<CustomerProfilePage/>}/>
         <Route path="/AdminLogin" element={<AdminLogin/>}/> 
+        <Route path="/EmpLogin" element={<EmpLogin/>}/> 
         <Route path="/GMChoose" element={<GMChoose/>}/>
         <Route path="/DMChoose" element={<DMChoose/>}/>  
         <Route path="/PMChoose" element={<PMChoose/>}/> 
@@ -53,7 +55,7 @@ function App() {
         <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
         
         /*EmployeeSection*/
-        <Route path="EditEmployee" element={<EditEmployee />} />
+        <Route path="/EditEmployee/:empId" element={<EditEmployee />} />
         <Route path="AddEmployee" element={<AddEmployee />} />
 
         </Routes>

@@ -1,18 +1,16 @@
 const mongoose = require('mongoose');
 
-const employeeProfileSchema = new mongoose.Schema({
+const employeeSchema = new mongoose.Schema({
   EmpID: { type: Number, required: true },
   EmpName: { type: String, required: true },
   EmpFullName: { type: String, required: true },
-  EmpAddress: { type: String, required: true },
+  EmpAddress: { type: String },
   EmpQualifications: { type: String },
-  EmpExperiance: { type: String },
-  EmpPosition: { type: String, required: true },
+  EmpExperience: { type: String },
+  EmpPosition: { type: String },
   EmpWage: { type: Number, required: true },
-  EmpJoin: { type: Date, required: true },
-  EmpPassKey: { type: Number, required: true }
+  EmpJoin: { type: Date },
+  EmpPassKey: { type: Number }
 });
 
-const EmployeeProfile = mongoose.model('EmployeeProfile', employeeProfileSchema);
-
-module.exports = EmployeeProfile;
+module.exports = mongoose.model('Employee', employeeSchema);

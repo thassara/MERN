@@ -1,19 +1,49 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import avatar from '../../images/avatar.png';
 import { useNavigate } from 'react-router-dom';
 
 function EmployeeDashBoardOne() {
   const navigate = useNavigate();
+  const [employees, setEmployees] = useState([]);
 
   const handleNavigate = (path) => navigate(path);
 
-  const employeeData = [
-    { id: '8002', name: 'S.P.Y Bumal' },
-    { id: '8015', name: 'A.N.Kumara' },
-    { id: '8021', name: 'W.J.K Jaya' },
-    { id: '8023', name: 'M.G.K devil' },
-    { id: '8043', name: 'J.R.T.M Siriya' },
-  ];
+  const handleDelete = async (EmpID) => {
+    if (window.confirm("Are you sure you want to delete this employee?")) {
+      try {
+        const response = await fetch(`http://localhost:8070/api/employees/${EmpID}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          alert('Employee deleted successfully');
+          setEmployees(prev => prev.filter(emp => emp.EmpID !== EmpID));
+        } else {
+          const errorText = await response.text();
+          alert('Failed to delete employee: ' + errorText);
+        }
+      } catch (error) {
+        console.error('Error deleting employee:', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await fetch('http://localhost:8070/api/employees');
+        if (response.ok) {
+          const data = await response.json();
+          setEmployees(data);
+        } else {
+          console.error('Failed to fetch employees:', response.status);
+        }
+      } catch (error) {
+        console.error('Error fetching employees:', error);
+      }
+    };
+
+    fetchEmployees();
+  }, []);
 
   return (
     <div>
@@ -22,7 +52,7 @@ function EmployeeDashBoardOne() {
           .tilesAdmin {
             display: inline-block;
             width: 600px;
-            height: 500px;
+            height: auto;
             margin: 30px;
             padding: 20px;
             border-radius: 15px;
@@ -36,10 +66,10 @@ function EmployeeDashBoardOne() {
             margin: 0 5px;
           }
           table {
-            margin-top:14px;
+            margin-top: 14px;
             width: 100%;
             border-collapse: collapse;
-        }
+          }
           td {
             padding: 10px;
             text-align: center;
@@ -55,13 +85,15 @@ function EmployeeDashBoardOne() {
         
         <table>
           <tbody>
-            {employeeData.map((employee) => (
-              <tr key={employee.id}>
+            {employees.map((employee) => (
+              <tr key={employee.EmpID}>
                 <td><img src={avatar} alt="AVT" style={{ width: '40px', height: '40px', margin: '5px' }} /></td>
-                <td>{employee.id}</td>
-                <td>{employee.name}</td>
-                <td><button className="buttonX" onClick={() => handleNavigate('/EditEmployee')}>Edit</button></td>
-                <td><button className="buttonX" onClick={() => handleNavigate('/DeleteEmployee')}>Delete</button></td>
+                <td>{employee.EmpID}</td>
+                <td>{employee.EmpName}</td>
+                <td>
+                  <button className="buttonX" onClick={() => handleNavigate(`/EditEmployee/${employee.EmpID}`)}>Edit</button>
+                </td>
+                <td><button className="buttonX" onClick={() => handleDelete(employee.EmpID)}>Delete</button></td>
               </tr>
             ))}
           </tbody>
