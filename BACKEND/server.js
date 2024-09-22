@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
+const or_Routes = require("./Routes/Order.js");
 require('dotenv').config();
 
 const PORT = process.env.PORT||8070;
@@ -24,9 +25,9 @@ connection.once("open", () => {
     console.log("MongoDB Connection Success");
 });
 
-const studentRouter = require("./Routes/students.js");
-app.use("/student",studentRouter);
+
+app.use("/orders",or_Routes);
 
 app.listen(PORT, () => {
-    console.log(`Server is up and running on Port numberbbgg: ${PORT}`);
+    console.log(`Server is up and running on Port number: ${PORT}`);
 });
