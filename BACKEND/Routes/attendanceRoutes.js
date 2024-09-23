@@ -5,7 +5,30 @@ const router = express.Router();
 // POST: Add a new attendance record
 router.post('/AddAttendance', async (req, res) => {
     try {
-        const newAttendance = new AttendanceProfile(req.body);
+        const { EmpID, EmpName, WorkDate, WorkHours, OTHours } = req.body;
+
+        // Convert WorkDate to a numeric format (YYYYMMDD)
+        const date = new Date(WorkDate);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // Months are 0-indexed
+        const day = date.getDate();
+
+        // Create dateStr in YYYYMMDD format as a number
+        const dateStr = year * 10000 + month * 100 + day; // YYYYMMDD
+        
+        // Combine EmpID and dateStr to create AttID as a string
+        const AttID = Number(`${EmpID}${dateStr}`); // Concatenate as strings, then convert to number
+        
+
+        const newAttendance = new AttendanceProfile({
+            AttID,
+            EmpID,
+            EmpName,
+            WorkDate,
+            WorkHours,
+            OTHours,
+        });
+
         await newAttendance.save();
         res.status(201).send('Attendance added successfully');
     } catch (error) {
@@ -13,6 +36,8 @@ router.post('/AddAttendance', async (req, res) => {
         res.status(400).send('Error adding attendance: ' + error.message);
     }
 });
+
+
 
 // GET: Retrieve all attendance records
 router.get('/GetAttendance', async (req, res) => {
@@ -42,17 +67,21 @@ router.get('/:empId', async (req, res) => {
     }
 });
 
-// DELETE: Delete an attendance record by EmpID
-router.delete('/:empId', async (req, res) => {
+// DELETE: Delete an attendance record by AttID
+router.delete('/DelAttendance/:AttID', async (req, res) => {
+    const { AttID } = req.params;
+
     try {
-        const deletedRecord = await AttendanceProfile.findOneAndDelete({ EmpID: req.params.empId });
-        if (!deletedRecord) {
-            return res.status(404).send('Attendance record not found');
+        const deletedAttendance = await AttendanceProfile.findOneAndDelete({ AttID });
+
+        if (deletedAttendance) {
+            return res.status(200).json({ message: 'Attendance record deleted successfully' });
+        } else {
+            return res.status(404).json({ message: 'Attendance record not found' });
         }
-        res.status(200).send('Attendance record deleted successfully');
     } catch (error) {
         console.error('Error deleting attendance record:', error);
-        res.status(500).send('Error deleting attendance record: ' + error.message);
+        return res.status(500).json({ message: 'Error deleting attendance record', error: error.message });
     }
 });
 

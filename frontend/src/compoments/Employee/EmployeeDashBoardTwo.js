@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function EmployeeDashBoardTwo() {
-  const navigate = useNavigate();
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
+  const handleNavigate = useNavigate();
   const [employeeData, setEmployeeData] = useState([]);
 
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
-        const response = await fetch('/api/GetAttendance'); // Adjust the API endpoint as needed
+        const response = await fetch('http://localhost:8070/api/GetAttendance');
         const data = await response.json();
         setEmployeeData(data);
       } catch (error) {
@@ -21,25 +19,26 @@ function EmployeeDashBoardTwo() {
     fetchAttendanceData();
   }, []);
 
-  const handleMonthChange = (month) => {
-    setSelectedMonth(month);
+  
+  // Updated to accept AttID for deletion
+  const handleDelete = async (AttID) => {
+    if (window.confirm("Are you sure you want to delete this attendance record?")) {
+      try {
+        const response = await fetch(`http://localhost:8070/api/DelAttendance/${AttID}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          alert('Attendance record deleted successfully');
+          setEmployeeData(prev => prev.filter(emp => emp.AttID !== AttID));
+        } else {
+          const errorText = await response.text();
+          alert('Failed to delete attendance record: ' + errorText);
+        }
+      } catch (error) {
+        console.error('Error deleting attendance record:', error);
+      }
+    }
   };
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleNavigate = (path) => {
-    navigate(path);
-  };
-
-  const handleDelete = (path) => {
-    navigate(path);
-  };
-
-  const filteredEmployees = employeeData.filter((record) =>
-    record.EmpName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div>
@@ -81,22 +80,7 @@ function EmployeeDashBoardTwo() {
       </div>
       <div className="tilesAdmin">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h2>Month</h2>
-          <select className="dropdown" onChange={(e) => handleMonthChange(e.target.value)}>
-            <option value="">Select Month</option>
-            {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'].map(month => (
-              <option key={month} value={month}>{month}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Search by employee name"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            style={{ width: '100%', padding: '8px', marginTop: '20px' }}
-          />
+          <h2>Employee Attendance</h2>
         </div>
         <div className="tableContainer">
           <table>
@@ -111,8 +95,8 @@ function EmployeeDashBoardTwo() {
               </tr>
             </thead>
             <tbody>
-              {filteredEmployees.map((record) => (
-                <tr key={record.EmpID}>
+              {employeeData.map((record) => (
+                <tr key={record.AttID}>
                   <td>{record.EmpID}</td>
                   <td>{record.EmpName}</td>
                   <td>{new Date(record.WorkDate).toLocaleDateString()}</td>
@@ -121,14 +105,15 @@ function EmployeeDashBoardTwo() {
                   <td>
                     <button
                       className="buttonX"
-                      onClick={() => handleNavigate('/EditRecord')}
+                      onClick={() => handleNavigate(`/EditAttendance/${record.AttID}`)}
                       style={{ padding: '5px 10px' }}
                     >
                       Update
                     </button>
                     <button
                       className="buttonX"
-                      onClick={() => handleDelete(record.EmpID)}
+                      // Pass AttID to handleDelete
+                      onClick={() => handleDelete(record.AttID)}
                       style={{ padding: '5px 10px', marginLeft: '5px' }}
                     >
                       Delete
