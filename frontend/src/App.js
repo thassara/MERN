@@ -25,6 +25,7 @@ import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom
 //Employee Section
 import EditEmployee from './compoments/Employee/EditEmployee';
 import AddEmployee from './compoments/Employee/AddEmployee';
+import EditAttendance from './compoments/Employee/EditAttendance';
 
 
 
@@ -59,6 +60,7 @@ function App() {
         /*EmployeeSection*/
         <Route path="/EditEmployee/:empId" element={<EditEmployee />} />
         <Route path="AddEmployee" element={<AddEmployee />} />
+        <Route path="/EditAttendance" element={<EditAttendance />} />
 
         </Routes>
         <Footer />

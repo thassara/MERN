@@ -53,10 +53,11 @@ router.get('/GetAttendance', async (req, res) => {
 });
 
 
-// GET: Retrieve a single attendance record by EmpID
-router.get('/:empId', async (req, res) => {
+// GET: Retrieve a single attendance record by AttID
+router.get('/attendance/:attId', async (req, res) => {
     try {
-        const attendanceRecord = await AttendanceProfile.findOne({ EmpID: req.params.empId });
+        const { attId } = req.params;
+        const attendanceRecord = await AttendanceProfile.findOne({ AttID: Number(attId) }); // Convert to number
         if (!attendanceRecord) {
             return res.status(404).send('Attendance record not found');
         }
@@ -66,6 +67,7 @@ router.get('/:empId', async (req, res) => {
         res.status(500).send('Error fetching attendance record: ' + error.message);
     }
 });
+
 
 // DELETE: Delete an attendance record by AttID
 router.delete('/DelAttendance/:AttID', async (req, res) => {
@@ -84,5 +86,26 @@ router.delete('/DelAttendance/:AttID', async (req, res) => {
         return res.status(500).json({ message: 'Error deleting attendance record', error: error.message });
     }
 });
+// PUT: Update attendance record by EmpID and WorkDate
+router.put('/attendance/:empId/:workDate', async (req, res) => {
+    const { empId, workDate } = req.params;
+    try {
+      const attendanceRecord = await AttendanceProfile.findOneAndUpdate(
+        { EmpID: empId, WorkDate: new Date(workDate) },
+        req.body,
+        { new: true } // Return the updated document
+      );
+  
+      if (!attendanceRecord) {
+        return res.status(404).send('Attendance record not found');
+      }
+      
+      res.status(200).json(attendanceRecord);
+    } catch (error) {
+      console.error('Error updating attendance record:', error);
+      res.status(500).send('Error updating attendance record: ' + error.message);
+    }
+  });
+  
 
 module.exports = router;

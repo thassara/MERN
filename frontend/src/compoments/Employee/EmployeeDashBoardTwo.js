@@ -105,7 +105,8 @@ function EmployeeDashBoardTwo() {
                   <td>
                     <button
                       className="buttonX"
-                      onClick={() => handleNavigate(`/EditAttendance/${record.AttID}`)}
+                      //onClick={() => handleNavigate(`/EditAttendance/${record.AttID}`)}
+                      onClick={() => handleNavigate(`/EditAttendance?AttID=${record.AttID}&EmpID=${record.EmpID}&EmpName=${encodeURIComponent(record.EmpName)}&WorkDate=${record.WorkDate}&WorkHours=${record.WorkHours}&OTHours=${record.OTHours}`)}
                       style={{ padding: '5px 10px' }}
                     >
                       Update
