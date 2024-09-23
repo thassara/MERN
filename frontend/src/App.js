@@ -24,6 +24,8 @@ import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom
 //Employee Section
 import EditEmployee from './compoments/Employee/EditEmployee';
 import AddEmployee from './compoments/Employee/AddEmployee';
+//package
+import CreatePackage from './compoments/Package/CreatePackage';
 
 
 
@@ -33,6 +35,7 @@ function App() {
     <Router>
       <div>
         <Header />
+        
         <Routes>
         <Route path="/" element={<Intro/>} />
         <Route path="/*" element={<Outlet/>}/>
@@ -57,6 +60,9 @@ function App() {
         /*EmployeeSection*/
         <Route path="/EditEmployee/:empId" element={<EditEmployee />} />
         <Route path="AddEmployee" element={<AddEmployee />} />
+
+        /*Package*/
+        <Route path="/create" exact Component={CreatePackage} />
 
         </Routes>
         <Footer />
