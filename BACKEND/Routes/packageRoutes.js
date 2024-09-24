@@ -69,7 +69,7 @@ router.route('/delete/:package_id').delete(async (req, res) => {
 router.route('/get/:package_id').get(async (req, res) => {
     let packageID = req.params.package_id;
     const package = await Package.findById(packageID).then((package) => {
-        res.status(200).send({ status: "Package Fetched", package : package });
+        res.status(200).send({ status: "Package Fetched", package });
     }).catch((err) => {
         console.log(err.message);
         res.status(500).send({ status: "Error with get package", error: err.message });
