@@ -6,6 +6,7 @@ require('dotenv').config();
 
 
 const employeeRoutes = require('./Routes/employeeRoutes.js'); 
+const packageRoutes = require('./Routes/packageRoutes.js');
 const app = express();
 
 // Middleware
@@ -31,6 +32,10 @@ connection.once("open", () => {
     console.log("MongoDB Connection Success");
 });
 
+//package section
+const packageRouter = require('./Routes/packageRoutes.js');
+
+app.use('/package', packageRouter);
 
 
 app.listen(PORT, () => {
