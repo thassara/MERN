@@ -7,15 +7,19 @@ router.route('/create').post((req, res) => {
     const PackageType = req.body.PackageType;
     const PackageDescription = req.body.PackageDescription;
     const Material = req.body.Material;
-    const Dimensions = Number(req.body.Dimensions);
+    const lenght = Number(req.body.Dimensions);
+    const width = Number(req.body.Dimensions);
+    const height = Number(req.body.Dimensions);
 
     const newPackage = new Package({
         
-        PackageName,
+        packageName,
         PackageType,
         PackageDescription,
         Material,
-        Dimensions,
+        lenght,
+        width,
+        height
     });
 
     newPackage.save().then(() => {
@@ -36,7 +40,7 @@ router.route('/').get((req, res) => {
 
 router.route('/update/:package_id').put(async (req, res) => {
     let packageID = req.params.package_id;
-    const { PackageName, PackageType, PackageDescription, Material, Dimensions } = req.body;
+    const { PackageName, PackageType, PackageDescription, Material, lenght, width, height } = req.body;
 
     const updatePackage = {
         
@@ -44,7 +48,9 @@ router.route('/update/:package_id').put(async (req, res) => {
         PackageType,
         PackageDescription,
         Material,
-        Dimensions,
+        lenght,
+        width,
+        height
     };
 
     const update = await Package.findByIdAndUpdate(packageID, updatePackage).then(() => {

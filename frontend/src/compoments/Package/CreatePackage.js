@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 function CreatePackage() {
     const [formData, setFormData] = useState({
@@ -114,8 +115,28 @@ function CreatePackage() {
         backgroundColor: '#0056b3',
     };
 
+    //function for after submit button
+    function sendData(e){
+        e.preventDefault();
+
+        const newPackage = {
+            packageName: formData.packageName,
+            packageType: formData.packageType,
+            material: formData.material,
+            length: formData.length,
+            width: formData.width,
+            height: formData.height
+        }
+        axios.post('http://localhost:8070/package/create', newPackage).then(() => {
+            alert("Package added");
+            window.location.reload();
+        }).catch((err) => {
+            alert(err);
+        })
+    }
+
     return (
-        <form onSubmit={handleSubmit} style={formStyle}>
+        <form onSubmit={sendData} style={formStyle}>
             <div style={formGroupStyle}>
                 <label htmlFor="packageName" style={labelStyle}>Package Name:</label>
                 <input
