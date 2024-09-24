@@ -1,21 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';  
+import { useParams, useNavigate } from 'react-router-dom'; 
 
-const MachineAdd = () => {
+const UpdateMachine = () => {
     const [machineName, setMachineName] = useState('');
     const [durationTime, setDurationTime] = useState('');
     const [description, setDescription] = useState('');
     const [qualityDetails, setQualityDetails] = useState('');
+    const { id } = useParams(); // Fetching machine ID from the URL params
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        const fetchMachineDetails = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8070/machines/read/${id}`); // Ensure the correct endpoint
+                const { machineName, durationTime, description, qualityDetails } = response.data;
+                setMachineName(machineName);
+                setDurationTime(durationTime);
+                setDescription(description);
+                setQualityDetails(qualityDetails);
+            } catch (error) {
+                console.error('Error fetching machine details:', error);
+            }
+        };
+        fetchMachineDetails();
+    }, [id]);
+
+    const handleUpdate = async (e) => {
         e.preventDefault();
-        console.log({ machineName, durationTime, description, qualityDetails });
-        // Handle form submission logic here
+
+        const updatedMachineData = {
+            machineName,
+            durationTime,
+            description,
+            qualityDetails,
+        };
+
+        try {
+            await axios.put(`http://localhost:8070/machines/update/${id}`, updatedMachineData);
+            console.log('Machine updated successfully');
+            navigate('/MachineDashBoardPage'); // Redirect to MachineManager.jsx after update
+        } catch (error) {
+            console.error('There was an error updating the machine:', error);
+        }
     };
 
     return (
         <div style={styles.formContainer}>
-            <form onSubmit={handleSubmit}>
-                <h2 style={styles.heading}>Add Machine</h2>
+            <form onSubmit={handleUpdate}>
+                <h2 style={styles.heading}>Update Machine</h2>
                 <label htmlFor="machine-name" style={styles.label}>Machine Name:</label>
                 <input
                     type="text"
@@ -38,14 +71,11 @@ const MachineAdd = () => {
                     onChange={(e) => setDurationTime(e.target.value)}
                     required
                     style={styles.input}
-<<<<<<< Updated upstream
                 />
-=======
-                />    
->>>>>>> Stashed changes
 
                 <label htmlFor="description" style={styles.label}>Description:</label>
                 <textarea
+                    type="text"
                     id="description"
                     name="description"
                     placeholder="Enter description"
@@ -58,6 +88,7 @@ const MachineAdd = () => {
 
                 <label htmlFor="quality-details" style={styles.label}>Quality Details:</label>
                 <textarea
+                    type="text"
                     id="quality-details"
                     name="quality-details"
                     placeholder="Enter quality details"
@@ -68,7 +99,7 @@ const MachineAdd = () => {
                     style={styles.textarea}
                 ></textarea>
 
-                <button type="submit" style={styles.button}>Add Machine</button>
+                <button type="submit" style={styles.button}>Update Machine</button>
             </form>
         </div>
     );
@@ -76,53 +107,53 @@ const MachineAdd = () => {
 
 const styles = {
     formContainer: {
-        backgroundColor: '#ffffff',
-        padding: '20px 40px',
+        backgroundColor: '#f9f9f9',
+        padding: '20px',
         borderRadius: '10px',
-        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-        maxWidth: '400px',
-        width: '100%',
-        margin: 'auto'
+        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+        maxWidth: '450px',
+        margin: '20px auto'
     },
     heading: {
         textAlign: 'center',
-        marginBottom: '20px'
+        marginBottom: '20px',
+        color: '#333'
     },
     label: {
-        marginBottom: '8px',
+        marginBottom: '10px',
+        display: 'block',
+        color: '#555',
         fontWeight: 'bold'
     },
     input: {
+        width: '100%',
         padding: '10px',
         marginBottom: '15px',
-        border: '1px solid #ccc',
         borderRadius: '5px',
+        border: '1px solid #ccc',
         fontSize: '16px',
-        width: '100%',
-        boxSizing: 'border-box'
     },
     textarea: {
+        width: '100%',
         padding: '10px',
         marginBottom: '15px',
-        border: '1px solid #ccc',
         borderRadius: '5px',
+        border: '1px solid #ccc',
         fontSize: '16px',
-        width: '100%',
-        boxSizing: 'border-box'
     },
     button: {
+        width: '100%',
         padding: '10px',
-        backgroundColor: '#007bff',
-        color: 'white',
+        backgroundColor: '#28a745',
+        color: '#fff',
         border: 'none',
         borderRadius: '5px',
-        fontSize: '16px',
         cursor: 'pointer',
-        transition: 'background-color 0.3s ease'
+        fontSize: '16px'
     },
     buttonHover: {
-        backgroundColor: '#0056b3'
+        backgroundColor: '#218838'
     }
 };
 
-export default MachineAdd;
+export default UpdateMachine;
