@@ -1,35 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import * as XLSX from 'xlsx';
 
 function EmployeeDashBoardTwo() {
-  const navigate = useNavigate();
+  const handleNavigate = useNavigate();
+  const [employeeData, setEmployeeData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // State to hold search term
+  const [filteredData, setFilteredData] = useState([]); // State for filtered data
 
-  const [selectedMonth, setSelectedMonth] = useState('');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [employeeData, setEmployeeData] = useState([
-    { id: 8002, name: 'S.P.Y Bumal', status: 'Present', date: '01' },
-    { id: 8002, name: 'S.P.Y Bumal', status: 'Present', date: '02' },
-    { id: 8002, name: 'S.P.Y Bumal', status: 'Present', date: '03' },
-    { id: 8015, name: 'A.N.Kumara', status: 'Absent', date: '01' },
-    { id: 8021, name: 'W.J.K Jaya', status: 'Present', date: '01' },
-    // Add more dummy data here
-  ]);
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      try {
+        const response = await fetch('http://localhost:8070/api/GetAttendance');
+        const data = await response.json();
+        setEmployeeData(data);
+        setFilteredData(data); // Initialize filtered data
+      } catch (error) {
+        console.error('Error fetching attendance data:', error);
+      }
+    };
 
-  const handleMonthChange = (month) => {
-    setSelectedMonth(month);
+    fetchAttendanceData();
+  }, []);
+
+  // Update filtered data whenever searchTerm changes
+  useEffect(() => {
+    const filtered = employeeData.filter(record =>
+      record.EmpID.toString().includes(searchTerm) // Filter by Employee ID
+    );
+    setFilteredData(filtered);
+  }, [searchTerm, employeeData]);
+
+  const handleDelete = async (AttID) => {
+    if (window.confirm("Are you sure you want to delete this attendance record?")) {
+      try {
+        const response = await fetch(`http://localhost:8070/api/DelAttendance/${AttID}`, {
+          method: 'DELETE',
+        });
+        if (response.ok) {
+          alert('Attendance record deleted successfully');
+          setEmployeeData(prev => prev.filter(emp => emp.AttID !== AttID));
+          setFilteredData(prev => prev.filter(emp => emp.AttID !== AttID)); // Update filtered data
+        } else {
+          const errorText = await response.text();
+          alert('Failed to delete attendance record: ' + errorText);
+        }
+      } catch (error) {
+        console.error('Error deleting attendance record:', error);
+      }
+    }
   };
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  const generateReport = () => {
+    const worksheet = XLSX.utils.json_to_sheet(filteredData); // Generate report from filtered data
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Attendance Report');
 
-  const handleNavigate = (path) => {
-    navigate(path);
+    const fileName = `Attendance_Report_${new Date().toISOString().slice(0, 10)}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
   };
-
-  const filteredEmployees = employeeData.filter((employee) =>
-    employee.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div>
@@ -66,36 +95,63 @@ function EmployeeDashBoardTwo() {
            th {
               background-color: #f2f2f2;
            }
+
+           .buttonX {
+              padding: 5px 10px;
+              background-color: #031f42;
+              color: white;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+           }
+
+           .buttonX:hover {
+              background-color: #00509e;
+           }
+
+           .spaced-buttons {
+              margin-right: 5px; /* Space between buttons */
+              margin-bottom: 5px; /* Margin below each button */
+           }
+
+           input[type="text"] {
+              padding: 5px;
+              border-radius: 5px; /* Rounded corners for search bar */
+              border: 1px solid #ccc;
+           }
+
+           .download-button {
+              padding: 10px 20px;
+              margin-left: 10px;
+              background-color: #031f42;
+              color: white;
+              border: none;
+              border-radius: 5px; /* Rounded corners for Download button */
+              cursor: pointer;
+           }
+
+           .download-button:hover {
+              background-color: #00509e;
+           }
           `}
         </style>
       </div>
       <div className="tilesAdmin">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <h2>Month</h2>
-          <select className="dropdown" onChange={(e) => handleMonthChange(e.target.value)}>
-            <option value="">Select Month</option>
-            <option value="January">January</option>
-            <option value="February">February</option>
-            <option value="March">March</option>
-            <option value="April">April</option>
-            <option value="May">May</option>
-            <option value="June">June</option>
-            <option value="July">July</option>
-            <option value="August">August</option>
-            <option value="September">September</option>
-            <option value="October">October</option>
-            <option value="November">November</option>
-            <option value="December">December</option>
-          </select>
-        </div>
-        <div>
+          <h2>Employee Attendance</h2>
           <input
             type="text"
-            placeholder="Search by employee name"
+            placeholder="Search by Employee ID"
             value={searchTerm}
-            onChange={handleSearchChange}
-            style={{ width: '100%', padding: '8px', marginTop: '20px' }}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={{ padding: '5px', marginLeft: '10px' }}
           />
+          <button
+            onClick={generateReport}
+            className="download-button"
+          >
+            Download Report
+          </button>
         </div>
         <div className="tableContainer">
           <table>
@@ -103,25 +159,32 @@ function EmployeeDashBoardTwo() {
               <tr>
                 <th>Employee ID</th>
                 <th>Employee Name</th>
-                <th>Date</th>
-                <th>Status</th>
+                <th>Work Date</th>
+                <th>Work Hours</th>
+                <th>OT Hours</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {filteredEmployees.map((employee) => (
-                <tr key={employee.id}>
-                  <td>{employee.id}</td>
-                  <td>{employee.name}</td>
-                  <td>{employee.date}</td>
-                  <td>{employee.status}</td>
+              {filteredData.map((record) => (
+                <tr key={record.AttID}>
+                  <td>{record.EmpID}</td>
+                  <td>{record.EmpName}</td>
+                  <td>{new Date(record.WorkDate).toLocaleDateString()}</td>
+                  <td>{record.WorkHours}</td>
+                  <td>{record.OTHours || 0}</td>
                   <td>
                     <button
-                      className="buttonX"
-                      onClick={() => handleNavigate('/EditRecord')}
-                      style={{ padding: '5px 10px' }}
+                      className="buttonX spaced-buttons"
+                      onClick={() => handleNavigate(`/EditAttendance?AttID=${record.AttID}&EmpID=${record.EmpID}&EmpName=${encodeURIComponent(record.EmpName)}&WorkDate=${record.WorkDate}&WorkHours=${record.WorkHours}&OTHours=${record.OTHours}`)}
                     >
                       Update
+                    </button>
+                    <button
+                      className="buttonX spaced-buttons"
+                      onClick={() => handleDelete(record.AttID)}
+                    >
+                      Delete
                     </button>
                   </td>
                 </tr>
