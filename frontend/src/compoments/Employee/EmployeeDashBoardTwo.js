@@ -95,6 +95,44 @@ function EmployeeDashBoardTwo() {
            th {
               background-color: #f2f2f2;
            }
+
+           .buttonX {
+              padding: 5px 10px;
+              background-color: #031f42;
+              color: white;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+           }
+
+           .buttonX:hover {
+              background-color: #00509e;
+           }
+
+           .spaced-buttons {
+              margin-right: 5px; /* Space between buttons */
+              margin-bottom: 5px; /* Margin below each button */
+           }
+
+           input[type="text"] {
+              padding: 5px;
+              border-radius: 5px; /* Rounded corners for search bar */
+              border: 1px solid #ccc;
+           }
+
+           .download-button {
+              padding: 10px 20px;
+              margin-left: 10px;
+              background-color: #031f42;
+              color: white;
+              border: none;
+              border-radius: 5px; /* Rounded corners for Download button */
+              cursor: pointer;
+           }
+
+           .download-button:hover {
+              background-color: #00509e;
+           }
           `}
         </style>
       </div>
@@ -108,7 +146,10 @@ function EmployeeDashBoardTwo() {
             onChange={(e) => setSearchTerm(e.target.value)}
             style={{ padding: '5px', marginLeft: '10px' }}
           />
-          <button onClick={generateReport} style={{ padding: '10px 20px', marginLeft: '10px' }}>
+          <button
+            onClick={generateReport}
+            className="download-button"
+          >
             Download Report
           </button>
         </div>
@@ -134,16 +175,14 @@ function EmployeeDashBoardTwo() {
                   <td>{record.OTHours || 0}</td>
                   <td>
                     <button
-                      className="buttonX"
+                      className="buttonX spaced-buttons"
                       onClick={() => handleNavigate(`/EditAttendance?AttID=${record.AttID}&EmpID=${record.EmpID}&EmpName=${encodeURIComponent(record.EmpName)}&WorkDate=${record.WorkDate}&WorkHours=${record.WorkHours}&OTHours=${record.OTHours}`)}
-                      style={{ padding: '5px 10px' }}
                     >
                       Update
                     </button>
                     <button
-                      className="buttonX"
+                      className="buttonX spaced-buttons"
                       onClick={() => handleDelete(record.AttID)}
-                      style={{ padding: '5px 10px', marginLeft: '5px' }}
                     >
                       Delete
                     </button>
