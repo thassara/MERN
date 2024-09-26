@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const AddAttendance = ({ empID }) => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const [empName, setEmpName] = useState('');
   const [workHours, setWorkHours] = useState('');
   const [otHours, setOTHours] = useState('');
@@ -29,8 +29,29 @@ const AddAttendance = ({ empID }) => {
     }
   }, [empID]);
 
+  const validateInput = () => {
+    // Check if work hours is a valid number and within range
+    if (isNaN(workHours) || workHours < 0 || workHours > 8) {
+      alert('Work hours must be a numeric value between 0 and 8.');
+      return false;
+    }
+
+    // Check if OT hours is a valid number and within range
+    if (isNaN(otHours) || otHours < 0 || otHours > 4) {
+      alert('OT hours must be a numeric value between 0 and 4.');
+      return false;
+    }
+
+    return true;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate inputs before submitting
+    if (!validateInput()) {
+      return; // Stop form submission if validation fails
+    }
 
     const newAttendance = {
       EmpID: empID,
@@ -51,7 +72,6 @@ const AddAttendance = ({ empID }) => {
       if (response.ok) {
         alert('Attendance added successfully!');
         navigate('/');
-        // Reset form or perform any other action
         setWorkHours('');
         setOTHours('');
       } else {

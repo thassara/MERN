@@ -9,12 +9,14 @@ function AddEmployee() {
     EmpFullName: '',
     EmpAddress: '',
     EmpQualifications: '',
-    EmpExperiance: '',
+    EmpExperience: '',
     EmpPosition: '',
     EmpWage: '',
     EmpJoin: '',
     EmpPassKey: ''
   });
+
+  const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
     setFormData({
@@ -23,8 +25,36 @@ function AddEmployee() {
     });
   };
 
+  const validate = () => {
+    const newErrors = {};
+
+    // Validate EmpID (4-digit number)
+    if (!/^\d{4}$/.test(formData.EmpID)) {
+      newErrors.EmpID = 'Employee ID must be a 4-digit number';
+    }
+
+    // Validate EmpPosition (no numbers allowed)
+    if (/\d/.test(formData.EmpPosition)) {
+      newErrors.EmpPosition = 'Position cannot contain numbers';
+    }
+
+    // Validate EmpPassKey (4-digit number)
+    if (!/^\d{4}$/.test(formData.EmpPassKey)) {
+      newErrors.EmpPassKey = 'PassKey must be a 4-digit number';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Run validation
+    if (!validate()) {
+      return;
+    }
+
     try {
       const response = await fetch('http://localhost:8070/api/addEmployee', {
         method: 'POST',
@@ -83,6 +113,11 @@ function AddEmployee() {
             border-radius: 4px;
           }
 
+          .error {
+            color: red;
+            font-size: 14px;
+          }
+
           .button-container {
             display: flex;
             justify-content: space-between;
@@ -95,7 +130,7 @@ function AddEmployee() {
             border-radius: 4px;
             font-size: 16px;
             cursor: pointer;
-            background-color: #007bff; /* Blue color */
+            background-color: #007bff;
             color: white;
           }
 
@@ -104,53 +139,128 @@ function AddEmployee() {
           }
         `}
       </style>
-      
+
       <div className="container">
         <h1>Add Employee</h1>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="EmpID">Employee ID:</label>
-            <input type="number" id="EmpID" value={formData.EmpID} onChange={handleChange} />
+            <input
+              type="number"
+              id="EmpID"
+              value={formData.EmpID}
+              onChange={handleChange}
+            />
+            {errors.EmpID && <div className="error">{errors.EmpID}</div>}
           </div>
+
           <div className="form-group">
             <label htmlFor="EmpName">Emp Name:</label>
-            <input type="text" id="EmpName" value={formData.EmpName} onChange={handleChange} />
+            <input
+              type="text"
+              id="EmpName"
+              value={formData.EmpName}
+              onChange={handleChange}
+            />
           </div>
+
           <div className="form-group">
             <label htmlFor="EmpFullName">Full Name:</label>
-            <input type="text" id="EmpFullName" value={formData.EmpFullName} onChange={handleChange} />
+            <input
+              type="text"
+              id="EmpFullName"
+              value={formData.EmpFullName}
+              onChange={handleChange}
+            />
           </div>
+
           <div className="form-group">
             <label htmlFor="EmpAddress">Address:</label>
-            <input type="text" id="EmpAddress" value={formData.EmpAddress} onChange={handleChange} />
+            <input
+              type="text"
+              id="EmpAddress"
+              value={formData.EmpAddress}
+              onChange={handleChange}
+            />
           </div>
+
           <div className="form-group">
             <label htmlFor="EmpQualifications">Qualifications:</label>
-            <input type="text" id="EmpQualifications" value={formData.EmpQualifications} onChange={handleChange} />
+            <input
+              type="text"
+              id="EmpQualifications"
+              value={formData.EmpQualifications}
+              onChange={handleChange}
+            />
           </div>
+
           <div className="form-group">
             <label htmlFor="EmpExperience">Experience:</label>
-            <input type="text" id="EmpExperience" value={formData.EmpExperience} onChange={handleChange} />
+            <input
+              type="text"
+              id="EmpExperience"
+              value={formData.EmpExperience}
+              onChange={handleChange}
+            />
           </div>
+
           <div className="form-group">
             <label htmlFor="EmpPosition">Position:</label>
-            <input type="text" id="EmpPosition" value={formData.EmpPosition} onChange={handleChange} />
+            <input
+              type="text"
+              id="EmpPosition"
+              value={formData.EmpPosition}
+              onChange={handleChange}
+            />
+            {errors.EmpPosition && (
+              <div className="error">{errors.EmpPosition}</div>
+            )}
           </div>
+
           <div className="form-group">
             <label htmlFor="EmpWage">Salary/Wage:</label>
-            <input type="number" id="EmpWage" value={formData.EmpWage} onChange={handleChange} />
+            <input
+              type="number"
+              id="EmpWage"
+              value={formData.EmpWage}
+              onChange={handleChange}
+            />
           </div>
+
           <div className="form-group">
             <label htmlFor="EmpJoin">Join Date:</label>
-            <input type="date" id="EmpJoin" value={formData.EmpJoin} onChange={handleChange} />
+            <input
+              type="date"
+              id="EmpJoin"
+              value={formData.EmpJoin}
+              onChange={handleChange}
+            />
           </div>
+
           <div className="form-group">
             <label htmlFor="EmpPassKey">PassKey:</label>
-            <input type="number" id="EmpPassKey" value={formData.EmpPassKey} onChange={handleChange} />
+            <input
+              type="number"
+              id="EmpPassKey"
+              value={formData.EmpPassKey}
+              onChange={handleChange}
+            />
+            {errors.EmpPassKey && (
+              <div className="error">{errors.EmpPassKey}</div>
+            )}
           </div>
+
           <div className="button-container">
-            <button className="button" type="button" onClick={() => navigate('/EmployeeDashBoardPage')}>Go Back</button>
-            <button className="button" type="submit">Add Employee</button>
+            <button
+              className="button"
+              type="button"
+              onClick={() => navigate('/EmployeeDashBoardPage')}
+            >
+              Go Back
+            </button>
+            <button className="button" type="submit">
+              Add Employee
+            </button>
           </div>
         </form>
       </div>
