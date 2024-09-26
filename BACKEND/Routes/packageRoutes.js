@@ -3,23 +3,23 @@ let Package = require('../Models/Package');
 
 router.route('/create').post((req, res) => {
     
-    const packageName = req.body.PackageName;
+    const PackageName = req.body.PackageName;
     const PackageType = req.body.PackageType;
     const PackageDescription = req.body.PackageDescription;
     const Material = req.body.Material;
-    const lenght = Number(req.body.Dimensions);
-    const width = Number(req.body.Dimensions);
-    const height = Number(req.body.Dimensions);
+    const Length = Number(req.body.Length);
+    const Width = Number(req.body.Width);
+    const Height = Number(req.body.Height);
 
     const newPackage = new Package({
-        
-        packageName,
+        PackageName,
         PackageType,
         PackageDescription,
         Material,
-        lenght,
-        width,
-        height
+        Length,
+        Width,
+        Height
+        
     });
 
     newPackage.save().then(() => {
@@ -40,7 +40,7 @@ router.route('/').get((req, res) => {
 
 router.route('/update/:package_id').put(async (req, res) => {
     let packageID = req.params.package_id;
-    const { PackageName, PackageType, PackageDescription, Material, lenght, width, height } = req.body;
+    const { PackageName, PackageType, PackageDescription, Material, Length, Width, Height } = req.body;
 
     const updatePackage = {
         
@@ -48,9 +48,9 @@ router.route('/update/:package_id').put(async (req, res) => {
         PackageType,
         PackageDescription,
         Material,
-        lenght,
-        width,
-        height
+        Length,
+        Width,
+        Height
     };
 
     const update = await Package.findByIdAndUpdate(packageID, updatePackage).then(() => {

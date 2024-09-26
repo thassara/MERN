@@ -8,9 +8,9 @@ const packageSchema = new Schema ({
     PackageType: { type: String, required: true },
     PackageDescription: { type: String },
     Material: { type: String, required: true },
-    lenght: { type: Number, required: true },
-    width: { type: Number, required: true },
-    height: { type: Number, required: true }
+    Length: { type: Number, required: true },
+    Width: { type: Number, required: true },
+    Height: { type: Number, required: true }
 
 });
 
