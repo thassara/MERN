@@ -1,4 +1,4 @@
-const Package = require('../models/Package'); // Import the Package model
+const Package = require('../Models/Package'); // Import the Package model
 
 // Create a new package
 const createPackage = async (req, res) => {
@@ -113,3 +113,4 @@ module.exports = {
   updatePackage,
   deletePackage
 };
+//janith
