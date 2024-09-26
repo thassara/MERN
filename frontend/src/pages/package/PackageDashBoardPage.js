@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function PackageDashBoard() {
   return (
@@ -14,7 +15,7 @@ function PackageDashBoard() {
           <a href="/create" style={{ float: 'left', display: 'block', color: '#f2f2f2', textAlign: 'center', padding: '14px 16px', textDecoration: 'none' }}>
             Create Package
           </a>
-          <a href="#" style={{ float: 'left', display: 'block', color: '#f2f2f2', textAlign: 'center', padding: '14px 16px', textDecoration: 'none' }}>
+          <a href="/" style={{ float: 'left', display: 'block', color: '#f2f2f2', textAlign: 'center', padding: '14px 16px', textDecoration: 'none' }}>
             Manage Packages
           </a>
           <a href="#" style={{ float: 'left', display: 'block', color: '#f2f2f2', textAlign: 'center', padding: '14px 16px', textDecoration: 'none' }}>

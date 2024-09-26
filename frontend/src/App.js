@@ -26,7 +26,8 @@ import EditEmployee from './compoments/Employee/EditEmployee';
 import AddEmployee from './compoments/Employee/AddEmployee';
 //package
 import CreatePackage from './compoments/Package/CreatePackage';
-
+import AllPackages from './compoments/Package/AllPackages';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -63,6 +64,8 @@ function App() {
 
         /*Package*/
         <Route path="/create" exact Component={CreatePackage} />
+        <Route path="/" exact Component={AllPackages} />
+        
 
         </Routes>
         <Footer />

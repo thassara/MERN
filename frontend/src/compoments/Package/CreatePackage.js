@@ -3,12 +3,13 @@ import axios from 'axios';
 
 function CreatePackage() {
     const [formData, setFormData] = useState({
-        packageName: '',
-        packageType: '',
-        material: '',
-        length: '',
-        width: '',
-        height: ''
+        PackageName: '',
+        PackageType: '',
+        PackageDescription: '',  
+        Material: '',
+        Length: '',
+        Width: '',
+        Height: ''
     });
 
     const [errors, setErrors] = useState({});
@@ -24,37 +25,53 @@ function CreatePackage() {
     const validate = () => {
         const newErrors = {};
 
-        if (!formData.packageName) newErrors.packageName = "Package name is required.";
-        if (!formData.packageType) newErrors.packageType = "Package type is required.";
-        if (!formData.material) newErrors.material = "Material is required.";
+        if (!formData.PackageName) newErrors.PackageName = "Package name is required.";
+        if (!formData.PackageType) newErrors.PackageType = "Package type is required.";
+        if (!formData.PackageDescription) newErrors.PackageDescription = "Package description is required.";
+        if (!formData.Material) newErrors.Material = "Material is required.";
 
-        if (!formData.length) {
-            newErrors.length = "Length is required.";
-        } else if (formData.length <= 0) {
-            newErrors.length = "Length must be greater than zero.";
+        if (!formData.Length) {
+            newErrors.Length = "Length is required.";
+        } else if (formData.Length <= 0) {
+            newErrors.Length = "Length must be greater than zero.";
         }
 
-        if (!formData.width) {
-            newErrors.width = "Width is required.";
-        } else if (formData.width <= 0) {
-            newErrors.width = "Width must be greater than zero.";
+        if (!formData.Width) {
+            newErrors.Width = "Width is required.";
+        } else if (formData.Width <= 0) {
+            newErrors.Width = "Width must be greater than zero.";
         }
 
-        if (!formData.height) {
-            newErrors.height = "Height is required.";
-        } else if (formData.height <= 0) {
-            newErrors.height = "Height must be greater than zero.";
+        if (!formData.Height) {
+            newErrors.Height = "Height is required.";
+        } else if (formData.Height <= 0) {
+            newErrors.Height = "Height must be greater than zero.";
         }
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        return Object.keys(newErrors).length === 0;  // Corrected from "Length" to "length"
     };
 
-    const handleSubmit = (e) => {
+    const sendData = (e) => {
         e.preventDefault();
+
         if (validate()) {
-            console.log('Form Data:', formData);
-            // Process the formData here
+            const newPackage = {
+                PackageName: formData.PackageName,
+                PackageType: formData.PackageType,
+                PackageDescription: formData.PackageDescription,
+                Material: formData.Material,
+                Length: formData.Length,
+                Width: formData.Width,
+                Height: formData.Height
+            };
+
+            axios.post('http://localhost:8070/package/create', newPackage).then(() => {
+                alert("Package added");
+                window.location.reload();
+            }).catch((err) => {
+                alert(err);
+            });
         }
     };
 
@@ -110,110 +127,98 @@ function CreatePackage() {
         cursor: 'pointer'
     };
 
-    const buttonHoverStyle = {
-        ...buttonStyle,
-        backgroundColor: '#0056b3',
-    };
-
-    //function for after submit button
-    function sendData(e){
-        e.preventDefault();
-
-        const newPackage = {
-            packageName: formData.packageName,
-            packageType: formData.packageType,
-            material: formData.material,
-            length: formData.length,
-            width: formData.width,
-            height: formData.height
-        }
-        axios.post('http://localhost:8070/package/create', newPackage).then(() => {
-            alert("Package added");
-            window.location.reload();
-        }).catch((err) => {
-            alert(err);
-        })
-    }
-
     return (
         <form onSubmit={sendData} style={formStyle}>
             <div style={formGroupStyle}>
-                <label htmlFor="packageName" style={labelStyle}>Package Name:</label>
+                <label htmlFor="PackageName" style={labelStyle}>Package Name:</label>
                 <input
                     type="text"
-                    id="packageName"
-                    name="packageName"
-                    value={formData.packageName}
+                    id="PackageName"
+                    name="PackageName"
+                    value={formData.PackageName}
                     onChange={handleChange}
                     style={inputStyle}
                     required />
-                {errors.packageName && <div style={errorStyle}>{errors.packageName}</div>}
+                {errors.PackageName && <div style={errorStyle}>{errors.PackageName}</div>}
             </div>
 
             <div style={formGroupStyle}>
-                <label htmlFor="packageType" style={labelStyle}>Package Type:</label>
+                <label htmlFor="PackageType" style={labelStyle}>Package Type:</label>
                 <input
                     type="text"
-                    id="packageType"
-                    name="packageType"
-                    value={formData.packageType}
+                    id="PackageType"
+                    name="PackageType"
+                    value={formData.PackageType}
                     onChange={handleChange}
                     style={inputStyle}
                     required />
-                {errors.packageType && <div style={errorStyle}>{errors.packageType}</div>}
+                {errors.PackageType && <div style={errorStyle}>{errors.PackageType}</div>}
             </div>
 
             <div style={formGroupStyle}>
-                <label htmlFor="material" style={labelStyle}>Material:</label>
+                <label htmlFor="PackageDescription" style={labelStyle}>Package Description:</label>
                 <input
                     type="text"
-                    id="material"
-                    name="material"
-                    value={formData.material}
+                    id="PackageDescription"
+                    name="PackageDescription"
+                    value={formData.PackageDescription}
                     onChange={handleChange}
                     style={inputStyle}
                     required />
-                {errors.material && <div style={errorStyle}>{errors.material}</div>}
+                {errors.PackageDescription && <div style={errorStyle}>{errors.PackageDescription}</div>}
+            </div>
+
+            <div style={formGroupStyle}>
+                <label htmlFor="Material" style={labelStyle}>Material:</label>
+                <input
+                    type="text"
+                    id="Material"
+                    name="Material"
+                    value={formData.Material}
+                    onChange={handleChange}
+                    style={inputStyle}
+                    required />
+                {errors.Material && <div style={errorStyle}>{errors.Material}</div>}
             </div>
 
             <div style={formGroupStyle}>
                 <label style={labelStyle}>Dimensions:</label>
                 <div style={dimensionsStyle}>
                     <div style={dimensionInputStyle}>
-                        <label htmlFor="length" style={labelStyle}>Length:</label>
+                        <label htmlFor="Length" style={labelStyle}>Length:</label>
                         <input
                             type="number"
-                            id="length"
-                            name="length"
-                            value={formData.length}
+                            id="Length"
+                            name="Length"
+                            value={formData.Length}
                             onChange={handleChange}
                             style={inputStyle}
                             required />
-                        {errors.length && <div style={errorStyle}>{errors.length}</div>}
+                        {errors.Length && <div style={errorStyle}>{errors.Length}</div>}
                     </div>
                     <div style={dimensionInputStyle}>
-                        <label htmlFor="width" style={labelStyle}>Width:</label>
+                        <label htmlFor="Width" style={labelStyle}>Width:</label>
                         <input
                             type="number"
-                            id="width"
-                            name="width"
-                            value={formData.width}
+                            id="Width"
+                            name="Width"
+                            value={formData.Width}
                             onChange={handleChange}
                             style={inputStyle}
                             required />
-                        {errors.width && <div style={errorStyle}>{errors.width}</div>}
+                        {errors.Width && <div style={errorStyle}>{errors.Width}</div>}
                     </div>
                     <div style={dimensionInputStyle}>
-                        <label htmlFor="height" style={labelStyle}>Height:</label>
+                        <label htmlFor="Height" style={labelStyle}>Height:</label>
                         <input
                             type="number"
-                            id="height"
-                            name="height"
-                            value={formData.height}
+                            id="Height"
+                            name="Height"
+                            value={formData.Height}
                             onChange={handleChange}
                             style={inputStyle}
                             required />
-                        {errors.height && <div style={errorStyle}>{errors.height}</div>}
+                        {errors.Height && <div style={errorStyle}>{errors.Height}</div>}
                     </div>
                 </div>
             </div>
@@ -221,8 +226,6 @@ function CreatePackage() {
             <button
                 type="submit"
                 style={buttonStyle}
-                onMouseOver={e => e.currentTarget.style.backgroundColor = '#0056b3'}
-                onMouseOut={e => e.currentTarget.style.backgroundColor = '#007bff'}
             >
                 Submit
             </button>
