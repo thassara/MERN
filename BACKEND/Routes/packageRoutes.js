@@ -1,88 +1,29 @@
-const router = require('express').Router();
-let Package = require('../Models/Package');
+const router = require('express').Router(); // Import express router
+const packageController = require('../controllers/packageController'); // Import the package controller
 
-router.route('/create').post((req, res) => {
-    
-    const PackageName = req.body.PackageName;
-    const PackageType = req.body.PackageType;
-    const PackageDescription = req.body.PackageDescription;
-    const Material = req.body.Material;
-    const Length = Number(req.body.Length);
-    const Width = Number(req.body.Width);
-    const Height = Number(req.body.Height);
+// Route to create a new package
+// POST /create
+// Calls the 'createPackage' method from the controller
+router.post('/create', packageController.createPackage);
 
-    const newPackage = new Package({
-        PackageName,
-        PackageType,
-        PackageDescription,
-        Material,
-        Length,
-        Width,
-        Height
-        
-    });
+// Route to get all packages
+// GET /
+// Calls the 'getAllPackages' method from the controller
+router.get('/', packageController.getAllPackages);
 
-    newPackage.save().then(() => {
-        res.json("Package Added");
-    }).catch((err) => {
-        console.log(err);
-    });
-});
+// Route to update an existing package by ID
+// PUT /update/:package_id
+// Calls the 'updatePackage' method from the controller
+router.put('/update/:package_id', packageController.updatePackage);
 
-router.route('/').get((req, res) => {
+// Route to delete a package by ID
+// DELETE /delete/:package_id
+// Calls the 'deletePackage' method from the controller
+router.delete('/delete/:package_id', packageController.deletePackage);
 
-    Package.find().then((packages) => {
-        res.json(packages);
-    }).catch((err) => {
-        console.log(err);
-    });
-});
+// Route to get a package by ID
+// GET /get/:package_id
+// Calls the 'getPackageById' method from the controller
+router.get('/get/:package_id', packageController.getPackageById);
 
-router.route('/update/:package_id').put(async (req, res) => {
-    let packageID = req.params.package_id;
-    const { PackageName, PackageType, PackageDescription, Material, Length, Width, Height } = req.body;
-
-    const updatePackage = {
-        
-        PackageName,
-        PackageType,
-        PackageDescription,
-        Material,
-        Length,
-        Width,
-        Height
-    };
-
-    const update = await Package.findByIdAndUpdate(packageID, updatePackage).then(() => {
-        res.status(200).send({ status: "Package Updated" });
-    }).catch((err) => {
-        console.log(err);
-        res.status(500).send({ status: "Error with updating data" });
-    });
-});
-
-router.route('/delete/:package_id').delete(async (req, res) => {
-    let packageID = req.params.package_id;
-
-    await Package.findByIdAndDelete(packageID).then(() => {
-        res.status(200).send({ status: "Package Deleted" });
-    }).catch((err) => {
-        console.log(err.message);
-        res.status(500).send({ status: "Error with delete package", error: err.message });
-    });
-});
-
-router.route('/get/:package_id').get(async (req, res) => {
-    let packageID = req.params.package_id;
-    const package = await Package.findById(packageID).then((package) => {
-        res.status(200).send({ status: "Package Fetched", package });
-    }).catch((err) => {
-        console.log(err.message);
-        res.status(500).send({ status: "Error with get package", error: err.message });
-    });
-
-    
-});
-
-
-module.exports = router;
+module.exports = router; // Export the router for use in the main application

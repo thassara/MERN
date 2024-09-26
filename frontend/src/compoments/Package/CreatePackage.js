@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Breadcrumb from './Breadcrumb'; // Import the Breadcrumb component
 
 function CreatePackage() {
     const [formData, setFormData] = useState({
@@ -49,7 +50,7 @@ function CreatePackage() {
         }
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;  // Corrected from "Length" to "length"
+        return Object.keys(newErrors).length === 0; 
     };
 
     const sendData = (e) => {
@@ -128,108 +129,111 @@ function CreatePackage() {
     };
 
     return (
-        <form onSubmit={sendData} style={formStyle}>
-            <div style={formGroupStyle}>
-                <label htmlFor="PackageName" style={labelStyle}>Package Name:</label>
-                <input
-                    type="text"
-                    id="PackageName"
-                    name="PackageName"
-                    value={formData.PackageName}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    required />
-                {errors.PackageName && <div style={errorStyle}>{errors.PackageName}</div>}
-            </div>
+        <div>
+            <Breadcrumb /> {/* Include the Breadcrumb component */}
+            <form onSubmit={sendData} style={formStyle}>
+                <div style={formGroupStyle}>
+                    <label htmlFor="PackageName" style={labelStyle}>Package Name:</label>
+                    <input
+                        type="text"
+                        id="PackageName"
+                        name="PackageName"
+                        value={formData.PackageName}
+                        onChange={handleChange}
+                        style={inputStyle}
+                        required />
+                    {errors.PackageName && <div style={errorStyle}>{errors.PackageName}</div>}
+                </div>
 
-            <div style={formGroupStyle}>
-                <label htmlFor="PackageType" style={labelStyle}>Package Type:</label>
-                <input
-                    type="text"
-                    id="PackageType"
-                    name="PackageType"
-                    value={formData.PackageType}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    required />
-                {errors.PackageType && <div style={errorStyle}>{errors.PackageType}</div>}
-            </div>
+                <div style={formGroupStyle}>
+                    <label htmlFor="PackageType" style={labelStyle}>Package Type:</label>
+                    <input
+                        type="text"
+                        id="PackageType"
+                        name="PackageType"
+                        value={formData.PackageType}
+                        onChange={handleChange}
+                        style={inputStyle}
+                        required />
+                    {errors.PackageType && <div style={errorStyle}>{errors.PackageType}</div>}
+                </div>
 
-            <div style={formGroupStyle}>
-                <label htmlFor="PackageDescription" style={labelStyle}>Package Description:</label>
-                <input
-                    type="text"
-                    id="PackageDescription"
-                    name="PackageDescription"
-                    value={formData.PackageDescription}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    required />
-                {errors.PackageDescription && <div style={errorStyle}>{errors.PackageDescription}</div>}
-            </div>
+                <div style={formGroupStyle}>
+                    <label htmlFor="PackageDescription" style={labelStyle}>Package Description:</label>
+                    <input
+                        type="text"
+                        id="PackageDescription"
+                        name="PackageDescription"
+                        value={formData.PackageDescription}
+                        onChange={handleChange}
+                        style={inputStyle}
+                        required />
+                    {errors.PackageDescription && <div style={errorStyle}>{errors.PackageDescription}</div>}
+                </div>
 
-            <div style={formGroupStyle}>
-                <label htmlFor="Material" style={labelStyle}>Material:</label>
-                <input
-                    type="text"
-                    id="Material"
-                    name="Material"
-                    value={formData.Material}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    required />
-                {errors.Material && <div style={errorStyle}>{errors.Material}</div>}
-            </div>
+                <div style={formGroupStyle}>
+                    <label htmlFor="Material" style={labelStyle}>Material:</label>
+                    <input
+                        type="text"
+                        id="Material"
+                        name="Material"
+                        value={formData.Material}
+                        onChange={handleChange}
+                        style={inputStyle}
+                        required />
+                    {errors.Material && <div style={errorStyle}>{errors.Material}</div>}
+                </div>
 
-            <div style={formGroupStyle}>
-                <label style={labelStyle}>Dimensions:</label>
-                <div style={dimensionsStyle}>
-                    <div style={dimensionInputStyle}>
-                        <label htmlFor="Length" style={labelStyle}>Length:</label>
-                        <input
-                            type="number"
-                            id="Length"
-                            name="Length"
-                            value={formData.Length}
-                            onChange={handleChange}
-                            style={inputStyle}
-                            required />
-                        {errors.Length && <div style={errorStyle}>{errors.Length}</div>}
-                    </div>
-                    <div style={dimensionInputStyle}>
-                        <label htmlFor="Width" style={labelStyle}>Width:</label>
-                        <input
-                            type="number"
-                            id="Width"
-                            name="Width"
-                            value={formData.Width}
-                            onChange={handleChange}
-                            style={inputStyle}
-                            required />
-                        {errors.Width && <div style={errorStyle}>{errors.Width}</div>}
-                    </div>
-                    <div style={dimensionInputStyle}>
-                        <label htmlFor="Height" style={labelStyle}>Height:</label>
-                        <input
-                            type="number"
-                            id="Height"
-                            name="Height"
-                            value={formData.Height}
-                            onChange={handleChange}
-                            style={inputStyle}
-                            required />
-                        {errors.Height && <div style={errorStyle}>{errors.Height}</div>}
+                <div style={formGroupStyle}>
+                    <label style={labelStyle}>Dimensions:</label>
+                    <div style={dimensionsStyle}>
+                        <div style={dimensionInputStyle}>
+                            <label htmlFor="Length" style={labelStyle}>Length:</label>
+                            <input
+                                type="number"
+                                id="Length"
+                                name="Length"
+                                value={formData.Length}
+                                onChange={handleChange}
+                                style={inputStyle}
+                                required />
+                            {errors.Length && <div style={errorStyle}>{errors.Length}</div>}
+                        </div>
+                        <div style={dimensionInputStyle}>
+                            <label htmlFor="Width" style={labelStyle}>Width:</label>
+                            <input
+                                type="number"
+                                id="Width"
+                                name="Width"
+                                value={formData.Width}
+                                onChange={handleChange}
+                                style={inputStyle}
+                                required />
+                            {errors.Width && <div style={errorStyle}>{errors.Width}</div>}
+                        </div>
+                        <div style={dimensionInputStyle}>
+                            <label htmlFor="Height" style={labelStyle}>Height:</label>
+                            <input
+                                type="number"
+                                id="Height"
+                                name="Height"
+                                value={formData.Height}
+                                onChange={handleChange}
+                                style={inputStyle}
+                                required />
+                            {errors.Height && <div style={errorStyle}>{errors.Height}</div>}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <button
-                type="submit"
-                style={buttonStyle}
-            >
-                Submit
-            </button>
-        </form>
+                <button
+                    type="submit"
+                    style={buttonStyle}
+                >
+                    Submit
+                </button>
+            </form>
+        </div>
     );
 }
 
