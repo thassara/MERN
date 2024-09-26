@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; 
 import { useNavigate } from 'react-router-dom';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable'; // Importing the plugin for table in pdf
 
 const MachineManager = () => {
     const navigate = useNavigate();
@@ -46,26 +48,33 @@ const MachineManager = () => {
         navigate('/MachineDashBoardPage/Machine-Status', { state: { machineNames } });
     };
 
-    // Function to generate and download CSV
+    // Function to generate and download PDF
     const handleDownloadReport = () => {
-        const csvContent = [
-            ['Machine Name', 'Duration Time', 'Description', 'Quality Details'], // headers
-            ...filteredMachines.map(machine => [
+        const doc = new jsPDF();
+        doc.text('Machine Report', 14, 16);
+        
+        const tableColumn = ['Machine Name', 'Duration Time', 'Description', 'Quality Details'];
+        const tableRows = [];
+
+        filteredMachines.forEach(machine => {
+            const machineData = [
                 machine.machineName,
                 machine.durationTime,
                 machine.description,
                 machine.qualityDetails
-            ])
-        ].map(e => e.join(",")).join("\n");
+            ];
+            tableRows.push(machineData);
+        });
 
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'machines_report.csv'); // Set the file name
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        // Add table to PDF
+        doc.autoTable({
+            head: [tableColumn],
+            body: tableRows,
+            startY: 20,
+        });
+
+        // Save the PDF
+        doc.save('machines_report.pdf');
     };
 
     return (
@@ -79,7 +88,7 @@ const MachineManager = () => {
                 </button>
                 {/* Report Generator Button */}
                 <button onClick={handleDownloadReport} style={styles.reportButton}>
-                    Generate Report
+                    Generate PDF Report
                 </button>
             </div>
 

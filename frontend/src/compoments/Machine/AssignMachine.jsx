@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AssignMachine = () => {
-  // Initialize state from localStorage, or fallback to default if localStorage is empty
-  const [orderQueue, setOrderQueue] = useState({ orderId: '', priority: '' });
-  const [infoOrders, setInfoOrders] = useState(() => JSON.parse(localStorage.getItem('infoOrders')) || []);
-  const [machineAssign, setMachineAssign] = useState({ machineId: '', orderId: '' });
-  const [infoMachines, setInfoMachines] = useState(() => JSON.parse(localStorage.getItem('infoMachines')) || []);
+  const [orderQueue, setOrderQueue] = useState({ orderId: '', machineId: '' });
+  const [infoOrders, setInfoOrders] = useState([]);
+  const [loading, setLoading] = useState(false); // For loading state
 
-  // Persist orders and machines in localStorage whenever they are updated
+  // Fetch all orders on component mount
   useEffect(() => {
-    localStorage.setItem('infoOrders', JSON.stringify(infoOrders));
-  }, [infoOrders]);
+    const fetchOrders = async () => {
+      try {
+        setLoading(true); // Start loading
+        const response = await axios.get('http://localhost:8070/orderqueues/Allread');
+        setInfoOrders(response.data);
+        setLoading(false); // End loading
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+        setLoading(false); // End loading on error
+      }
+    };
+    fetchOrders();
+  }, []);
 
-  useEffect(() => {
-    localStorage.setItem('infoMachines', JSON.stringify(infoMachines));
-  }, [infoMachines]);
-
-  // Handle the input changes for the first form (Manage Order Queue)
+  // Handling form input changes
   const handleOrderInputChange = (e) => {
     setOrderQueue({
       ...orderQueue,
@@ -24,53 +30,54 @@ const AssignMachine = () => {
     });
   };
 
-  // Handle the input changes for the second form (Machine Assign)
-  const handleMachineInputChange = (e) => {
-    setMachineAssign({
-      ...machineAssign,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  // Handle the "Assign" button in the first form (Manage Order Queue)
-  const handleAssignOrder = () => {
-    if (orderQueue.orderId && orderQueue.priority) {
-      setInfoOrders([...infoOrders, orderQueue]);
-      setOrderQueue({ orderId: '', priority: '' }); // Clear input fields
+  // Assigning order to machine
+  const handleAssignOrder = async (e) => {
+    e.preventDefault();
+    if (orderQueue.orderId && orderQueue.machineId) {
+      const orderData = {
+        orderid: orderQueue.orderId, // Matching the backend schema field
+        machineid: orderQueue.machineId, // Matching the backend schema field
+      };
+      try {
+        setLoading(true); // Start loading
+        const response = await axios.post('http://localhost:8070/orderqueues/add', orderData); // Correct route
+        alert('Order assigned successfully!');
+        setInfoOrders([...infoOrders, response.data]); // Update the orders list
+        setOrderQueue({ orderId: '', machineId: '' });
+        setLoading(false); // End loading
+      } catch (error) {
+        console.error('Error assigning order:', error);
+        alert('Error assigning order.');
+        setLoading(false); // End loading on error
+      }
     }
   };
 
-  // Handle the "Assign" button in the second form (Machine Assign)
-  const handleAssignMachine = () => {
-    if (machineAssign.machineId && machineAssign.orderId) {
-      setInfoMachines([...infoMachines, machineAssign]);
-      setMachineAssign({ machineId: '', orderId: '' }); // Clear input fields
+  // Removing an order
+  const handleRemoveOrder = async (id, index) => {
+    try {
+      setLoading(true); // Start loading
+      await axios.delete(`http://localhost:8070/orderqueues/delete/${id}`);
+      alert('Order removed successfully!');
+      const updatedOrders = [...infoOrders];
+      updatedOrders.splice(index, 1); // Remove the deleted order from the list
+      setInfoOrders(updatedOrders); // Update the orders list
+      setLoading(false); // End loading
+    } catch (error) {
+      console.error('Error removing order:', error);
+      alert('Error removing order.');
+      setLoading(false); // End loading on error
     }
-  };
-
-  // Handle the "Remove" button in the first "INFO" section
-  const handleRemoveOrder = (index) => {
-    const updatedOrders = [...infoOrders];
-    updatedOrders.splice(index, 1); // Remove the selected order
-    setInfoOrders(updatedOrders);
-  };
-
-  // Handle the "Remove" button in the second "INFO" section
-  const handleRemoveMachine = (index) => {
-    const updatedMachines = [...infoMachines];
-    updatedMachines.splice(index, 1); // Remove the selected machine assignment
-    setInfoMachines(updatedMachines);
   };
 
   return (
     <div style={styles.container}>
-      {/* Manage Order Queue Section */}
       <div style={styles.manageOrderQueue}>
-        <h2>Manage Order Queue</h2>
-        <div style={styles.box}>
+        <h2>Assign Machine to Order</h2>
+        <form onSubmit={handleAssignOrder} style={styles.box}>
           <div style={styles.details}>
             <div>
-              <strong>Order Id:</strong> 
+              <label>Order ID:</label>
               <input
                 type="text"
                 name="orderId"
@@ -80,77 +87,49 @@ const AssignMachine = () => {
               />
             </div>
             <div>
-              <strong>Priority:</strong>
+              <label>Machine ID:</label>
               <input
                 type="text"
-                name="priority"
-                value={orderQueue.priority}
+                name="machineId"
+                value={orderQueue.machineId}
                 onChange={handleOrderInputChange}
                 style={styles.inputField}
               />
             </div>
           </div>
-          <button onClick={handleAssignOrder} style={styles.assignButton}>Assign</button>
-        </div>
+          <button type="submit" style={styles.assignButton} disabled={loading}>
+            {loading ? 'Assigning...' : 'Assign'}
+          </button>
+        </form>
       </div>
 
-      {/* Info Section for Orders */}
       <div style={styles.infoSection}>
-        <h2>INFO</h2>
-        {infoOrders.map((order, index) => (
-          <div key={index} style={styles.infoBox}>
-            <div><strong>Order ID:</strong> {order.orderId}</div>
-            <div><strong>Priority:</strong> {order.priority}</div>
-            <button onClick={() => handleRemoveOrder(index)} style={styles.removeButton}>Remove</button>
-          </div>
-        ))}
-      </div>
-
-      {/* Machine Assign Section */}
-      <div style={styles.machineAssign}>
-        <h2>Machine Assign</h2>
-        <div style={styles.box}>
-          <div style={styles.details}>
-            <div>
-              <strong>Machine Id:</strong>
-              <input
-                type="text"
-                name="machineId"
-                value={machineAssign.machineId}
-                onChange={handleMachineInputChange}
-                style={styles.inputField}
-              />
+        <h2>Assigned Orders</h2>
+        {loading ? (
+          <p>Loading orders...</p>
+        ) : infoOrders.length === 0 ? (
+          <p>No orders assigned yet.</p>
+        ) : (
+          infoOrders.map((order, index) => (
+            <div key={order._id} style={styles.infoBox}>
+              <div>
+                <strong>Order ID:</strong> {order.orderid}
+              </div>
+              <div>
+                <strong>Machine ID:</strong> {order.machineid}
+              </div>
+              <button onClick={() => handleRemoveOrder(order._id, index)} style={styles.removeButton} disabled={loading}>
+                {loading ? 'Removing...' : 'Remove'}
+              </button>
             </div>
-            <div>
-              <strong>Order Id:</strong>
-              <input
-                type="text"
-                name="orderId"
-                value={machineAssign.orderId}
-                onChange={handleMachineInputChange}
-                style={styles.inputField}
-              />
-            </div>
-          </div>
-          <button onClick={handleAssignMachine} style={styles.assignButton}>Assign</button>
-        </div>
-      </div>
-
-      {/* Info Section for Machines */}
-      <div style={styles.infoSection}>
-        <h2>INFO</h2>
-        {infoMachines.map((machine, index) => (
-          <div key={index} style={styles.infoBox}>
-            <div><strong>Machine ID:</strong> {machine.machineId}</div>
-            <div><strong>Order ID:</strong> {machine.orderId}</div>
-            <button onClick={() => handleRemoveMachine(index)} style={styles.removeButton}>Remove</button>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
 };
 
+// Inline styles for the component
 const styles = {
   container: {
     display: 'flex',
@@ -159,13 +138,6 @@ const styles = {
     padding: '20px',
   },
   manageOrderQueue: {
-    flexBasis: '45%',
-    backgroundColor: '#e0e0e0',
-    padding: '20px',
-    borderRadius: '10px',
-    marginBottom: '20px',
-  },
-  machineAssign: {
     flexBasis: '45%',
     backgroundColor: '#e0e0e0',
     padding: '20px',
@@ -225,4 +197,5 @@ const styles = {
     width: '100%',
   },
 };
+
 export default AssignMachine;

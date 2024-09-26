@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios'; 
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 
 const MachineAdd = () => {
@@ -7,38 +7,68 @@ const MachineAdd = () => {
     const [durationTime, setDurationTime] = useState('');
     const [description, setDescription] = useState('');
     const [qualityDetails, setQualityDetails] = useState('');
+    const [errors, setErrors] = useState({});
 
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+
+    // Regex to match symbols
+    const symbolRegex = /[^a-zA-Z0-9\s]/;
+
+    // Function to validate form fields
+    const validateFields = () => {
+        const validationErrors = {};
+
+        if (symbolRegex.test(machineName)) {
+            validationErrors.machineName = 'Symbols are not allowed in Machine Name.';
+        }
+        if (symbolRegex.test(description)) {
+            validationErrors.description = 'Symbols are not allowed in Description.';
+        }
+        if (symbolRegex.test(qualityDetails)) {
+            validationErrors.qualityDetails = 'Symbols are not allowed in Quality Details.';
+        }
+        if (!durationTime || isNaN(durationTime) || durationTime <= 0) {
+            validationErrors.durationTime = 'Please enter a valid duration time in hours.';
+        }
+
+        return validationErrors;
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const validationErrors = validateFields();
 
-        const machineData = {
-            machineName,
-            durationTime,
-            description,
-            qualityDetails,
-        };
+        if (Object.keys(validationErrors).length === 0) {
+            const machineData = {
+                machineName,
+                durationTime,
+                description,
+                qualityDetails,
+            };
 
-        try {
-            const response = await axios.post('http://localhost:8070/machines/add', machineData);
-            alert('Machine added successfully:', response.data);
+            try {
+                const response = await axios.post('http://localhost:8070/machines/add', machineData);
+                alert('Machine added successfully:', response.data);
 
-            // Clear form
-            setMachineName('');
-            setDurationTime('');
-            setDescription('');
-            setQualityDetails('');
+                // Clear form
+                setMachineName('');
+                setDurationTime('');
+                setDescription('');
+                setQualityDetails('');
 
-            // Redirect to MachineManager page after adding the machine
-            navigate('/MachineDashBoardPage');
-        } catch (error) {
-            console.error('Error adding machine:', error);
+                // Redirect to MachineManager page after adding the machine
+                navigate('/MachineDashBoardPage');
+            } catch (error) {
+                console.error('Error adding machine:', error);
+            }
+        } else {
+            setErrors(validationErrors);
         }
     };
 
     return (
-        <div style={styles.formContainer}>
+        <div style={styles.formContainer }>
+         
             <form onSubmit={handleSubmit}>
                 <h2 style={styles.heading}>Add Machine</h2>
                 <label htmlFor="machine-name" style={styles.label}>Machine Name:</label>
@@ -52,6 +82,7 @@ const MachineAdd = () => {
                     required
                     style={styles.input}
                 />
+                {errors.machineName && <p style={styles.error}>{errors.machineName}</p>}
 
                 <label htmlFor="duration-time" style={styles.label}>Duration Time (in hours):</label>
                 <input
@@ -64,6 +95,7 @@ const MachineAdd = () => {
                     required
                     style={styles.input}
                 />
+                {errors.durationTime && <p style={styles.error}>{errors.durationTime}</p>}
 
                 <label htmlFor="description" style={styles.label}>Description:</label>
                 <textarea
@@ -77,6 +109,7 @@ const MachineAdd = () => {
                     required
                     style={styles.textarea}
                 ></textarea>
+                {errors.description && <p style={styles.error}>{errors.description}</p>}
 
                 <label htmlFor="quality-details" style={styles.label}>Quality Details:</label>
                 <textarea
@@ -90,20 +123,18 @@ const MachineAdd = () => {
                     required
                     style={styles.textarea}
                 ></textarea>
+                {errors.qualityDetails && <p style={styles.error}>{errors.qualityDetails}</p>}
+
                 {/* Submit button */}
                 <button type="submit" style={styles.button}>Add Machine</button>
-                
-               
-               
-
-                {/* <button type="submit" style={styles.button}>Add Machine</button> */}
-                {/* <button onClick={() => handleNavigatee('/add-machine/MachineDashBoardPage')}style={styles.button}>Add Machine</button> */}
             </form>
         </div>
     );
 };
+
 const styles = {
-    formContainer: {
+  
+  formContainer: {
         backgroundColor: '#ffffff',
         padding: '20px 40px',
         borderRadius: '10px',
@@ -150,8 +181,14 @@ const styles = {
     },
     buttonHover: {
         backgroundColor: '#0056b3'
+    },
+    error: {
+        color: 'red',
+        fontSize: '12px',
+        marginBottom: '10px',
     }
 };
 
-
 export default MachineAdd;
+
+

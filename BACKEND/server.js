@@ -33,7 +33,7 @@ app.use("/student",studentRouter);
 
 
 app.use("/machines",machine_Routes);
-app.use("/orders",orderqueue_Routes);
+app.use("/orderqueues",orderqueue_Routes);
 
 
 app.listen(PORT, () => {

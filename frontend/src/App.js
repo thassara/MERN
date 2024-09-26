@@ -19,27 +19,18 @@ import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
 import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
 import Or_add from './compoments/Order/AddForm';
 import Or_Confirm from './compoments/Order/Or_confirm';
-import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
-<<<<<<< Updated upstream
-import Regi from './compoments/Regi';
-import Update from './compoments/Update';
-import Read from './compoments/Read';
-import Add from './compoments/Order/AddForm';
-import Machineadd from './compoments/Machine/machineadd';
-import MachineManager from './compoments/Machine/MachineManager';
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-=======
-
-// import Regi from './components/Regi';
-// import Update from './components/Update';
 // import Read from './components/Read';
 import MachineAdd from './compoments/Machine/machineadd';
 import MachineManager from './compoments/Machine/MachineManager';
 import UpdateMachine from './compoments/Machine/UpdateMachine';
 import MachineStatus from './compoments/Machine/MachineStatus';
 import AssignMachine from './compoments/Machine/AssignMachine';
+import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 
->>>>>>> Stashed changes
+// import Regi from './components/Regi';
+// import Update from './components/Update';
+
+
 
 function App() {
   return (
@@ -47,32 +38,6 @@ function App() {
       <div>
         <Header />
         <Routes>
-<<<<<<< Updated upstream
-        <Route path="/" element={<Intro/>} />
-        <Route path="/*" element={<Outlet/>}/>
-        <Route path="/CustomerLogin" element={<CustomerLogin/>}/> 
-        <Route path="/CustomerProfilePage" element={<CustomerProfilePage/>}/>
-        <Route path="/AdminLogin" element={<AdminLogin/>}/> 
-        <Route path="/GMChoose" element={<GMChoose/>}/>
-        <Route path="/DMChoose" element={<DMChoose/>}/>  
-        <Route path="/PMChoose" element={<PMChoose/>}/> 
-        <Route path="/CustomerDashBoardPage" element={<CustomerDashBoardPage/>}/> 
-        <Route path="/StockDashBoardPage" element={<StockDashBoardPage/>}/> 
-        <Route path="/PackageDashBoardPage" element={<PackageDashBoardPage/>}/>
-        <Route path="/Or_add" element={<Or_add/>}/>
-        <Route path="/Or_Add/order-details" element={<Or_Confirm/>}/>
-        <Route path="/OrderDashBoardPage" element={<OrderDashBoardPage/>}/> 
-        <Route path="/PaymentDashBoardPage" element={<PaymentDashBoardPage/>}/> 
-        <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/>   
-        <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
-        <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
-        <Route path="/Regi" element={<Regi />} />
-        <Route path="/update" element={<Update />} />
-        <Route path="/read" element={<Read />} />
-        <Route path="/add" element={<Machineadd/>}/> 
-        <Route path="/add" element={<MachineManager/>}/> 
-        
-=======
           <Route path="/" element={<Intro />} />
           <Route path="/*" element={<Outlet />} />
           <Route path="/CustomerLogin" element={<CustomerLogin />} />
@@ -99,7 +64,6 @@ function App() {
           <Route path="/MachineDashBoardPage/UpdateMachine" element={<UpdateMachine />} />
           <Route path="/MachineDashBoardPage/Machine-Status" element={<MachineStatus />} />
           <Route path="/MachineStatus/Assign-machine" element={<AssignMachine />} />
->>>>>>> Stashed changes
         </Routes>
         <Footer />
       </div>

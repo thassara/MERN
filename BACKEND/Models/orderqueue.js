@@ -7,10 +7,12 @@ const orderqueueSchema = new Schema({
         type : String,
         required : true
     },
-    priority:{
-        type: Number,
+    machineid:{
+        type: String,
         required : true
     }
+    
+
     
 
 
