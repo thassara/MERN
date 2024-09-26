@@ -12,14 +12,16 @@ import PMChoose from './compoments/PMChoose';
 import StockDashBoardPage from './pages/stock/StockDashBoardPage';
 import PackageDashBoardPage from './pages/package/PackageDashBoardPage';
 import OrderDashBoardPage from './pages/order/Or_Dashboard';
-import PaymentDashBoardPage from './pages/payment/PaymentDashBoardOne';
+import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage';
 import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage';
 import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage';
 import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
 import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
 import Or_add from './compoments/Order/AddForm';
 import Or_Confirm from './compoments/Order/Or_confirm';
-import PaymentAdd from './pages/payment/Addpaymentform'
+import Handlepayment from './pages/payment/Handlepayment';
+import Profile from './pages/payment/PMprofile';
+
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 
 function App() {
@@ -28,6 +30,8 @@ function App() {
       <div>
         <Header />
         <Routes>
+        <Route path="/PMprofile" element={<Profile />} />
+        <Route path="/Handlepayment" element={<Handlepayment />} />
         <Route path="/" element={<Intro/>} />
         <Route path="/*" element={<Outlet/>}/>
         <Route path="/CustomerLogin" element={<CustomerLogin/>}/> 
@@ -36,7 +40,6 @@ function App() {
         <Route path="/GMChoose" element={<GMChoose/>}/>
         <Route path="/DMChoose" element={<DMChoose/>}/>  
         <Route path="/PMChoose" element={<PMChoose/>}/> 
-        <Route path="/paymentdashboard/Paymentsadd" element={<PaymentAdd/>}/> 
         <Route path="/CustomerDashBoardPage" element={<CustomerDashBoardPage/>}/> 
         <Route path="/StockDashBoardPage" element={<StockDashBoardPage/>}/> 
         <Route path="/PackageDashBoardPage" element={<PackageDashBoardPage/>}/>
