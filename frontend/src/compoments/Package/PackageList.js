@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Breadcrumb from './Breadcrumb'; // Import the Breadcrumb component
+import SearchPackages from './SearchPackages'; // Import the SearchPackages component
 
 const PackageList = () => {
-    const [packages, setPackages] = useState([]); // State to hold packages
+    const [packages, setPackages] = useState([]); // State to hold all packages
+    const [filteredPackages, setFilteredPackages] = useState([]); // State to hold filtered packages
     const [error, setError] = useState(''); // State to hold error messages
 
     // Define an array of colors for the package cards
@@ -22,6 +24,7 @@ const PackageList = () => {
             try {
                 const response = await axios.get('http://localhost:8070/package'); // Adjust the URL based on your backend API
                 setPackages(response.data); // Set the packages state with the fetched data
+                setFilteredPackages(response.data); // Initialize filteredPackages to show all initially
             } catch (err) {
                 setError('Error fetching packages.'); // Handle error
                 console.error(err);
@@ -34,22 +37,33 @@ const PackageList = () => {
     // Function to handle deleting a package
     const deletePackage = async (id) => {
         try {
-            await axios.delete(`http://localhost:8070/package/delete/id`); // Adjust the URL based on your backend API
+            await axios.delete(`http://localhost:8070/package/delete/${id}`); // Adjust the URL based on your backend API
             setPackages(packages.filter(pkg => pkg._id !== id)); // Update the state to remove the deleted package
+            setFilteredPackages(filteredPackages.filter(pkg => pkg._id !== id)); // Update filtered packages
         } catch (err) {
             setError('Error deleting package.'); // Handle error
             console.error(err);
         }
-        //calling delete function creates an infinite loop
+    };
+
+    // Function to handle search/filtering
+    const handleSearch = (filteredPackages) => {
+        setFilteredPackages(filteredPackages); // Set the filtered packages to be displayed
     };
 
     return (
         <div>
             <Breadcrumb /> {/* Display the Breadcrumb component at the top */}
             <h1>Package List</h1>
+            
+            {/* Search and Material Filter Component */}
+            <SearchPackages packages={packages} onSearch={handleSearch} /> {/* Pass packages and search handler */}
+            
             {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if any */}
+            
+            {/* Display filtered packages */}
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-                {packages.map((pkg, index) => (
+                {filteredPackages.map((pkg, index) => (
                     <div key={pkg._id} style={{ ...cardStyle, backgroundColor: cardColors[index % cardColors.length] }}>
                         <h2>{pkg.PackageName}</h2>
                         <p>Type: {pkg.PackageType}</p>

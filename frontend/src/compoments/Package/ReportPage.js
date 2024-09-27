@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import Breadcrumb from "./Breadcrumb"; // Import the Breadcrumb component
+import SearchPackages from "./SearchPackages"; // Import the SearchPackages component
 
 const ReportPage = () => {
-    const [packages, setPackages] = useState([]); // State to hold packages
+    const [packages, setPackages] = useState([]); // State to hold all packages
+    const [filteredPackages, setFilteredPackages] = useState([]); // State to hold filtered packages
     const [error, setError] = useState(""); // State to hold error messages
-    const printRef = useRef(null); // Create a ref for the printable area
 
     // Fetch packages from backend API
     useEffect(() => {
@@ -13,6 +14,7 @@ const ReportPage = () => {
             try {
                 const response = await axios.get("http://localhost:8070/package"); // Adjust the URL based on your backend API
                 setPackages(response.data); // Set the packages state with the fetched data
+                setFilteredPackages(response.data); // Initially set filteredPackages to all packages
             } catch (err) {
                 setError("Error fetching packages."); // Handle error
                 console.error(err);
@@ -22,13 +24,7 @@ const ReportPage = () => {
         fetchPackages(); // Call the fetch function
     }, []); // Empty dependency array to run once on component mount
 
-    // Function to handle report generation
-    const generateReport = () => {
-        // Implement your report generation logic here, e.g., creating a PDF or CSV file
-        alert("Report generation functionality to be implemented.");
-    };
-
-    // Function to handle printing
+    // Function to handle printing of a single package
     const handlePrint = (pkg) => {
         const printContent = `
             <div>
@@ -61,8 +57,11 @@ const ReportPage = () => {
             <Breadcrumb /> {/* Display the Breadcrumb component at the top */}
             <h1>Package Report</h1>
             {error && <p style={{ color: "red" }}>{error}</p>} {/* Display error if any */}
+            
+            <SearchPackages packages={packages} onSearch={setFilteredPackages} /> {/* Use the search component */}
+
             <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-around" }}>
-                {packages.map((pkg) => (
+                {filteredPackages.map((pkg) => (
                     <div key={pkg._id} style={cardStyle}>
                         <h2>{pkg.PackageName}</h2>
                         <p>Type: {pkg.PackageType}</p>
@@ -75,7 +74,6 @@ const ReportPage = () => {
                     </div>
                 ))}
             </div>
-            
         </div>
     );
 };
@@ -95,16 +93,6 @@ const buttonContainerStyle = {
     display: "flex",
     justifyContent: "center",
     marginTop: "20px",
-};
-
-const generateButtonStyle = {
-    backgroundColor: "#28a745", // Green background for report generation button
-    color: "white",
-    border: "none",
-    borderRadius: "5px",
-    padding: "10px 15px",
-    cursor: "pointer",
-    transition: "background-color 0.3s",
 };
 
 const printButtonStyle = {
