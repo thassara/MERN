@@ -37,6 +37,7 @@ const PackageList = () => {
             await axios.delete(`http://localhost:8070/package/delete/${id}`);
             setPackages(packages.filter(pkg => pkg._id !== id));
             setFilteredPackages(filteredPackages.filter(pkg => pkg._id !== id));
+            
         } catch (err) {
             setError('Error deleting package.');
             console.error(err);
@@ -80,7 +81,19 @@ const PackageList = () => {
                                 onClick={() => setSelectedPackage(pkg)}> {/* Open modal for updating */}
                                 Update
                             </button>
-                            <button style={deleteButtonStyle} onClick={() => deletePackage(pkg._id)}>Delete</button>
+                            
+                            <button
+                                style={deleteButtonStyle}
+                                onClick={() => {
+                                    if (window.confirm('Are you sure you want to delete this package?')) {
+                                        deletePackage(pkg._id);
+                                    }
+                                }}
+                            >
+                                Delete
+                            </button>
+                            
+
                         </div>
                     </div>
                 ))}

@@ -32,11 +32,11 @@ const UpdatePackageModal = ({ selectedPackage, onClose, onUpdate }) => {
             Material: material,
             Length: length,
             Width: width,
-            Height: height
+            Height: height,
         };
 
         try {
-            await axios.put(`http://localhost:8070/package/update/${selectedPackage._id}`, updatedPackage); // Adjust the URL based on your backend
+            await axios.put(`http://localhost:8070/package/update/get/${selectedPackage._id}`, updatedPackage);
             onUpdate(updatedPackage); // Call the onUpdate function passed from parent
             onClose(); // Close the modal
         } catch (err) {
@@ -45,43 +45,45 @@ const UpdatePackageModal = ({ selectedPackage, onClose, onUpdate }) => {
     };
 
     return (
-        <div className="modal">
-            <div className="modal-content">
+        <div style={modalOverlayStyle}>
+            <div style={modalContentStyle}>
                 <h2>Update Package</h2>
-                <label>
+                <label style={labelStyle}>
                     Package Name:
                     <input
                         type="text"
                         value={packageName}
                         onChange={(e) => setPackageName(e.target.value)}
+                        style={inputStyle}
                     />
                 </label>
-                <label>
+                <label style={labelStyle}>
                     Package Type:
                     <select
                         value={packageType}
                         onChange={(e) => setPackageType(e.target.value)}
+                        style={inputStyle}
                     >
                         <option value="Bottle">Bottle</option>
                         <option value="Box">Box</option>
                         <option value="Bag">Bag</option>
                         <option value="Can">Can</option>
-
-                        {/* Add other options here */}
                     </select>
                 </label>
-                <label>
+                <label style={labelStyle}>
                     Package Description:
                     <textarea
                         value={packageDescription}
                         onChange={(e) => setPackageDescription(e.target.value)}
+                        style={inputStyle}
                     />
                 </label>
-                <label>
+                <label style={labelStyle}>
                     Material:
                     <select
                         value={material}
                         onChange={(e) => setMaterial(e.target.value)}
+                        style={inputStyle}
                     >
                         <option value="Glass">Glass</option>
                         <option value="Plastic">Plastic</option>
@@ -90,89 +92,98 @@ const UpdatePackageModal = ({ selectedPackage, onClose, onUpdate }) => {
                         <option value="Fabric">Fabric</option>
                         <option value="Paper">Paper</option>
                         <option value="Polythene">Polythene</option>
-                        {/* Can add other options as needed */}
                     </select>
                 </label>
-                <label>
+                <label style={labelStyle}>
                     Length:
                     <input
                         type="number"
                         value={length}
                         onChange={(e) => setLength(e.target.value)}
+                        style={inputStyle}
                     />
                 </label>
-                <label>
+                <label style={labelStyle}>
                     Width:
                     <input
                         type="number"
                         value={width}
                         onChange={(e) => setWidth(e.target.value)}
+                        style={inputStyle}
                     />
                 </label>
-                <label>
+                <label style={labelStyle}>
                     Height:
                     <input
                         type="number"
                         value={height}
                         onChange={(e) => setHeight(e.target.value)}
+                        style={inputStyle}
                     />
                 </label>
-                <div className="modal-buttons">
-                    <button onClick={handleUpdate}>Save Changes</button>
-                    <button onClick={onClose}>Cancel</button>
+                <div style={buttonContainerStyle}>
+                    <button onClick={handleUpdate} style={buttonStyle}>Save Changes</button>
+                    <button onClick={onClose} style={buttonStyle}>Cancel</button>
                 </div>
             </div>
         </div>
     );
 };
 
-// Simple CSS styles for modal (adjust as per your design)
-const modalStyles = `
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+// Inline Styles
+const modalOverlayStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+};
 
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-}
+const modalContentStyle = {
+    backgroundColor: '#fff',
+    padding: '20px',
+    borderRadius: '10px',
+    width: '400px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '15px',
+};
 
-.modal-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
+const labelStyle = {
+    display: 'block',
+    marginBottom: '10px',
+    fontWeight: 'bold',
+};
 
-button {
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+const inputStyle = {
+    width: '100%',
+    padding: '8px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    marginTop: '5px',
+};
 
-button:hover {
-    opacity: 0.9;
-}
+const buttonContainerStyle = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: '20px',
+};
 
-button:focus {
-    outline: none;
-}
-`;
+const buttonStyle = {
+    padding: '10px 20px',
+    backgroundColor: '#007BFF',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+};
 
-// Inject modal styles into the document
-const styleSheet = document.createElement('style');
-styleSheet.type = 'text/css';
-styleSheet.innerText = modalStyles;
-document.head.appendChild(styleSheet);
+buttonStyle[':hover'] = {
+    opacity: '0.9',
+};
 
 export default UpdatePackageModal;
