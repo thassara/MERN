@@ -36,7 +36,7 @@ const UpdatePackageModal = ({ selectedPackage, onClose, onUpdate }) => {
         };
 
         try {
-            await axios.put(`http://localhost:8070/package/update/get/${selectedPackage._id}`, updatedPackage);
+            await axios.put(`http://localhost:8070/package/update/${selectedPackage._id}`, updatedPackage);
             onUpdate(updatedPackage); // Call the onUpdate function passed from parent
             onClose(); // Close the modal
         } catch (err) {

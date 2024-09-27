@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Breadcrumb from "./Breadcrumb"; // Import the Breadcrumb component
 import SearchPackages from "./SearchPackages"; // Import the SearchPackages component
@@ -69,7 +69,10 @@ const ReportPage = () => {
                         <p>Material: {pkg.Material}</p>
                         <p>Dimensions: {pkg.Length} x {pkg.Width} x {pkg.Height}</p>
                         <div style={buttonContainerStyle}>
-                            <button style={printButtonStyle} onClick={() => handlePrint(pkg)}>Print</button>
+                            <button style={printButtonStyle} onClick={() => handlePrint(pkg)}>
+                                <i className="bi bi-printer" style={{ marginRight: '5px' }}></i>
+                                Print
+                            </button>
                         </div>
                     </div>
                 ))}
