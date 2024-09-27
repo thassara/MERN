@@ -21,6 +21,8 @@ import Or_add from './compoments/Order/AddForm';
 import Or_Confirm from './compoments/Order/Or_confirm';
 import Handlepayment from './pages/payment/Handlepayment';
 import Profile from './pages/payment/PMprofile';
+import PaymentForm from './pages/payment/Addpaymentform';
+import CusDashboard from './pages/payment/CusDashboard';
 
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 
@@ -30,6 +32,8 @@ function App() {
       <div>
         <Header />
         <Routes>
+        <Route path="/CusDashboard" element={<CusDashboard />} />
+          <Route path="/Addpaymentform" element={<PaymentForm />} />
         <Route path="/PMprofile" element={<Profile />} />
         <Route path="/Handlepayment" element={<Handlepayment />} />
         <Route path="/" element={<Intro/>} />

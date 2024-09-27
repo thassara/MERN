@@ -18,6 +18,13 @@ const Sidebar = () => {
   const navigateTomanagerprofile = () => {
     navigate('/PMprofile'); // Use navigate instead of history.push
   }
+  const navigateAdminLoginpage = () => {
+    navigate('/AdminLogin'); // Use navigate instead of history.push
+  }
+
+  const navigateCusDashboard = () => {
+    navigate('/CusDashboard'); // Use navigate instead of history.push
+  }
 
   return (
     <div style={styles.sidebar}>
@@ -55,12 +62,18 @@ const Sidebar = () => {
         style={hoveredButton === 'logout' ? { ...styles.logoutButton, ...styles.logoutHover } : styles.logoutButton}
         onMouseEnter={() => handleMouseEnter('logout')}
         onMouseLeave={handleMouseLeave}
+        onClick={navigateAdminLoginpage}
       >
         LOGOUT
       </button>
       
       <button     onClick={navigateToaddpaymentform} >
       <p>paymentform</p>
+     
+      </button>
+
+      <button     onClick={navigateCusDashboard} >
+      <p>CusDashboard</p>
      
       </button>
       

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
 import UpdateExpenseForm from './ExpenseUpdateform';
 import Modal from './Modal';
 
@@ -19,7 +21,6 @@ const ExpenseList = () => {
     }
   };
 
-  //logic for calculating total expenses
   const calculateTotal = (expenses) => {
     const totalPrice = expenses.reduce((sum, expense) => sum + Number(expense.price), 0);
     setTotal(totalPrice);
@@ -28,8 +29,8 @@ const ExpenseList = () => {
   const handleUpdate = async (id, updatedData) => {
     try {
       await axios.put(`http://localhost:8070/expenses/update/${id}`, updatedData);
-      alert("Expenses update Successfully");
-      fetchExpenses(); // Refresh the list after updating
+      alert("Expense updated successfully");
+      fetchExpenses();
     } catch (error) {
       console.error('Error updating expense', error);
     }
@@ -38,8 +39,8 @@ const ExpenseList = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8070/expenses/delete/${id}`);
-      alert("Expenses delete Successfully");
-      fetchExpenses(); // Refresh the list after deleting
+      alert("Expense deleted successfully");
+      fetchExpenses();
     } catch (error) {
       console.error('Error deleting expense', error);
     }
@@ -55,13 +56,54 @@ const ExpenseList = () => {
     setCurrentExpense(null);
   };
 
+  const generatePDF = () => {
+    const doc = new jsPDF();
+
+    // Set title
+    doc.setFontSize(18);
+    doc.text('Expenses List', 14, 22);
+
+    // Define table columns
+    const columns = ['Item Name', 'Price (RS)'];
+
+    // Map expense data to rows for the table
+    const rows = expenses.map((expense) => [
+      expense.itemName,
+      expense.price,
+    ]);
+
+    // Add table to PDF
+    doc.autoTable({
+      head: [columns],
+      body: rows,
+      startY: 30, // start after the title
+      theme: 'grid',
+      headStyles: { fillColor: [0, 0, 0] }, // black header background
+      styles: { cellPadding: 3, fontSize: 12, halign: 'center' },
+    });
+
+    // Add total balance at the bottom
+    const finalY = doc.lastAutoTable.finalY + 10;
+    doc.setFontSize(14);
+    doc.text(`Total Balance RS: ${total} `, 14, finalY);
+
+    // Save the PDF
+    doc.save('expenses-list.pdf');
+  };
+
   useEffect(() => {
     fetchExpenses();
   }, []);
 
   return (
     <div style={styles.tableContainer}>
-      <h2 style={styles.heading}>Expenses List</h2>
+      <div style={styles.header}>
+        <h2 style={styles.heading}>Expenses List</h2>
+        <button onClick={generatePDF} style={styles.downloadButton}>
+          Download PDF
+        </button>
+      </div>
+
       <table style={styles.table}>
         <thead>
           <tr>
@@ -98,7 +140,6 @@ const ExpenseList = () => {
         </tfoot>
       </table>
 
-      {/* Modal for updating expense */}
       {isModalOpen && (
         <Modal isOpen={isModalOpen} onClose={closeModal}>
           {currentExpense && (
@@ -117,19 +158,23 @@ const ExpenseList = () => {
 const styles = {
   tableContainer: {
     width: '100%',
-    maxWidth: '800px', 
+    maxWidth: '800px',
     backgroundColor: '#fff',
-    padding: '40px', 
+    padding: '40px',
     borderRadius: '12px',
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
     margin: '20px auto',
   },
-  heading: {
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: '20px',
+  },
+  heading: {
     color: '#333',
     fontWeight: 'bold',
-    fontSize: '24px', 
-    textAlign: 'center',
+    fontSize: '24px',
   },
   table: {
     width: '100%',
@@ -154,31 +199,40 @@ const styles = {
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: '18px',
-    borderTop: '2px solid #4CAF50', 
-    backgroundColor: '#f9f9f9', 
+    borderTop: '2px solid #4CAF50',
+    backgroundColor: '#f9f9f9',
   },
   totalPriceCell: {
     padding: '15px',
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: '18px',
-    borderTop: '2px solid #4CAF50', 
-    backgroundColor: '#f9f9f9', 
+    borderTop: '2px solid #4CAF50',
+    backgroundColor: '#f9f9f9',
   },
   updateButton: {
     backgroundColor: '#2196F3',
     color: 'white',
-    padding: '12px 20px', 
+    padding: '12px 20px',
     border: 'none',
     borderRadius: '6px',
     cursor: 'pointer',
-    marginRight: '10px', 
+    marginRight: '10px',
     fontSize: '16px',
   },
   deleteButton: {
     backgroundColor: '#e74c3c',
     color: 'white',
-    padding: '12px 20px', 
+    padding: '12px 20px',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontSize: '16px',
+  },
+  downloadButton: {
+    backgroundColor: '#000',
+    color: 'white',
+    padding: '12px 20px',
     border: 'none',
     borderRadius: '6px',
     cursor: 'pointer',
