@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import 'bootstrap-icons/font/bootstrap-icons.css'; // Import Bootstrap Icons
 
 const Breadcrumb = () => {
     // Inline styles for the breadcrumb component
@@ -39,7 +40,7 @@ const Breadcrumb = () => {
     };
 
     const iconStyle = {
-        display: 'inline-block',
+        fontSize: '24px', // Adjust icon size as needed
     };
 
     const textStyle = {
@@ -67,7 +68,7 @@ const Breadcrumb = () => {
                         e.currentTarget.querySelector('.text').style.opacity = '0';
                     }}
                 >
-                    <span className="icon icon-home" style={iconStyle}></span>
+                    <i className="bi bi-house" style={iconStyle}></i> {/* Home Icon */}
                     <span className="text" style={textStyle}>Home</span>
                 </Link>
             </li>
@@ -90,7 +91,7 @@ const Breadcrumb = () => {
                         e.currentTarget.querySelector('.text').style.opacity = '0';
                     }}
                 >
-                    <span className="icon icon-create" style={iconStyle}></span>
+                    <i className="bi bi-file-earmark-plus" style={iconStyle}></i> {/* Create Icon */}
                     <span className="text" style={textStyle}>Create</span>
                 </Link>
             </li>
@@ -113,10 +114,11 @@ const Breadcrumb = () => {
                         e.currentTarget.querySelector('.text').style.opacity = '0';
                     }}
                 >
-                    <span className="icon icon-view" style={iconStyle}></span>
+                    <i className="bi bi-list-ul" style={iconStyle}></i> {/* View Icon */}
                     <span className="text" style={textStyle}>View</span>
                 </Link>
             </li>
+
             {/* Link to Generate Reports */}
             <li style={breadcrumbItemStyle}>
                 <Link 
@@ -135,7 +137,7 @@ const Breadcrumb = () => {
                         e.currentTarget.querySelector('.text').style.opacity = '0';
                     }}
                 >
-                    <span className="icon icon-report" style={iconStyle}></span>
+                    <i className="bi bi-file-earmark-bar-graph" style={iconStyle}></i> {/* Report Icon */}
                     <span className="text" style={textStyle}>Report</span>
                 </Link>
             </li>
@@ -158,12 +160,10 @@ const Breadcrumb = () => {
                         e.currentTarget.querySelector('.text').style.opacity = '0';
                     }}
                 >
-                    <span className="icon icon-search" style={iconStyle}></span>
+                    <i className="bi bi-search" style={iconStyle}></i> {/* Search Icon */}
                     <span className="text" style={textStyle}>Search</span>
                 </Link>
             </li>
-
-            
         </ul>
     );
 };
