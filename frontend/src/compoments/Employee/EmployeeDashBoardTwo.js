@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable'; // Importing jspdf-autotable for table generation
 
 function EmployeeDashBoardTwo() {
   const handleNavigate = useNavigate();
   const [employeeData, setEmployeeData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(''); // State to hold search term
+  const [searchTerm, setSearchTerm] = useState(''); // State to hold search id
   const [filteredData, setFilteredData] = useState([]); // State for filtered data
 
   useEffect(() => {
@@ -51,13 +52,29 @@ function EmployeeDashBoardTwo() {
     }
   };
 
+  // Function to generate the PDF report
   const generateReport = () => {
-    const worksheet = XLSX.utils.json_to_sheet(filteredData); // Generate report from filtered data
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Attendance Report');
+    const doc = new jsPDF();
+    const tableColumn = ["Employee ID", "Employee Name", "Work Date", "Work Hours", "OT Hours"]; // Define the table headers
+    const tableRows = [];
 
-    const fileName = `Attendance_Report_${new Date().toISOString().slice(0, 10)}.xlsx`;
-    XLSX.writeFile(workbook, fileName);
+    filteredData.forEach(record => {
+      const rowData = [
+        record.EmpID,
+        record.EmpName,
+        new Date(record.WorkDate).toLocaleDateString(),
+        record.WorkHours,
+        record.OTHours || 0
+      ];
+      tableRows.push(rowData);
+    });
+
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+    });
+
+    doc.save(`Attendance_Report_${new Date().toISOString().slice(0, 10)}.pdf`);
   };
 
   return (
@@ -150,7 +167,7 @@ function EmployeeDashBoardTwo() {
             onClick={generateReport}
             className="download-button"
           >
-            Download Report
+            Download PDF Report
           </button>
         </div>
         <div className="tableContainer">
