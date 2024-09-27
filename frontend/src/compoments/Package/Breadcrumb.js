@@ -120,7 +120,7 @@ const Breadcrumb = () => {
             {/* Link to Generate Reports */}
             <li style={breadcrumbItemStyle}>
                 <Link 
-                    to="/reports" 
+                    to="/reportGen" 
                     style={breadcrumbLinkStyle}
                     onMouseOver={(e) => {
                         e.currentTarget.style.width = '150px';

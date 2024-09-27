@@ -29,6 +29,7 @@ import AddEmployee from './compoments/Employee/AddEmployee'; // Importing Add Em
 // Package Section Imports
 import CreatePackage from './compoments/Package/CreatePackage'; // Import Create Package component
 import PackageList from './compoments/Package/PackageList'; // Import Package List component
+import ReportGen from './pages/package/ReportGen'; // Import Package Report Generation component
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
           <Route path="/create" element={<CreatePackage />} /> {/* Create Package */}
           <Route path="/packages" element={<PackageList />} /> {/* Display All Packages */}
           <Route path="/package-dashboard" element={<PackageDashBoardPage />} />
+          <Route path="/reportGen" element={<ReportGen/>} />
 
           
         </Routes>

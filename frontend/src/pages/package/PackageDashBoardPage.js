@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Breadcrumb from '../../compoments/Package/Breadcrumb'; // Import Breadcrumb component
 import { Link } from 'react-router-dom'; // Import Link component
+import ReportPage from '../../compoments/Package/ReportPage';
 
 const PackageDashBoardPage = () => {
     return (
@@ -14,37 +15,45 @@ const PackageDashBoardPage = () => {
                     <div className="col-md-4">
                         <div style={cardStyle}>
                             <h3>Total Packages</h3>
-                            <p>120</p>
+                            <p style={statsStyle}>120</p>
                         </div>
                     </div>
 
                     <div className="col-md-4">
                         <div style={cardStyle}>
                             <h3>New Orders</h3>
-                            <p>35</p>
+                            <p style={statsStyle}>35</p>
                         </div>
                     </div>
 
                     <div className="col-md-4">
                         <div style={cardStyle}>
                             <h3>Pending Approvals</h3>
-                            <p>15</p>
+                            <p style={statsStyle}>15</p>
                         </div>
                     </div>
                 </div>
 
                 <div className="row">
-                    {/* Action buttons */}
+                    {/* Action buttons with glowing effect */}
                     <div className="col-md-6">
                         <Link to="/create">
-                            <button style={actionButtonStyle}>
+                            <button
+                                style={{ ...actionButtonStyle, ...glowingEffect }}
+                                onMouseEnter={(e) => (e.target.style.boxShadow = glowHoverEffect)}
+                                onMouseLeave={(e) => (e.target.style.boxShadow = glowingEffect.boxShadow)}
+                            >
                                 Add New Package
                             </button>
                         </Link>
                     </div>
                     <div className="col-md-6">
-                        <Link to="/add-new-package">
-                            <button style={actionButtonStyle}>
+                        <Link to="/reportGen">
+                            <button
+                                style={{ ...actionButtonStyle, ...glowingEffect }}
+                                onMouseEnter={(e) => (e.target.style.boxShadow = glowHoverEffect)}
+                                onMouseLeave={(e) => (e.target.style.boxShadow = glowingEffect.boxShadow)}
+                            >
                                 View Reports
                             </button>
                         </Link>
@@ -75,11 +84,12 @@ const PackageDashBoardPage = () => {
                     </div>
                 </div>
             </div>
+
         </div>
     );
 };
 
-// Inline styles
+// Inline styles for the dashboard layout
 const containerStyle = {
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
@@ -90,6 +100,8 @@ const containerStyle = {
 const headingStyle = {
     textAlign: 'center',
     margin: '20px 0',
+    fontSize: '2rem',
+    color: '#343a40',
 };
 
 const cardStyle = {
@@ -99,6 +111,12 @@ const cardStyle = {
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
     margin: '20px 0',
     textAlign: 'center',
+};
+
+const statsStyle = {
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    color: '#007bff',
 };
 
 const actionButtonStyle = {
@@ -111,7 +129,13 @@ const actionButtonStyle = {
     cursor: 'pointer',
     width: '100%',
     margin: '10px 0',
-    transition: 'background-color 0.3s ease',
+    transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
 };
+
+const glowingEffect = {
+    boxShadow: '0 0 15px rgba(0, 123, 255, 0.5)',
+};
+
+const glowHoverEffect = '0 0 25px rgba(0, 123, 255, 0.8)';
 
 export default PackageDashBoardPage;
