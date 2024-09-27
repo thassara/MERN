@@ -2,65 +2,69 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Breadcrumb from './Breadcrumb'; // Import the Breadcrumb component
 import SearchPackages from './SearchPackages'; // Import the SearchPackages component
+import UpdatePackageModal from './UpdatePackageModal'; // Import the UpdatePackageModal component
 
 const PackageList = () => {
     const [packages, setPackages] = useState([]); // State to hold all packages
     const [filteredPackages, setFilteredPackages] = useState([]); // State to hold filtered packages
+    const [selectedPackage, setSelectedPackage] = useState(null); // State for the selected package to update
     const [error, setError] = useState(''); // State to hold error messages
 
     // Define an array of colors for the package cards
     const cardColors = [
-        '#f8f9fa', // Light grey
-        '#e9ecef', // Slightly darker grey
-        '#f1f3f5', // Even darker grey
-        '#fff3cd', // Light yellow
-        '#d4edda', // Light green
-        '#cce5ff', // Light blue
+        '#f8f9fa', '#e9ecef', '#f1f3f5', '#fff3cd', '#d4edda', '#cce5ff',
     ];
 
     // Fetch packages from backend API
     useEffect(() => {
         const fetchPackages = async () => {
             try {
-                const response = await axios.get('http://localhost:8070/package'); // Adjust the URL based on your backend API
-                setPackages(response.data); // Set the packages state with the fetched data
-                setFilteredPackages(response.data); // Initialize filteredPackages to show all initially
+                const response = await axios.get('http://localhost:8070/package');
+                setPackages(response.data);
+                setFilteredPackages(response.data);
             } catch (err) {
-                setError('Error fetching packages.'); // Handle error
+                setError('Error fetching packages.');
                 console.error(err);
             }
         };
 
-        fetchPackages(); // Call the fetch function
-    }, []); // Empty dependency array to run once on component mount
+        fetchPackages();
+    }, []);
 
     // Function to handle deleting a package
     const deletePackage = async (id) => {
         try {
-            await axios.delete(`http://localhost:8070/package/delete/${id}`); // Adjust the URL based on your backend API
-            setPackages(packages.filter(pkg => pkg._id !== id)); // Update the state to remove the deleted package
-            setFilteredPackages(filteredPackages.filter(pkg => pkg._id !== id)); // Update filtered packages
+            await axios.delete(`http://localhost:8070/package/delete/${id}`);
+            setPackages(packages.filter(pkg => pkg._id !== id));
+            setFilteredPackages(filteredPackages.filter(pkg => pkg._id !== id));
         } catch (err) {
-            setError('Error deleting package.'); // Handle error
+            setError('Error deleting package.');
             console.error(err);
         }
     };
 
     // Function to handle search/filtering
     const handleSearch = (filteredPackages) => {
-        setFilteredPackages(filteredPackages); // Set the filtered packages to be displayed
+        setFilteredPackages(filteredPackages);
+    };
+
+    // Function to handle updating a package
+    const handleUpdate = (updatedPackage) => {
+        setPackages(packages.map(pkg => (pkg._id === updatedPackage._id ? updatedPackage : pkg)));
+        setFilteredPackages(filteredPackages.map(pkg => (pkg._id === updatedPackage._id ? updatedPackage : pkg)));
+        setSelectedPackage(null); // Close the modal after updating
     };
 
     return (
         <div>
-            <Breadcrumb /> {/* Display the Breadcrumb component at the top */}
+            <Breadcrumb />
             <h1>Package List</h1>
-            
+
             {/* Search and Material Filter Component */}
-            <SearchPackages packages={packages} onSearch={handleSearch} /> {/* Pass packages and search handler */}
-            
-            {error && <p style={{ color: 'red' }}>{error}</p>} {/* Display error if any */}
-            
+            <SearchPackages packages={packages} onSearch={handleSearch} />
+
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+
             {/* Display filtered packages */}
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
                 {filteredPackages.map((pkg, index) => (
@@ -71,12 +75,25 @@ const PackageList = () => {
                         <p>Material: {pkg.Material}</p>
                         <p>Dimensions: {pkg.Length} x {pkg.Width} x {pkg.Height}</p>
                         <div style={buttonContainerStyle}>
-                            <button style={updateButtonStyle} onClick={() => alert(`Update package: ${pkg.PackageName}`)}>Update</button>
+                            <button
+                                style={updateButtonStyle}
+                                onClick={() => setSelectedPackage(pkg)}> {/* Open modal for updating */}
+                                Update
+                            </button>
                             <button style={deleteButtonStyle} onClick={() => deletePackage(pkg._id)}>Delete</button>
                         </div>
                     </div>
                 ))}
             </div>
+
+            {/* Conditionally render the update modal */}
+            {selectedPackage && (
+                <UpdatePackageModal
+                    pkg={selectedPackage}
+                    onClose={() => setSelectedPackage(null)}
+                    onUpdate={handleUpdate}
+                />
+            )}
         </div>
     );
 };
