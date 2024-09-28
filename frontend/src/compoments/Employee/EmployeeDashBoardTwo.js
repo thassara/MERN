@@ -93,7 +93,7 @@ function EmployeeDashBoardTwo() {
            }
 
            .tableContainer {
-              max-height: 265px; /* Adjust this value as needed */
+              max-height: 265px; 
               overflow-y: auto;
               margin-top: 20px;
            }
@@ -127,23 +127,23 @@ function EmployeeDashBoardTwo() {
            }
 
            .spaced-buttons {
-              margin-right: 5px; /* Space between buttons */
-              margin-bottom: 5px; /* Margin below each button */
+              margin-right: 5px;
+              margin-bottom: 5px;
            }
 
            input[type="text"] {
               padding: 5px;
-              border-radius: 5px; /* Rounded corners for search bar */
+              border-radius: 5px;
               border: 1px solid #ccc;
            }
 
            .download-button {
               padding: 10px 20px;
               margin-left: 10px;
-              background-color: #031f42;
+              background-color: #0091c7;
               color: white;
               border: none;
-              border-radius: 5px; /* Rounded corners for Download button */
+              border-radius: 5px; 
               cursor: pointer;
            }
 
@@ -193,12 +193,14 @@ function EmployeeDashBoardTwo() {
                   <td>
                     <button
                       className="buttonX spaced-buttons"
+                      style={{ backgroundColor: '#f7c600', color: 'white' }}
                       onClick={() => handleNavigate(`/EditAttendance?AttID=${record.AttID}&EmpID=${record.EmpID}&EmpName=${encodeURIComponent(record.EmpName)}&WorkDate=${record.WorkDate}&WorkHours=${record.WorkHours}&OTHours=${record.OTHours}`)}
                     >
                       Update
                     </button>
                     <button
                       className="buttonX spaced-buttons"
+                      style={{ backgroundColor: '#ea2c03', color: 'white' }}
                       onClick={() => handleDelete(record.AttID)}
                     >
                       Delete

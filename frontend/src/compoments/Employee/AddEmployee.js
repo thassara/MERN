@@ -133,6 +133,9 @@ function AddEmployee() {
             background-color: #007bff;
             color: white;
           }
+            .button.add {
+            background-color: #0F9D58;
+          }
 
           .button:hover {
             background-color: #0056b3;
@@ -258,7 +261,7 @@ function AddEmployee() {
             >
               Go Back
             </button>
-            <button className="button" type="submit">
+            <button className="button add" type="submit">
               Add Employee
             </button>
           </div>
