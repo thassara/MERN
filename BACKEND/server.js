@@ -4,6 +4,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
 require('dotenv').config();
+const stockRouter = require('./Routes/stockRoutes');
+const restockRouter = require('./Routes/restockRoutes');
+const assign_itemsRouter = require('./Routes/assign_itemsRoutes');
 
 const PORT = process.env.PORT||8070;
 
@@ -24,9 +27,11 @@ connection.once("open", () => {
     console.log("MongoDB Connection Success");
 });
 
-const studentRouter = require("./Routes/students.js");
-app.use("/student",studentRouter);
+
+app.use("/items", stockRouter);
+app.use("/restock", restockRouter);
+app.use("/assign_items", assign_itemsRouter);
 
 app.listen(PORT, () => {
-    console.log(`Server is up and running on Port numberbbgg: ${PORT}`);
+    console.log(`Server is up and running on port ${PORT}`);
 });
