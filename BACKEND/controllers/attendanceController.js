@@ -1,9 +1,10 @@
+
 const AttendanceProfile = require('../Models/Attendance');
 
 // Controller function to add a new attendance record
 exports.addAttendance = async (req, res) => {
   try {
-    const { EmpID, EmpName, WorkDate, WorkHours, OTHours } = req.body;
+    const { EmpID, EmpName, WorkDate, WorkHours, OTHours, EmpWage } = req.body; // Include EmpWage
 
     // Convert WorkDate to a numeric format (YYYYMMDD)
     const date = new Date(WorkDate);
@@ -17,6 +18,7 @@ exports.addAttendance = async (req, res) => {
     // Combine EmpID and dateStr to create AttID as a string
     const AttID = Number(`${EmpID}${dateStr}`); // Concatenate as strings, then convert to number
 
+    // Create a new attendance record with EmpWage included
     const newAttendance = new AttendanceProfile({
       AttID,
       EmpID,
@@ -24,6 +26,7 @@ exports.addAttendance = async (req, res) => {
       WorkDate,
       WorkHours,
       OTHours,
+      EmpWage, // Include EmpWage in the new record
     });
 
     await newAttendance.save();
@@ -33,6 +36,7 @@ exports.addAttendance = async (req, res) => {
     res.status(400).send('Error adding attendance: ' + error.message);
   }
 };
+
 
 // Controller function to retrieve all attendance records
 exports.getAllAttendance = async (req, res) => {

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const AddAttendance = ({ empID }) => {
   const navigate = useNavigate();
   const [empName, setEmpName] = useState('');
+  const [empWage, setEmpWage] = useState('');  // Added state for wage
   const [workHours, setWorkHours] = useState('');
   const [otHours, setOTHours] = useState('');
   const [error, setError] = useState('');
@@ -16,6 +17,7 @@ const AddAttendance = ({ empID }) => {
         if (response.ok) {
           const data = await response.json();
           setEmpName(data.EmpName);
+          setEmpWage(data.EmpWage);  // Set the wage from the fetched data
         } else {
           setError('Failed to fetch employee');
         }
@@ -59,6 +61,7 @@ const AddAttendance = ({ empID }) => {
       WorkDate: todayDate,
       WorkHours: Number(workHours),
       OTHours: Number(otHours),
+      EmpWage: empWage,  // Include wage in the new attendance object
     };
 
     try {
@@ -83,7 +86,7 @@ const AddAttendance = ({ empID }) => {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh',margin: '0 50px 0 50px' }}>
       <div className="AddAttendanceBox">
         <h2 style={{ textAlign: 'center' }}>Add Attendance</h2>
         <form onSubmit={handleSubmit}>
@@ -101,6 +104,15 @@ const AddAttendance = ({ empID }) => {
             <input
               type="text"
               value={empName}
+              readOnly
+              style={{ width: '100%', padding: '8px', margin: '10px 0', backgroundColor: '#e9e9e9' }}
+            />
+          </div>
+          <div>
+            <label>EmpWage:</label> {/* New Wage field */}
+            <input
+              type="text"
+              value={empWage}
               readOnly
               style={{ width: '100%', padding: '8px', margin: '10px 0', backgroundColor: '#e9e9e9' }}
             />

@@ -43,6 +43,11 @@ function AddEmployee() {
       newErrors.EmpPassKey = 'PassKey must be a 4-digit number';
     }
 
+    // Validate EmpWage (positive number)
+    if (formData.EmpWage === '' || formData.EmpWage <= 0) {
+      newErrors.EmpWage = 'Salary/Wage must be a positive number';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -133,7 +138,7 @@ function AddEmployee() {
             background-color: #007bff;
             color: white;
           }
-            .button.add {
+          .button.add {
             background-color: #0F9D58;
           }
 
@@ -228,6 +233,7 @@ function AddEmployee() {
               value={formData.EmpWage}
               onChange={handleChange}
             />
+            {errors.EmpWage && <div className="error">{errors.EmpWage}</div>}
           </div>
 
           <div className="form-group">
