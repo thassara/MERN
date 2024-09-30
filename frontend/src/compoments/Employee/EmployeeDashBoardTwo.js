@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable'; // Importing jspdf-autotable for table generation
 
 function EmployeeDashBoardTwo() {
   const handleNavigate = useNavigate();
   const [employeeData, setEmployeeData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState(''); // State to hold search term
+  const [searchTerm, setSearchTerm] = useState(''); // State to hold search id
   const [filteredData, setFilteredData] = useState([]); // State for filtered data
 
   useEffect(() => {
@@ -51,14 +52,47 @@ function EmployeeDashBoardTwo() {
     }
   };
 
+  // Function to generate the PDF report
   const generateReport = () => {
-    const worksheet = XLSX.utils.json_to_sheet(filteredData); // Generate report from filtered data
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Attendance Report');
-
-    const fileName = `Attendance_Report_${new Date().toISOString().slice(0, 10)}.xlsx`;
-    XLSX.writeFile(workbook, fileName);
+    const doc = new jsPDF();
+    const tableColumn = ["Employee ID", "Employee Name", "Work Date", "Work Hours", "OT Hours", "Wage", "Payment"]; // Add Payment column
+    const tableRows = [];
+    let grandTotalPayment = 0; // Initialize grand total payment
+  
+    filteredData.forEach(record => {
+      const workHoursPayment = record.WorkHours * record.EmpWage; // Calculate payment for Work Hours
+      const overtimePayment = (record.OTHours || 0) * record.EmpWage * 1.5; // Calculate payment for OT Hours
+      const totalPayment = workHoursPayment + overtimePayment; // Total payment
+  
+      const rowData = [
+        record.EmpID,
+        record.EmpName,
+        new Date(record.WorkDate).toLocaleDateString(),
+        record.WorkHours,
+        record.OTHours || 0,
+        record.EmpWage,
+        totalPayment.toFixed(2) // Include total payment in the report
+      ];
+      
+      tableRows.push(rowData);
+      grandTotalPayment += totalPayment; // Add to grand total payment
+    });
+  
+    doc.autoTable({
+      head: [tableColumn],
+      body: tableRows,
+    });
+  
+    // Add total payment row
+    doc.autoTable({
+      head: [['', '', '', '', '', 'Total Payment', grandTotalPayment.toFixed(2)]],
+      startY: doc.autoTable.previous.finalY + 10, // Position below the previous table
+      theme: 'plain', // Use plain theme for the total row
+    });
+  
+    doc.save(`Attendance_Report_${new Date().toISOString().slice(0, 10)}.pdf`);
   };
+  
 
   return (
     <div>
@@ -76,7 +110,7 @@ function EmployeeDashBoardTwo() {
            }
 
            .tableContainer {
-              max-height: 265px; /* Adjust this value as needed */
+              max-height: 265px; 
               overflow-y: auto;
               margin-top: 20px;
            }
@@ -110,23 +144,23 @@ function EmployeeDashBoardTwo() {
            }
 
            .spaced-buttons {
-              margin-right: 5px; /* Space between buttons */
-              margin-bottom: 5px; /* Margin below each button */
+              margin-right: 5px;
+              margin-bottom: 5px;
            }
 
            input[type="text"] {
               padding: 5px;
-              border-radius: 5px; /* Rounded corners for search bar */
+              border-radius: 5px;
               border: 1px solid #ccc;
            }
 
            .download-button {
               padding: 10px 20px;
               margin-left: 10px;
-              background-color: #031f42;
+              background-color: #0091c7;
               color: white;
               border: none;
-              border-radius: 5px; /* Rounded corners for Download button */
+              border-radius: 5px; 
               cursor: pointer;
            }
 
@@ -150,7 +184,7 @@ function EmployeeDashBoardTwo() {
             onClick={generateReport}
             className="download-button"
           >
-            Download Report
+            Download PDF Report
           </button>
         </div>
         <div className="tableContainer">
@@ -162,6 +196,7 @@ function EmployeeDashBoardTwo() {
                 <th>Work Date</th>
                 <th>Work Hours</th>
                 <th>OT Hours</th>
+                <th>Wage</th> {/* Add header for EmpWage */}
                 <th>Action</th>
               </tr>
             </thead>
@@ -173,15 +208,18 @@ function EmployeeDashBoardTwo() {
                   <td>{new Date(record.WorkDate).toLocaleDateString()}</td>
                   <td>{record.WorkHours}</td>
                   <td>{record.OTHours || 0}</td>
+                  <td>{record.EmpWage}</td> {/* Display EmpWage */}
                   <td>
                     <button
                       className="buttonX spaced-buttons"
+                      style={{ backgroundColor: '#f7c600', color: 'white' }}
                       onClick={() => handleNavigate(`/EditAttendance?AttID=${record.AttID}&EmpID=${record.EmpID}&EmpName=${encodeURIComponent(record.EmpName)}&WorkDate=${record.WorkDate}&WorkHours=${record.WorkHours}&OTHours=${record.OTHours}`)}
                     >
                       Update
                     </button>
                     <button
                       className="buttonX spaced-buttons"
+                      style={{ backgroundColor: '#ea2c03', color: 'white' }}
                       onClick={() => handleDelete(record.AttID)}
                     >
                       Delete

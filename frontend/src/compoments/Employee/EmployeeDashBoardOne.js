@@ -65,6 +65,15 @@ function EmployeeDashBoardOne() {
             padding: 4px 15px;
             margin: 0 5px;
           }
+          .buttonX.add {
+            background-color: #0091c7; 
+          }
+          .buttonX.edit {
+            background-color: #f7c600; 
+          }
+          .buttonX.del {
+            background-color: #ea2c03; 
+          }
           table {
             margin-top: 14px;
             width: 100%;
@@ -80,7 +89,7 @@ function EmployeeDashBoardOne() {
       <div className="tilesAdmin">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <h2>Manage Employees</h2>
-          <button className="buttonX" onClick={() => handleNavigate('/AddEmployee')}>Add Account</button>
+          <button className="buttonX add" onClick={() => handleNavigate('/AddEmployee')}>Add Account</button>
         </div>
         
         <table>
@@ -91,9 +100,9 @@ function EmployeeDashBoardOne() {
                 <td>{employee.EmpID}</td>
                 <td>{employee.EmpName}</td>
                 <td>
-                  <button className="buttonX" onClick={() => handleNavigate(`/EditEmployee/${employee.EmpID}`)}>Edit</button>
+                  <button className="buttonX edit" onClick={() => handleNavigate(`/EditEmployee/${employee.EmpID}`)}>Edit</button>
                 </td>
-                <td><button className="buttonX" onClick={() => handleDelete(employee.EmpID)}>Delete</button></td>
+                <td><button className="buttonX del" onClick={() => handleDelete(employee.EmpID)}>Delete</button></td>
               </tr>
             ))}
           </tbody>

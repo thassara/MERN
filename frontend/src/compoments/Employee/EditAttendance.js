@@ -129,7 +129,9 @@ function EditAttendance() {
             background-color: #007bff; /* Blue color */
             color: white;
           }
-
+          .button.submit {
+            background-color: #0F9D58;
+          }
           .button:hover {
             background-color: #0056b3;
           }
@@ -165,7 +167,7 @@ function EditAttendance() {
           </div>
           <div className="button-container">
             <button className="button" type="button" onClick={() => navigate('/EmployeeDashBoardPage')}>Go Back</button>
-            <button className="button" type="submit">Submit Changes</button>
+            <button className="button submit" type="submit">Submit Changes</button>
           </div>
         </form>
       </div>
