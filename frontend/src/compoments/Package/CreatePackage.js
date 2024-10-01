@@ -49,13 +49,17 @@ function CreatePackage() {
             newErrors.Height = "Height must be greater than zero.";
         }
 
+        // Set all errors at once
         setErrors(newErrors);
+
+        // Return if there are no errors
         return Object.keys(newErrors).length === 0; 
     };
 
     const sendData = (e) => {
         e.preventDefault();
 
+        // Run validation before submitting the form
         if (validate()) {
             const newPackage = {
                 PackageName: formData.PackageName,
@@ -141,7 +145,7 @@ function CreatePackage() {
                         value={formData.PackageName}
                         onChange={handleChange}
                         style={inputStyle}
-                        required />
+                    />
                     {errors.PackageName && <div style={errorStyle}>{errors.PackageName}</div>}
                 </div>
 
@@ -154,7 +158,7 @@ function CreatePackage() {
                         value={formData.PackageType}
                         onChange={handleChange}
                         style={inputStyle}
-                        required />
+                    />
                     {errors.PackageType && <div style={errorStyle}>{errors.PackageType}</div>}
                 </div>
 
@@ -167,7 +171,7 @@ function CreatePackage() {
                         value={formData.PackageDescription}
                         onChange={handleChange}
                         style={inputStyle}
-                        required />
+                    />
                     {errors.PackageDescription && <div style={errorStyle}>{errors.PackageDescription}</div>}
                 </div>
 
@@ -180,7 +184,7 @@ function CreatePackage() {
                         value={formData.Material}
                         onChange={handleChange}
                         style={inputStyle}
-                        required />
+                    />
                     {errors.Material && <div style={errorStyle}>{errors.Material}</div>}
                 </div>
 
@@ -196,7 +200,7 @@ function CreatePackage() {
                                 value={formData.Length}
                                 onChange={handleChange}
                                 style={inputStyle}
-                                required />
+                            />
                             {errors.Length && <div style={errorStyle}>{errors.Length}</div>}
                         </div>
                         <div style={dimensionInputStyle}>
@@ -208,7 +212,7 @@ function CreatePackage() {
                                 value={formData.Width}
                                 onChange={handleChange}
                                 style={inputStyle}
-                                required />
+                            />
                             {errors.Width && <div style={errorStyle}>{errors.Width}</div>}
                         </div>
                         <div style={dimensionInputStyle}>
@@ -220,7 +224,7 @@ function CreatePackage() {
                                 value={formData.Height}
                                 onChange={handleChange}
                                 style={inputStyle}
-                                required />
+                            />
                             {errors.Height && <div style={errorStyle}>{errors.Height}</div>}
                         </div>
                     </div>

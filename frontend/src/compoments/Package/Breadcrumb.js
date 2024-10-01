@@ -40,7 +40,7 @@ const Breadcrumb = () => {
     };
 
     const iconStyle = {
-        fontSize: '24px', // Adjust icon size as needed
+        fontSize: '28px', // Adjust icon size as needed
     };
 
     const textStyle = {
