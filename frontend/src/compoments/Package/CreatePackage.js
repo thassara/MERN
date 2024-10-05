@@ -81,7 +81,7 @@ function CreatePackage() {
     };
 
     const formStyle = {
-        display: 'flex',
+        display: 'center',
         flexDirection: 'column',
         maxWidth: '400px',
         margin: '0 auto',
