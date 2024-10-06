@@ -10,7 +10,7 @@ const slipSchema = new mongoose.Schema({
         default: '',
     },
     slipFile: {
-        type: String, // Store the path to the file
+        type: String, 
         required: true,
     },
 }, { timestamps: true });

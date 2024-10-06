@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 
 const ExpenseSchema = new mongoose.Schema({
-  // _id:{
-  //   type:String
-  // },
+
   itemName: {
     type: String,
     required: true,
@@ -11,6 +9,7 @@ const ExpenseSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
+    
   },
 });
 

@@ -5,11 +5,13 @@ import 'jspdf-autotable';
 import UpdateExpenseForm from './ExpenseUpdateform';
 import Modal from './Modal';
 
+
 const ExpenseList = () => {
   const [expenses, setExpenses] = useState([]);
   const [total, setTotal] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentExpense, setCurrentExpense] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const fetchExpenses = async () => {
     try {
@@ -20,7 +22,9 @@ const ExpenseList = () => {
       console.error('Error fetching expenses', error);
     }
   };
-
+  useEffect(() => {
+    fetchExpenses();
+  }, []);
   const calculateTotal = (expenses) => {
     const totalPrice = expenses.reduce((sum, expense) => sum + Number(expense.price), 0);
     setTotal(totalPrice);
@@ -66,8 +70,12 @@ const ExpenseList = () => {
     // Define table columns
     const columns = ['Item Name', 'Price (RS)'];
 
-    // Map expense data to rows for the table
-    const rows = expenses.map((expense) => [
+    // Map filtered expense data to rows for the table
+    const filteredExpenses = expenses.filter(expense => 
+      expense.itemName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const rows = filteredExpenses.map((expense) => [
       expense.itemName,
       expense.price,
     ]);
@@ -82,23 +90,33 @@ const ExpenseList = () => {
       styles: { cellPadding: 3, fontSize: 12, halign: 'center' },
     });
 
-    // Add total balance at the bottom
+    // Add total balance for filtered expenses
+    const filteredTotal = filteredExpenses.reduce((sum, expense) => sum + Number(expense.price), 0);
     const finalY = doc.lastAutoTable.finalY + 10;
     doc.setFontSize(14);
-    doc.text(`Total Balance RS: ${total} `, 14, finalY);
+    doc.text(`Total Balance RS: ${filteredTotal} `, 14, finalY);
 
     // Save the PDF
-    doc.save('expenses-list.pdf');
+    doc.save('filtered-expenses-list.pdf');
   };
 
   useEffect(() => {
     fetchExpenses();
   }, []);
 
+  localStorage.setItem('expenses', JSON.stringify(total));
+
   return (
     <div style={styles.tableContainer}>
       <div style={styles.header}>
         <h2 style={styles.heading}>Expenses List</h2>
+        <input
+          type="text"
+          placeholder="Search by Item Name"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          style={styles.searchInput}
+        />
         <button onClick={generatePDF} style={styles.downloadButton}>
           Download PDF
         </button>
@@ -113,7 +131,9 @@ const ExpenseList = () => {
           </tr>
         </thead>
         <tbody>
-          {expenses.map((expense) => (
+          {expenses.filter(expense => 
+            expense.itemName.toLowerCase().includes(searchQuery.toLowerCase())
+          ).map((expense) => (
             <tr key={expense._id}>
               <td style={styles.td}>{expense.itemName}</td>
               <td style={styles.td}>{expense.price}</td>
@@ -134,7 +154,9 @@ const ExpenseList = () => {
               <strong>Total Balance (RS):</strong>
             </td>
             <td style={styles.totalPriceCell}>
-              <strong>{total}</strong>
+              <strong>{expenses.filter(expense => 
+                expense.itemName.toLowerCase().includes(searchQuery.toLowerCase())
+              ).reduce((sum, expense) => sum + Number(expense.price), 0)}</strong>
             </td>
           </tr>
         </tfoot>
@@ -175,6 +197,14 @@ const styles = {
     color: '#333',
     fontWeight: 'bold',
     fontSize: '24px',
+  },
+  searchInput: {
+    padding: '10px',
+    borderRadius: '6px',
+    border: '1px solid #ddd',
+    marginRight: '10px',
+    width: '200px',
+    fontSize: '16px',
   },
   table: {
     width: '100%',

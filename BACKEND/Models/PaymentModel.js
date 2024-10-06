@@ -21,7 +21,7 @@ const paymentSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    // Add other fields as needed
+   
 });
 
 // Export the model

@@ -4,18 +4,18 @@ import axios from 'axios';
 const ExpenseForm = ({ onExpenseAdded }) => {
   const [itemName, setItemName] = useState('');
   const [price, setPrice] = useState('');
-  const [successMessage, setSuccessMessage] = useState(''); // State for success message
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const newExpense = { itemName, price: Number(price) };
       await axios.post('http://localhost:8070/expenses/add', newExpense);
-      alert('Expenses add sucssesfully');
-      onExpenseAdded(); // Call parent to refresh the list
+      alert('Expenses added successfully');
+      onExpenseAdded(); // Notify parent to refresh the expense list
       setItemName(''); // Clear input fields
       setPrice('');
-      setSuccessMessage('Expense added successfully!'); // Set success message
+      setSuccessMessage('Expense added successfully!');
       setTimeout(() => setSuccessMessage(''), 3000); // Clear success message after 3 seconds
     } catch (error) {
       console.error('Error adding expense', error);
@@ -46,7 +46,6 @@ const ExpenseForm = ({ onExpenseAdded }) => {
           Add Expense
         </button>
       </form>
-      {/* Display the success message if it's set */}
       {successMessage && <p style={styles.successMessage}>{successMessage}</p>}
     </div>
   );
@@ -78,7 +77,7 @@ const styles = {
   },
   successMessage: {
     marginTop: '10px',
-    color: '#28a745', // Green color for success message
+    color: '#28a745',
     fontWeight: 'bold',
   },
 };

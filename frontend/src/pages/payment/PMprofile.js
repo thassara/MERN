@@ -3,6 +3,7 @@ import axios from 'axios';
 import Sidebar from '../../compoments/Payment/Sidebar';
 import '../../style/payment/Profile.css';
 
+
 const Profile = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -14,7 +15,7 @@ const Profile = () => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState(null);
-  const [validationErrors, setValidationErrors] = useState({}); // Store validation errors
+  const [validationErrors, setValidationErrors] = useState({});
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -34,12 +35,12 @@ const Profile = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setValidationErrors({ ...validationErrors, [name]: '' }); // Clear validation error on change
+    setValidationErrors({ ...validationErrors, [name]: '' });
   };
 
   const validateForm = () => {
     const errors = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!formData.name) {
       errors.name = 'Name is required.';
@@ -62,12 +63,12 @@ const Profile = () => {
     }
 
     setValidationErrors(errors);
-    return Object.keys(errors).length === 0; // Return true if there are no errors
+    return Object.keys(errors).length === 0;
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return; // Validate before proceeding
+    if (!validateForm()) return;
 
     try {
       await axios.put(`http://localhost:8070/PMprofiles/update/${formData.id}`, formData);
@@ -94,13 +95,19 @@ const Profile = () => {
       <div style={styles.profileContent}>
         {error && <div style={styles.error}>{error}</div>}
         <h1 style={styles.profileTitle}>Profile</h1>
+
+        <div style={styles.profileImageContainer}>
+          <div style={styles.imagePlaceholder}>Profile Image</div>
+        </div>
+
         <div style={styles.profileDetails}>
           <p><strong>Name:</strong> {formData.name}</p>
           <p><strong>Email:</strong> {formData.email}</p>
           <p><strong>Phone:</strong> {formData.phone}</p>
         </div>
+
         <div style={styles.buttonContainer}>
-          <button style={styles.button} onClick={() => setIsModalOpen(true)}>Edit Profile</button>
+          <button style={styles.editButton} onClick={() => setIsModalOpen(true)}>Edit Profile</button>
           <button style={{ ...styles.button, ...styles.deleteButton }} onClick={handleDelete}>Delete Profile</button>
         </div>
 
@@ -170,12 +177,14 @@ const Profile = () => {
 const styles = {
   container: {
     display: 'flex',
+    backgroundColor: '#f4f4f9',
+    minHeight: '100vh',
   },
   profileContent: {
     flex: 1,
     padding: '40px',
     marginLeft: '250px',
-    backgroundColor: '#f9f9f9', // Light background for the content area
+    backgroundColor: '#fff',
     borderRadius: '10px',
     boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
     transition: 'all 0.3s ease',
@@ -186,10 +195,28 @@ const styles = {
     color: '#333',
     marginBottom: '20px',
   },
+  profileImageContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '20px',
+  },
+  imagePlaceholder: {
+    width: '150px',
+    height: '150px',
+    backgroundColor: '#e0e0e0',
+    borderRadius: '50%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    color: '#777',
+    fontSize: '1rem',
+    fontWeight: 'bold',
+    border: '2px dashed #ccc',
+  },
   profileDetails: {
     marginBottom: '30px',
     padding: '20px',
-    backgroundColor: '#fff',
+    backgroundColor: '#f9f9f9',
     borderRadius: '8px',
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
   },
@@ -199,13 +226,25 @@ const styles = {
   },
   button: {
     padding: '12px 20px',
-    backgroundColor: '#424242',
+    backgroundColor: '#4CAF50',
     color: 'white',
     border: 'none',
     borderRadius: '5px',
     fontSize: '16px',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+  },
+  editButton: {
+    backgroundColor: '#000', // Changed to black
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    padding: '12px 20px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   },
   deleteButton: {
     backgroundColor: '#d32f2f',
@@ -232,28 +271,31 @@ const styles = {
     padding: '20px',
     borderRadius: '10px',
     width: '400px',
-    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
   },
   modalTitle: {
-    fontSize: '1.5rem',
-    marginBottom: '15px',
+    fontSize: '1.8rem',
+    marginBottom: '20px',
+  },
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
   },
   label: {
-    display: 'block',
-    marginBottom: '5px',
-    fontWeight: 'bold',
+    fontSize: '1.1rem',
+    marginBottom: '10px',
   },
   input: {
-    width: '100%',
     padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
     marginBottom: '15px',
-    boxSizing: 'border-box',
+    fontSize: '1rem',
+    borderRadius: '5px',
+    border: '1px solid #ddd',
   },
   error: {
     color: 'red',
-    marginBottom: '20px',
+    fontSize: '0.9rem',
+    marginBottom: '10px',
   },
 };
 

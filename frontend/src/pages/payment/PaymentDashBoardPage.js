@@ -4,31 +4,36 @@ import PaymentTable from '../../compoments/Payment/PaymentTable';
 import SearchBar from '../../compoments/Payment/SearchBar';
 import '../../style/payment/PaymentDashBoardPage.css';
 
-function PaymentDashBoardPage() {
+
+const PaymentDashBoardPage = () => {
   const [payments, setPayments] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Simulating fetching payment data
   useEffect(() => {
-    const fetchedPayments = [
-      { id: '66f1fe89d8243', total: 'Rs. 30,000', type: 'Slip Upload', status: 'Pending', email: 'Eranga@gmail.com', date: '20/12/2024' },
-      { id: '66f8fe89d828a', total: 'Rs. 10,000', type: 'Slip Upload', status: 'Rejected', email: 'Madusha@gmail.com', date: '20/12/2024' },
-      { id: '66f1628fe844a', total: 'Rs. 5,000', type: 'Card Payment', status: 'Verified', email: 'Bumal@gmail.com', date: '20/12/2024' },
-    ];
-    setPayments(fetchedPayments);
+    const fetchPayments = async () => {
+      try {
+        const response = await fetch('http://localhost:8070/payments/');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setPayments(data);
+      } catch (error) {
+        console.error('Failed to fetch payments:', error);
+      }
+    };
+    fetchPayments();
   }, []);
 
-  // Function to handle search input
   const handleSearch = (term) => {
     setSearchTerm(term);
   };
 
-  // Filter payments based on the search term (by ID or email)
-  const filteredPayments = payments.filter(
-    (payment) =>
-      payment.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      payment.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredPayments = payments.filter((payment) => {
+    const idMatch = payment.id && payment.id.toString().toLowerCase().includes(searchTerm.toLowerCase());
+    const emailMatch = payment.email && payment.email.toLowerCase().includes(searchTerm.toLowerCase());
+    return idMatch || emailMatch;
+  });
 
   return (
     <div className="dashboard-container">
@@ -40,15 +45,15 @@ function PaymentDashBoardPage() {
         <div className="balance-summary">
           <div className="summary-card">
             <h3>Total Income</h3>
-            <p>Rs. 35000</p>
+            <p>Rs. 35,000</p>
           </div>
           <div className="summary-card">
             <h3>Total Expenses</h3>
-            <p>Rs. 0</p>
+            <p>Rs. 2000</p>
           </div>
           <div className="summary-card">
             <h3>Available Balance</h3>
-            <p>Rs.35000</p>
+            <p>Rs. 33,000</p>
           </div>
         </div>
 
@@ -56,10 +61,14 @@ function PaymentDashBoardPage() {
         <SearchBar onSearch={handleSearch} />
 
         {/* Payment table showing filtered data */}
-        <PaymentTable payments={filteredPayments} />
+        {filteredPayments.length > 0 ? (
+          <PaymentTable payments={filteredPayments} />
+        ) : (
+          <p>No payments found.</p>
+        )}
       </div>
     </div>
   );
-}
+};
 
 export default PaymentDashBoardPage;

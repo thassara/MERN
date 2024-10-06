@@ -1,4 +1,4 @@
-const Slip = require('../models/slipModel'); // Make sure to adjust the path
+const Slip = require('../Models/SlipModel'); // Make sure to adjust the path
 
 exports.uploadSlip = (req, res) => {
     if (!req.file) {

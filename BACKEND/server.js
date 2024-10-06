@@ -35,6 +35,7 @@ app.use("/expenses", expenseRoutes); // Using /expenses for clarity
 app.use("/PMprofiles", PMprofileRoutes); 
 app.use("/slips", slipRoutes);
 app.use("/payments", paymentRoutes);
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.listen(PORT, () => {
     console.log(`Server is up and running on Port: ${PORT}`);

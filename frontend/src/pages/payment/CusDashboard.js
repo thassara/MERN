@@ -13,7 +13,7 @@ const Dashboard = () => {
     cardNumber: '',
     expiryDate: '',
     cvv: '',
-    amount: '',
+    
     bankName: '',
     remark: '',
   });
@@ -68,7 +68,7 @@ const Dashboard = () => {
       cardNumber: payment.cardNumber,
       expiryDate: payment.expiryDate,
       cvv: payment.cvv,
-      amount: payment.amount,
+
     });
   };
 
@@ -174,13 +174,14 @@ const Dashboard = () => {
               onChange={(e) => setFormData({ ...formData, cvv: e.target.value })}
               required
             />
-            <input
+            {/* Remove the amount input field */}
+            {/* <input
               type="text"
               placeholder="Amount"
               value={formData.amount}
               onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
               required
-            />
+            /> */}
             <div className="modal-actions">
               <button type="submit">Update</button>
               <button type="button" onClick={() => setEditingPayment(null)}>Cancel</button>
@@ -217,91 +218,152 @@ const Dashboard = () => {
 
       {/* Internal CSS */}
       <style jsx>{`
-        .dashboard {
-          padding: 20px;
-          background-color: #f4f4f4;
-          border-radius: 8px;
-          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-          max-width: 800px;
-          margin: 20px auto;
-        }
+  .dashboard {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+  }
 
-        h2 {
-          text-align: center;
-        }
+  h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
 
-        .error {
-          color: red;
-          text-align: center;
-          margin-bottom: 20px;
-        }
+  .error {
+    color: red;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
 
-        .payments-section,
-        .slips-section {
-          margin-bottom: 20px;
-        }
+  .payments-section,
+  .slips-section {
+    margin-bottom: 30px;
+  }
 
-        .payments-list,
-        .slips-list {
-          list-style-type: none;
-          padding: 0;
-        }
+  .payments-list,
+  .slips-list {
+    list-style-type: none;
+    padding: 0;
+  }
 
-        .payment-item,
-        .slip-item {
-          background: #fff;
-          padding: 10px;
-          margin: 10px 0;
-          border-radius: 5px;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
+  .payment-item,
+  .slip-item {
+    background: #fff;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: transform 0.3s ease;
+  }
 
-        .edit-btn,
-        .delete-btn {
-          background: #007bff;
-          color: white;
-          border: none;
-          padding: 5px 10px;
-          margin-left: 10px;
-          cursor: pointer;
-          border-radius: 5px;
-        }
+  .payment-item:hover,
+  .slip-item:hover {
+    transform: translateY(-3px);
+  }
 
-        .delete-btn {
-          background: #dc3545;
-        }
+  .edit-btn,
+  .delete-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
 
-        .modal {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background: rgba(0, 0, 0, 0.5);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
+  .edit-btn:hover {
+    background-color: #0056b3;
+  }
 
-        .modal h3 {
-          text-align: center;
-        }
+  .delete-btn {
+    background: #dc3545;
+  }
 
-        .modal form {
-          background: white;
-          padding: 20px;
-          border-radius: 8px;
-          width: 300px;
-        }
+  .delete-btn:hover {
+    background-color: #b02a37;
+  }
 
-        .modal-actions {
-          display: flex;
-          justify-content: space-between;
-          margin-top: 10px;
-        }
-      `}</style>
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .modal form {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    text-align: left;
+  }
+
+  .modal form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+  }
+
+  .modal form input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+
+  .modal-actions button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  .modal-actions button:hover {
+    background-color: #0056b3;
+  }
+
+  .modal-actions button[type="button"] {
+    background-color: #6c757d;
+  }
+
+  .modal-actions button[type="button"]:hover {
+    background-color: #565e64;
+  }
+`}</style>
     </div>
   );
 };

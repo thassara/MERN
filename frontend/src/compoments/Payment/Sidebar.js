@@ -8,23 +8,25 @@ const Sidebar = () => {
   const handleMouseEnter = (buttonName) => setHoveredButton(buttonName);
   const handleMouseLeave = () => setHoveredButton(null);
 
-  // Function to navigate to the Handle Expenses page
   const navigateToExpenses = () => {
-    navigate('/Handlepayment'); // Use navigate instead of history.push
+    navigate('/Handlepayment');
   };
+  
   const navigateToaddpaymentform = () => {
-    navigate('/Addpaymentform'); // Use navigate instead of history.push
+    navigate('/Addpaymentform');
   };
+
   const navigateTomanagerprofile = () => {
-    navigate('/PMprofile'); // Use navigate instead of history.push
-  }
+    navigate('/PMprofile');
+  };
+
   const navigateAdminLoginpage = () => {
-    navigate('/AdminLogin'); // Use navigate instead of history.push
-  }
+    navigate('/AdminLogin');
+  };
 
   const navigateCusDashboard = () => {
-    navigate('/CusDashboard'); // Use navigate instead of history.push
-  }
+    navigate('/CusDashboard');
+  };
 
   return (
     <div style={styles.sidebar}>
@@ -33,21 +35,19 @@ const Sidebar = () => {
         style={hoveredButton === 'profile' ? { ...styles.button, ...styles.buttonHover } : styles.button}
         onMouseEnter={() => handleMouseEnter('profile')}
         onMouseLeave={handleMouseLeave}
-        onClick={navigateTomanagerprofile} 
+        onClick={navigateTomanagerprofile}
       >
         Profile
       </button>
-
 
       <button
         style={hoveredButton === 'expenses' ? { ...styles.button, ...styles.buttonHover } : styles.button}
         onMouseEnter={() => handleMouseEnter('expenses')}
         onMouseLeave={handleMouseLeave}
-        onClick={navigateToExpenses} 
+        onClick={navigateToExpenses}
       >
         Handle Expenses
       </button>
-
 
       <button
         style={hoveredButton === 'notifications' ? { ...styles.button, ...styles.buttonHover } : styles.button}
@@ -57,7 +57,6 @@ const Sidebar = () => {
         See My Notifications
       </button>
 
-
       <button
         style={hoveredButton === 'logout' ? { ...styles.logoutButton, ...styles.logoutHover } : styles.logoutButton}
         onMouseEnter={() => handleMouseEnter('logout')}
@@ -66,22 +65,30 @@ const Sidebar = () => {
       >
         LOGOUT
       </button>
-      
-      <button     onClick={navigateToaddpaymentform} >
-      <p>paymentform</p>
-     
+
+      {/* Newly added buttons */}
+      <button
+        style={hoveredButton === 'paymentform' ? { ...styles.button, ...styles.buttonHover } : styles.button}
+        onMouseEnter={() => handleMouseEnter('paymentform')}
+        onMouseLeave={handleMouseLeave}
+        onClick={navigateToaddpaymentform}
+      >
+        Payment Form
       </button>
 
-      <button     onClick={navigateCusDashboard} >
-      <p>CusDashboard</p>
-     
+      <button
+        style={hoveredButton === 'cusDashboard' ? { ...styles.button, ...styles.buttonHover } : styles.button}
+        onMouseEnter={() => handleMouseEnter('cusDashboard')}
+        onMouseLeave={handleMouseLeave}
+        onClick={navigateCusDashboard}
+      >
+        CusDashboard
       </button>
-      
     </div>
   );
 };
 
-// Styles remain unchanged
+// Styles remain unchanged, but we ensure consistent styling for new buttons
 const styles = {
   sidebar: {
     width: '250px',
