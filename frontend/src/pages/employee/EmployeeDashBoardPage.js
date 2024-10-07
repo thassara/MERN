@@ -6,25 +6,20 @@ import EmployeeDashBoardTwo from '../../compoments/Employee/EmployeeDashBoardTwo
 function EmployeeDashBoardPage() {
   return (
     <div>
-      <div>
-          <style>
-            {`
-              .EDPGLayout{  
-                display:flex;
-                justify-content:center;
-              }
-            }
-          `}
-            
-          </style>
-        </div>
-        <div classname="EDPGLayout">
-          <EmployeeDashBoardOne />
-          <EmployeeDashBoardTwo />
-        </div>
-      
-      <Routes>
-      </Routes>
+      <style>
+        {`
+          .EDPGLayout {  
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            gap: 30px;
+          }
+        `}
+      </style>
+      <div className="EDPGLayout">
+        <EmployeeDashBoardOne />
+        <EmployeeDashBoardTwo />
+      </div>
     </div>
   );
 }
