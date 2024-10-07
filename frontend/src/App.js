@@ -53,6 +53,7 @@ function App() {
         <Route path="/OrderDashBoardPage" element={<OrderDashBoardPage/>}/> 
         <Route path="/PaymentDashBoardPage" element={<PaymentDashBoardPage/>}/> 
         <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/> 
+
         <Route path="/EmployeeProfile" element={<EmployeeProfile/>}/>   
         <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
         <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
