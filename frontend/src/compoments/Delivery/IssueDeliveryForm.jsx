@@ -9,6 +9,7 @@ const IssueDeliveryForm = ({ delivery, onSubmit, onCancel }) => {
     IssueDate: '',
     DeliveryDate: '',
     Status: 'Pending',
+    Location: '', // Added Location field
   });
 
   const [errors, setErrors] = useState({});
@@ -31,7 +32,7 @@ const IssueDeliveryForm = ({ delivery, onSubmit, onCancel }) => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.OrderId) {
       newErrors.OrderId = 'Order ID is required';
     } else if (formData.OrderId < 1) {
@@ -56,6 +57,10 @@ const IssueDeliveryForm = ({ delivery, onSubmit, onCancel }) => {
 
     if (!formData.DeliveryDate) {
       newErrors.DeliveryDate = 'Delivery Date is required';
+    }
+
+    if (!formData.Location) {
+      newErrors.Location = 'Location is required'; // Location validation
     }
 
     setErrors(newErrors);
@@ -148,6 +153,18 @@ const IssueDeliveryForm = ({ delivery, onSubmit, onCancel }) => {
             required
           />
           {errors.DeliveryDate && <span className="error-message">{errors.DeliveryDate}</span>}
+        </label>
+
+        <label>
+          Location:
+          <input
+            type="text"
+            name="Location"
+            value={formData.Location}
+            onChange={handleInputChange}
+            required
+          />
+          {errors.Location && <span className="error-message">{errors.Location}</span>}
         </label>
 
         <label>

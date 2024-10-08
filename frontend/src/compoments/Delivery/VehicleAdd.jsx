@@ -11,11 +11,36 @@ const VehicleAdd = () => {
     const [capacity, setCapacity] = useState('');
     const [nextServiceDate, setNextServiceDate] = useState('');
     const [lastServiceDate, setLastServiceDate] = useState(''); 
+    const [errors, setErrors] = useState({});
 
     const navigate = useNavigate(); 
 
+    const validateForm = () => {
+        let formErrors = {};
+
+        if (!vehicleId) formErrors.vehicleId = 'Vehicle ID is required';
+        if (!name) formErrors.name = 'Vehicle name is required';
+        if (!type) formErrors.type = 'Vehicle type is required';
+        if (!registrationNumber) formErrors.registrationNumber = 'Registration number is required';
+        if (!capacity) {
+            formErrors.capacity = 'Capacity is required';
+        } else if (Number(capacity) <= 0) {
+            formErrors.capacity = 'Capacity must be a positive number';
+        }
+        if (!lastServiceDate) formErrors.lastServiceDate = 'Last service date is required';
+        if (!nextServiceDate) formErrors.nextServiceDate = 'Next service date is required';
+
+        return formErrors;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length > 0) {
+            setErrors(formErrors);
+            return;
+        }
 
         const vehicleData = {
             vehicleId,
@@ -25,7 +50,6 @@ const VehicleAdd = () => {
             capacity,
             lastServiceDate,
             nextServiceDate
-           
         };
 
         try {
@@ -40,6 +64,7 @@ const VehicleAdd = () => {
             setCapacity('');
             setNextServiceDate('');
             setLastServiceDate(''); 
+            setErrors({}); // Clear any errors
 
             // Redirect to Vehicle Management page after adding the vehicle
             navigate('/DeliveryDashBoardPage');
@@ -61,9 +86,10 @@ const VehicleAdd = () => {
               placeholder="Enter vehicle ID"
               value={vehicleId}
               onChange={(e) => setVehicleId(e.target.value)}
+              className={`input ${errors.vehicleId ? 'input-error' : ''}`}
               required
-              className="input"
             />
+            {errors.vehicleId && <p className="error-message">{errors.vehicleId}</p>}
     
             <label htmlFor="name" className="label">Vehicle Name:</label>
             <input
@@ -73,9 +99,10 @@ const VehicleAdd = () => {
               placeholder="Enter vehicle name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className={`input ${errors.name ? 'input-error' : ''}`}
               required
-              className="input"
             />
+            {errors.name && <p className="error-message">{errors.name}</p>}
     
             <label htmlFor="type" className="label">Vehicle Type:</label>
             <input
@@ -85,9 +112,10 @@ const VehicleAdd = () => {
               placeholder="Enter vehicle type"
               value={type}
               onChange={(e) => setType(e.target.value)}
+              className={`input ${errors.type ? 'input-error' : ''}`}
               required
-              className="input"
             />
+            {errors.type && <p className="error-message">{errors.type}</p>}
     
             <label htmlFor="registration-number" className="label">Registration Number:</label>
             <input
@@ -97,9 +125,10 @@ const VehicleAdd = () => {
               placeholder="Enter registration number"
               value={registrationNumber}
               onChange={(e) => setRegistrationNumber(e.target.value)}
+              className={`input ${errors.registrationNumber ? 'input-error' : ''}`}
               required
-              className="input"
             />
+            {errors.registrationNumber && <p className="error-message">{errors.registrationNumber}</p>}
     
             <label htmlFor="capacity" className="label">Capacity:</label>
             <input
@@ -109,10 +138,11 @@ const VehicleAdd = () => {
               placeholder="Enter capacity"
               value={capacity}
               onChange={(e) => setCapacity(e.target.value)}
+              className={`input ${errors.capacity ? 'input-error' : ''}`}
               required
-              className="input"
             />
-
+            {errors.capacity && <p className="error-message">{errors.capacity}</p>}
+    
             <label htmlFor="last-service-date" className="label">Last Service Date:</label>
             <input
               type="date"
@@ -120,10 +150,11 @@ const VehicleAdd = () => {
               name="last-service-date"
               value={lastServiceDate}
               onChange={(e) => setLastServiceDate(e.target.value)}
+              className={`input ${errors.lastServiceDate ? 'input-error' : ''}`}
               required
-              className="input"
             />
-
+            {errors.lastServiceDate && <p className="error-message">{errors.lastServiceDate}</p>}
+    
             <label htmlFor="next-service-date" className="label">Next Service Date:</label>
             <input
               type="date"
@@ -131,16 +162,15 @@ const VehicleAdd = () => {
               name="next-service-date"
               value={nextServiceDate}
               onChange={(e) => setNextServiceDate(e.target.value)}
+              className={`input ${errors.nextServiceDate ? 'input-error' : ''}`}
               required
-              className="input"
             />
-    
-            
+            {errors.nextServiceDate && <p className="error-message">{errors.nextServiceDate}</p>}
     
             <button type="submit" className="button">Add Vehicle</button>
           </form>
         </div>
-      );
+    );
 };
 
 export default VehicleAdd;

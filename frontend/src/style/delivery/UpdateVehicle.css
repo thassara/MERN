@@ -73,3 +73,12 @@
         font-size: 14px;
     }
 }
+.input-error {
+    border: 2px solid red; /* Highlight invalid fields */
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 0.2em
+}

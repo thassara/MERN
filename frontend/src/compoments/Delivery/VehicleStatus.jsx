@@ -51,7 +51,7 @@ const VehicleStatus = () => {
                   >
                     <option value="Available">Available</option>
                     <option value="Unavailable">Unavailable</option>
-                    <option value="maintenance">Maintenance</option>
+                    <option value="Maintenance">Maintenance</option>
                   </select>
                 </td>
              

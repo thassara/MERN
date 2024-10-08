@@ -8,6 +8,7 @@ const issueDeliverySchema = new Schema({
   IssueDate: { type: Date, default: Date.now },
   DeliveryDate: { type: Date },
   Status: { type: String, required: true },
+  Location: { type: String, required: true }, // Added Location field
 });
 
 module.exports = mongoose.model('IssueDelivery', issueDeliverySchema);

@@ -117,10 +117,15 @@ const ViewAllDeliveries = () => {
   const generatePDF = () => {
     const doc = new jsPDF();
     doc.text('Filtered Delivery Issues Report', 14, 20);
-    const tableColumn = ["Order ID", "Total Quantity", "Total Amount", "Issue Date", "Delivered Date", "Status"];
+    
+    const tableColumn = ["Order ID", "Total Quantity", "Total Amount", "Issue Date", "Delivered Date", "Status", "Location", "Assigned Vehicle"];
     const tableRows = [];
-
+  
     filteredDeliveries.forEach(delivery => {
+      const assignedVehicleName = assignedVehicles[delivery._id]
+        ? allVehicles.find(v => v._id === assignedVehicles[delivery._id])?.name || 'Vehicle Unavailable'
+        : 'No vehicle assigned';
+  
       const deliveryData = [
         delivery.OrderId,
         delivery.TotalQty,
@@ -128,13 +133,16 @@ const ViewAllDeliveries = () => {
         delivery.IssueDate ? new Date(delivery.IssueDate).toLocaleDateString() : '-',
         delivery.DeliveryDate ? new Date(delivery.DeliveryDate).toLocaleDateString() : '-',
         delivery.Status,
+        delivery.Location, // Added Location
+        assignedVehicleName, // Added Assigned Vehicle
       ];
       tableRows.push(deliveryData);
     });
-
+  
     doc.autoTable(tableColumn, tableRows, { startY: 30 });
     doc.save('filtered_delivery_issues_report.pdf');
   };
+  
 
   const filteredDeliveries = deliveries.filter((delivery) =>
     (delivery.OrderId && typeof delivery.OrderId === 'string' ? delivery.OrderId.toLowerCase() : '')
@@ -173,6 +181,7 @@ const ViewAllDeliveries = () => {
             <th>Issue Date</th>
             <th>Delivered Date</th>
             <th>Status</th>
+            <th>Location</th>
             <th>Assigned Vehicle</th>
             <th>Assign Vehicle</th>
             <th>Actions</th>
@@ -187,6 +196,7 @@ const ViewAllDeliveries = () => {
               <td>{delivery.IssueDate ? new Date(delivery.IssueDate).toLocaleDateString() : '-'}</td>
               <td>{delivery.DeliveryDate ? new Date(delivery.DeliveryDate).toLocaleDateString() : '-'}</td>
               <td>{delivery.Status}</td>
+              <td>{delivery.Location}</td>
 
               <td>
                 {assignedVehicles[delivery._id]
