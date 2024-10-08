@@ -10,7 +10,11 @@ import EmpLogin from './compoments/EmpLogin';
 import GMChoose from './compoments/GMChoose';
 import DMChoose from './compoments/DMChoose';
 import PMChoose from './compoments/PMChoose';
-import StockDashBoardPage from './pages/stock/StockDashBoardPage';
+import StockDashBoardPage from './pages/stock/StockDashBoard';
+import StockAddForm from './pages/stock/AddItems';
+import ContactSupplier from './pages/stock/contactSupplier'
+import AssignItems from './pages/stock/pendingOrders';
+import StockDetails from './pages/stock/stockDetails';
 import PackageDashBoardPage from './pages/package/PackageDashBoardPage';
 import OrderDashBoardPage from './pages/order/Or_Dashboard';
 import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage';
@@ -47,6 +51,10 @@ function App() {
         <Route path="/PMChoose" element={<PMChoose/>}/> 
         <Route path="/CustomerDashBoardPage" element={<CustomerDashBoardPage/>}/> 
         <Route path="/StockDashBoardPage" element={<StockDashBoardPage/>}/> 
+        <Route path="/StockAddForm" element={<StockAddForm/>}/> 
+        <Route path="/ContactSupplier" element={<ContactSupplier/>}/>
+        <Route path="/AssignItems" element={<AssignItems/>}/>
+        <Route path="/StockDetails" element={<StockDetails/>}/>
         <Route path="/PackageDashBoardPage" element={<PackageDashBoardPage/>}/>
         <Route path="/Or_add" element={<Or_add/>}/>
         <Route path="/Or_Add/order-details" element={<Or_Confirm/>}/>
