@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-//push test
 function EmployeeDashBoardTwo() {
   const handleNavigate = useNavigate();
   const [employeeData, setEmployeeData] = useState([]);
@@ -271,3 +270,4 @@ function EmployeeDashBoardTwo() {
 }
 
 export default EmployeeDashBoardTwo;
+//test
