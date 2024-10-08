@@ -36,6 +36,12 @@ const VehicleManagement = () => {
     };
     
     const handleDelete = async (id) => {
+        // Prompt user for confirmation
+        const confirmDelete = window.confirm("Are you sure you want to delete this vehicle?");
+        if (!confirmDelete) {
+            return; // Exit if the user cancels the action
+        }
+
         try {
             await axios.delete(`http://localhost:8070/api/vehicle/${id}`);
             fetchVehicles(); 
@@ -53,9 +59,6 @@ const VehicleManagement = () => {
         navigate('/DeliveryDashBoardPage/Vehicle-Status', { state: { vehicleNames } });
     };
 
-    
-
-   
     const handleDownloadReport = () => {
         const doc = new jsPDF();
     
@@ -63,7 +66,6 @@ const VehicleManagement = () => {
 
         const headers = [['Vehicle Name', 'Vehicle Type', 'Registration Number', 'Last Service Date', 'Next Service Date', 'Capacity', 'Status']];
     
-        // Define the data from filteredVehicles
         const data = filteredVehicles.map(vehicle => [
             vehicle.name,
             vehicle.type,
@@ -71,27 +73,22 @@ const VehicleManagement = () => {
             new Date(vehicle.lastServiceDate).toLocaleDateString(), 
             new Date(vehicle.nextServiceDate).toLocaleDateString(), 
             vehicle.capacity.toString(),
-            vehicle.status // Include Status
+            vehicle.status
         ]);
     
-        // Combine headers and data
         const content = {
             startY: 20,
             head: headers,
             body: data
         };
     
-        // Add table to PDF using jsPDF's `autoTable` method
         doc.autoTable(content);
-    
-        // Save the PDF
         doc.save('vehicles_report.pdf');
     };
 
     return (
         <div className="container">
             <h5 style={{ textAlign: 'center', fontSize: '30px', marginTop: '15px', marginBottom: '35px' }}>Delivery Dashboard</h5>
-
 
             <div className="searchContainer">
                 <input 
@@ -147,16 +144,15 @@ const VehicleManagement = () => {
                     <h3 style={{ marginTop: '20px' }}>Manage Vehicle</h3>
                 </div>
                 <div className="card">
-    <Link to="/ViewAllDeliveries" >
-        <img src={DeliveryIcon} alt="View Delivery" />
-        <h3 style={{ marginTop: '20px' }}>View Delivery</h3>
-    </Link>
-</div>
+                    <Link to="/ViewAllDeliveries">
+                        <img src={DeliveryIcon} alt="View Delivery" />
+                        <h3 style={{ marginTop: '20px' }}>View Delivery</h3>
+                    </Link>
+                </div>
                 <div className="card" onClick={handleDownloadReport}>
                     <img src={generateReportIcon} alt="Generate Report" />
                     <h3 style={{ marginTop: '20px' }}>Generate Report</h3>
                 </div>
-
             </section>
         </div>
     );

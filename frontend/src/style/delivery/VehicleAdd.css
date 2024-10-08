@@ -40,9 +40,29 @@
 .input-error {
   border: 2px solid red;
 }
+.success-message {
+  color: green;
+  margin: 10px 0;
+  font-weight: bold;
+}
 
 .error-message {
   color: red;
   font-size: 0.9em;
   margin-top: 0.2em;
+}
+.button, .button-cancel {
+  width: 100%; /* Full width for buttons */
+  padding: 10px; /* Padding for buttons */
+  margin-top: 10px; /* Space above buttons */
+  border: none; /* No border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 16px; /* Font size for buttons */
+  background-color: rgb(243, 64, 64); 
+  transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+.button, .button-cancel:hover{
+  background-color: #ee0814; 
 }

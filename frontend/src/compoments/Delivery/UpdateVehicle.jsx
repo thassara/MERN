@@ -70,6 +70,10 @@ const UpdateVehicle = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
 
+        // Confirm if the user wants to proceed with the update
+        const confirmUpdate = window.confirm('Are you sure you want to update this vehicle?');
+        if (!confirmUpdate) return; // Exit if user cancels
+
         const formattedNextServiceDate = formatDate(nextServiceDate);
         const formattedLastServiceDate = formatDate(lastServiceDate);
 
@@ -98,6 +102,11 @@ const UpdateVehicle = () => {
         } catch (error) {
             console.error('Error updating vehicle:', error);
         }
+    };
+
+    // Handle Cancel button click
+    const handleCancel = () => {
+        navigate('/DeliveryDashBoardPage');
     };
 
     return (
@@ -199,6 +208,7 @@ const UpdateVehicle = () => {
                 {errors.status && <p className="error-message">{errors.status}</p>}
 
                 <button type="submit" className="button">Update Vehicle</button>
+                <button type="button" className="button-cancel" onClick={handleCancel}>Cancel</button>
             </form>
         </div>
     );

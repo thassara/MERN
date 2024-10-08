@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import '../../style/delivery/IssueDeliveryForm.css';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import '../../style/delivery/IssueDeliveryForm.css'; // Adjust the path as necessary
+import axios from 'axios';
 
-const IssueDeliveryForm = ({ delivery, onSubmit, onCancel }) => {
+const IssueDeliveryForm = ({ delivery }) => {
+  const navigate = useNavigate(); // Initialize useNavigate hook
   const [formData, setFormData] = useState({
     OrderId: '',
     TotalQty: '',
@@ -9,7 +12,7 @@ const IssueDeliveryForm = ({ delivery, onSubmit, onCancel }) => {
     IssueDate: '',
     DeliveryDate: '',
     Status: 'Pending',
-    Location: '', // Added Location field
+    Location: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -18,73 +21,121 @@ const IssueDeliveryForm = ({ delivery, onSubmit, onCancel }) => {
 
   useEffect(() => {
     if (delivery) {
-      setFormData(delivery);
+      // Set the form data with existing delivery data
+      setFormData({
+        ...delivery,
+        IssueDate: delivery.IssueDate.split('T')[0],
+        DeliveryDate: delivery.DeliveryDate.split('T')[0],
+      });
     }
   }, [delivery]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+
+    // Remove validation error for the current field as the user types
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: undefined,
+    }));
+
+    validateForm({
       ...formData,
       [name]: value,
     });
   };
 
-  const validateForm = () => {
+  const validateForm = (data) => {
     const newErrors = {};
 
-    if (!formData.OrderId) {
+    if (!data.OrderId) {
       newErrors.OrderId = 'Order ID is required';
-    } else if (formData.OrderId < 1) {
+    } else if (data.OrderId < 1) {
       newErrors.OrderId = 'Order ID must be a positive number';
     }
 
-    if (!formData.TotalQty) {
+    if (!data.TotalQty) {
       newErrors.TotalQty = 'Total Quantity is required';
-    } else if (formData.TotalQty < 0) {
+    } else if (data.TotalQty < 0) {
       newErrors.TotalQty = 'Total Quantity cannot be negative';
     }
 
-    if (!formData.TotalAmt) {
+    if (!data.TotalAmt) {
       newErrors.TotalAmt = 'Total Amount is required';
-    } else if (formData.TotalAmt < 0) {
+    } else if (data.TotalAmt < 0) {
       newErrors.TotalAmt = 'Total Amount cannot be negative';
     }
 
-    if (!formData.IssueDate) {
+    if (!data.IssueDate) {
       newErrors.IssueDate = 'Issue Date is required';
     }
 
-    if (!formData.DeliveryDate) {
+    if (!data.DeliveryDate) {
       newErrors.DeliveryDate = 'Delivery Date is required';
     }
 
-    if (!formData.Location) {
-      newErrors.Location = 'Location is required'; // Location validation
+    if (!data.Location) {
+      newErrors.Location = 'Location is required';
     }
 
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
+    if (validateForm(formData)) {
       try {
-        await onSubmit(formData);
-        setSuccessMessage('Issue Delivery submitted successfully');
+        if (delivery) {
+          // Prompt for confirmation before updating
+          const confirmUpdate = window.confirm("Are you sure you want to update this delivery?");
+          if (!confirmUpdate) {
+            return; // Exit if the user cancels the update
+          }
+
+          // Update existing delivery
+          await axios.put(`http://localhost:8070/api/issue-delivery/${delivery._id}`, formData);
+          setSuccessMessage('Delivery updated successfully');
+          window.alert('Delivery updated successfully!'); // Alert for update success
+        } else {
+          // Create new delivery (alert after successful creation)
+          await axios.post('http://localhost:8070/api/issue-delivery', formData);
+          setSuccessMessage('Delivery created successfully');
+          window.alert('Delivery created successfully!'); // Alert for new delivery creation
+        }
         setErrorMessage('');
         setErrors({});
+
+        // Reset the form after submission
+        setFormData({
+          OrderId: '',
+          TotalQty: '',
+          TotalAmt: '',
+          IssueDate: '',
+          DeliveryDate: '',
+          Status: 'Pending',
+          Location: '',
+        });
+
+        // Navigate to ViewAllDeliveries after submission
+        navigate('/ViewAllDeliveries', { replace: true });
       } catch (error) {
-        console.error('Error submitting issue delivery:', error);
-        setErrorMessage('Failed to submit the issue delivery. Please try again.');
+        console.error('Error submitting delivery:', error);
+        setErrorMessage('Failed to submit delivery. Please try again.');
         setSuccessMessage('');
       }
     } else {
       setErrorMessage('Please fix the errors before submitting.');
     }
+  };
+
+  const handleCancel = () => {
+    navigate('/ViewAllDeliveries', { replace: true }); // Use replace on cancel
   };
 
   return (
@@ -181,7 +232,7 @@ const IssueDeliveryForm = ({ delivery, onSubmit, onCancel }) => {
         </label>
 
         <button type="submit" className="issue-button">Submit</button>
-        <button type="button" className="issue-button-cancel" onClick={onCancel}>Cancel</button>
+        <button type="button" className="issue-button-cancel" onClick={handleCancel}>Cancel</button>
       </form>
     </div>
   );

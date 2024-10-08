@@ -54,7 +54,8 @@ const VehicleAdd = () => {
 
         try {
             const response = await axios.post('http://localhost:8070/api/vehicle/add', vehicleData);
-            alert('Vehicle added successfully');
+            // Show a confirmation window alert on successful addition
+            window.alert('Vehicle added successfully!'); 
 
             // Clear form
             setVehicleId('');
@@ -66,11 +67,16 @@ const VehicleAdd = () => {
             setLastServiceDate(''); 
             setErrors({}); // Clear any errors
 
-            // Redirect to Vehicle Management page after adding the vehicle
-            navigate('/DeliveryDashBoardPage');
+            // Redirect to Vehicle Management page after adding the vehicle with replace to avoid back navigation
+            navigate('/DeliveryDashBoardPage', { replace: true });
         } catch (error) {
             console.error('Error adding vehicle:', error);
         }
+    };
+
+    // Function to handle cancel button click
+    const handleCancel = () => {
+        navigate('/DeliveryDashBoardPage', { replace: true }); // Use replace to avoid going back to the form
     };
 
     return (
@@ -168,6 +174,7 @@ const VehicleAdd = () => {
             {errors.nextServiceDate && <p className="error-message">{errors.nextServiceDate}</p>}
     
             <button type="submit" className="button">Add Vehicle</button>
+            <button type="button" className="button-cancel" onClick={handleCancel}>Cancel</button>
           </form>
         </div>
     );
