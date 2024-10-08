@@ -27,10 +27,8 @@ function GMChoose() {
                 font-weight: bold;
                 font-size: 40px;
              }
-              .GMCTileLayout {
-                display: flex;
-                flex-wrap: wrap; /* Allow wrapping of items */
-                justify-content: center; /* Center align items */
+              .GMCTileLayout{  
+                text-align: center;
               }
             }
           `}
@@ -41,10 +39,6 @@ function GMChoose() {
         <button className="tilesAdmin" onClick={() => handleNavigate('/PackageDashBoardPage')}>Packages</button>
         <button className="tilesAdmin" onClick={() => handleNavigate('/OrderDashBoardPage')}>Orders</button>
         <button className="tilesAdmin" onClick={() => handleNavigate('/PaymentDashBoardPage')}>Payments</button>
-        <button className="tilesAdmin" onClick={() => handleNavigate('/MachineDashBoardPage')}>Machines</button>
-        <button className="tilesAdmin" onClick={() => handleNavigate('/DeliveryDashBoardPage')}>Deliveries</button>
-        <button className="tilesAdmin" onClick={() => handleNavigate('/EmployeeDashBoardPage')}>Employees</button>
-        <button className="tilesAdmin" onClick={() => handleNavigate('/CustomerDashBoardPage')}>Customers</button>
         </div>
       </div>
        
