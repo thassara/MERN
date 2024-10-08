@@ -1,27 +1,35 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const Order = new mongoose.Schema({
-    Cus_name:{
+const order = new mongoose.Schema({
+    Cus_name: {
         type: String,
-        required: true,
+        required: true
     },
-    Cus_email:{
+    Cus_email: {
         type: String,
-        required: true,
+        required: true
     },
-    qty:{
-        type: String,
-        required: true,
+    qty: {
+        type: Number,
+        required: true
     },
-    package_type:{
+    package_type: {
         type: String,
-        required: true,
+        required: true
     },
-    Cus_note:{
+    Cus_note: {
         type: String,
-        
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    status: {
+        type: String,
+    },
+    Or_tracking:{
+        type:String,
     }
-})
+});
 
-const OR = mongoose.model("OR",Order);
-module.exports=OR;
+module.exports = mongoose.model('Order', order);

@@ -19,6 +19,8 @@ import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
 import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
 import Or_add from './compoments/Order/AddForm';
 import Or_Confirm from './compoments/Order/Or_confirm';
+import Or_track from './pages/order/OrderTracking';
+import Or_update from './compoments/Order/Or_Updateform';
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 
 function App() {
@@ -39,12 +41,15 @@ function App() {
         <Route path="/StockDashBoardPage" element={<StockDashBoardPage/>}/> 
         <Route path="/PackageDashBoardPage" element={<PackageDashBoardPage/>}/>
         <Route path="/Or_add" element={<Or_add/>}/>
+        <Route path="/OrderDashBoardPage/updateOrder/:id" element={<Or_update/>}/>
+        <Route path="/OrderDashBoardPage/orderTrack/:id" element={<Or_track />} />
         <Route path="/Or_Add/order-details" element={<Or_Confirm/>}/>
         <Route path="/OrderDashBoardPage" element={<OrderDashBoardPage/>}/> 
         <Route path="/PaymentDashBoardPage" element={<PaymentDashBoardPage/>}/> 
         <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/>   
         <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
         <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
+
         </Routes>
         <Footer />
       </div>

@@ -1,58 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const OrderForm = () => {
-    // Retrieve orderData from local storage
+    const navigate = useNavigate();
     const initialOrderData = JSON.parse(localStorage.getItem('orderData')) || {};
-    // Initialize state variables
+
     const [customerName, setCustomerName] = useState(initialOrderData.customerName || '');
     const [customerEmail, setCustomerEmail] = useState(initialOrderData.customerEmail || '');
     const [quantity, setQuantity] = useState(initialOrderData.quantity || '');
     const [packageType, setPackageType] = useState(initialOrderData.packageType || '');
     const [customerNote, setCustomerNote] = useState(initialOrderData.customerNote || '');
-
-    // Function to handle form submission
+    const [date, setDate] = useState(initialOrderData.date || '');
+ 
     const sendData = (e) => {
         e.preventDefault();
-
-        // Create order object to send to the backend
+    
         const order = {
-            customerName,
-            customerEmail,
-            quantity,
-            packageType,
-            customerNote,
+            Cus_name: customerName,
+            Cus_email: customerEmail,
+            qty: quantity,
+            package_type: packageType,
+            Cus_note: customerNote,
+            date: date,
+        
         };
-
-        // Log the order data to verify its structure before sending
+    
         console.log('Order Data:', order);
-
-        // Make POST request to add the order
+    
         axios.post("http://localhost:8080/orders/add", order)
             .then((response) => {
                 alert("Order added successfully!");
                 console.log(response.data);
-                
-                // Optionally, you can reset the form fields after successful submission
+                // Reset form fields
                 setCustomerName('');
                 setCustomerEmail('');
                 setQuantity('');
                 setPackageType('');
                 setCustomerNote('');
-                
-                // Clear the orderData from localStorage if necessary
+                setDate('');
                 localStorage.removeItem('orderData');
+                navigate('/OrderDashBoardPage'); 
             })
             .catch((err) => {
-                alert("Order not added: " + err.message);
-                console.error(err);
+                console.error("Error details:", err.response ? err.response.data : err.message);
+                alert("Order not added: " + (err.response ? err.response.data.message : err.message));
             });
     };
+    
 
     return (
         <div>
             <style>
                 {`
+                body{background-color:#e6eee4;}
                 .Or_addcard {
                     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
                     transition: 0.3s;
@@ -66,7 +67,6 @@ const OrderForm = () => {
                     margin-top: 4.3rem;
                     text-align: center;
                 }
-
                 .or_addbuttonx {
                     padding: 0.7rem 1.5rem;
                     border: none;
@@ -76,11 +76,9 @@ const OrderForm = () => {
                     cursor: pointer;
                     transition: background-color 0.3s;
                 }
-
                 .or_addbuttonx:hover {
                     background-color: #385cd2;
                 }
-
                 .or_row {
                     display: flex;
                     align-items: center;
@@ -89,23 +87,19 @@ const OrderForm = () => {
                     width: 100%;
                     max-width: 600px;
                 }
-
                 .or_title {
                     flex: 1;
                     font-weight: bold;
                     text-align: right;
                     margin-right: 1rem;
                 }
-
                 .or_colon {
                     margin-right: 1rem;
                 }
-
                 .or_value {
                     flex: 2;
                     text-align: left;
                 }
-
                 .or_all {
                     margin-left: 200px;
                 }
@@ -118,7 +112,8 @@ const OrderForm = () => {
                         <div className="or_title">Your Name</div>
                         <div className="or_colon">:</div>
                         <div className="or_value">
-                            <input 
+                            <input
+                            readOnly
                                 type="text" 
                                 value={customerName} 
                                 onChange={(e) => setCustomerName(e.target.value)} 
@@ -131,6 +126,7 @@ const OrderForm = () => {
                         <div className="or_colon">:</div>
                         <div className="or_value">
                             <input 
+                            readOnly
                                 type="email" 
                                 value={customerEmail} 
                                 onChange={(e) => setCustomerEmail(e.target.value)} 
@@ -143,6 +139,7 @@ const OrderForm = () => {
                         <div className="or_colon">:</div>
                         <div className="or_value">
                             <input 
+                            readOnly
                                 type="number" 
                                 value={quantity} 
                                 onChange={(e) => setQuantity(e.target.value)} 
@@ -156,6 +153,7 @@ const OrderForm = () => {
                         <div className="or_colon">:</div>
                         <div className="or_value">
                             <input 
+                            readOnly
                                 type="text" 
                                 value={packageType} 
                                 onChange={(e) => setPackageType(e.target.value)} 
@@ -168,9 +166,23 @@ const OrderForm = () => {
                         <div className="or_colon">:</div>
                         <div className="or_value">
                             <textarea 
+                            readOnly
                                 value={customerNote} 
                                 onChange={(e) => setCustomerNote(e.target.value)} 
                                 rows="3"
+                            />
+                        </div>
+                    </div>
+                    <div className="or_row">
+                        <div className="or_title">Date</div>
+                        <div className="or_colon">:</div>
+                        <div className="or_value"> 
+                            <input
+                            readOnly
+                                type="date"
+                                value={date}
+                                onChange={(e) => setDate(e.target.value)}
+                                required
                             />
                         </div>
                     </div>

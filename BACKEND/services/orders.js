@@ -1,8 +1,9 @@
-const Order = require("../Models/Order");
+const Order = require('../Models/Order'); 
+
 
 class OrderServices{
 
-    async createOrder(OrderData){
+    async createOrder(OrderData) {
         return await Order.create(OrderData);
     }
 
@@ -10,10 +11,11 @@ class OrderServices{
         return await Order.find();
     }
 
-    async getOrderByID(id){
+   
+    async getOrderByID(id) {
         return await Order.findById(id);
     } 
-
+    
     async updateOrder(id,updateData){
         return await Order.findByIdAndUpdate(id,updateData);
 
