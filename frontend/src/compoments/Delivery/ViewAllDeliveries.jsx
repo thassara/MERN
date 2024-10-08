@@ -125,7 +125,7 @@ const ViewAllDeliveries = () => {
 
     return (
         <div className="container">
-            <h2>View All Delivery Issues</h2>
+            <h5 style={{ textAlign: 'center', fontSize: '30px', marginTop: '15px', marginBottom: '35px' }}>View All Delivery Issues</h5> 
 
             <div className="search-container">
                 <input
