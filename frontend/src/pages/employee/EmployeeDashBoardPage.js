@@ -17,7 +17,7 @@ function EmployeeDashBoardPage() {
       return <EmployeeDashBoardThree />;
     }
   };
-//push test for main (remove this line later)
+
   return (
     <div>
       <style>
