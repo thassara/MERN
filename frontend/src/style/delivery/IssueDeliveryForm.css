@@ -1,0 +1,91 @@
+
+.issue-delivery-container {
+    max-width: 500px; 
+    margin: 20px auto; 
+    padding: 20px; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    background-color: #f9f9f9; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  }
+  
+  /* Form Heading */
+  .issue-delivery-container h2 {
+    text-align: center; 
+    color: #003366; 
+  }
+  
+  /* Status Messages */
+  .status-message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center; 
+  }
+  
+  .success {
+    background-color: #e0ffe0; 
+    color: #005700;
+  }
+  
+  .error {
+    background-color: #ffe0e0; 
+    color: #b00000; 
+  }
+  
+  /* Form styles */
+  .issue-delivery-form {
+    display: flex; 
+    flex-direction: column; 
+  }
+  
+  /* Label styles */
+  .issue-delivery-form label {
+    margin-bottom: 10px;
+    font-weight: bold; 
+    color: #333; 
+  }
+  
+  /* Input and select styles */
+  .issue-delivery-form input,
+  .issue-delivery-form select {
+    width: 100%; 
+    padding: 10px; 
+    margin-bottom: 15px; 
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-size: 16px;
+  }
+  
+  /* Button styles */
+  .issue-button,
+  .issue-button-cancel {
+    padding: 10px 15px; 
+    margin-top: 10px; 
+    border: none; 
+    border-radius: 5px; 
+    font-size: 16px; 
+    cursor: pointer; 
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Submit button style */
+  .issue-button {
+    background-color: #0048c7; 
+    color: white; 
+  }
+  
+  .issue-button:hover {
+    background-color: #023ea5; 
+  }
+  
+  /* Cancel button style */
+  .issue-button-cancel {
+    background-color: #ff6666; 
+    color: white;
+  }
+  
+  .issue-button-cancel:hover {
+    background-color: #ff3333; 
+  }
+  

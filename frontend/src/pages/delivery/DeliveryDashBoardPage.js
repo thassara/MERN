@@ -1,8 +1,10 @@
 import React from 'react';
+import Machinetable from '../../compoments/Delivery/VehicleManagement';
+
 function DeliveryDashBoardPage() {
   return (
     <div>
-        <h1>THis is the delivery dashboard Page</h1>
+        <Machinetable/>
         
       </div>
        

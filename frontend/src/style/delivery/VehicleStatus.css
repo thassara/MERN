@@ -1,0 +1,122 @@
+/* Container for the entire component */
+.vehicle-status-container {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    background-color: #f8f9fc;
+    min-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Header Styling */
+.vehicle-status-container h2 {
+    font-size: 28px;
+    color: #343a40;
+    margin-bottom: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Table Frame for better layout */
+.table-frame {
+    width: 100%;
+    max-width: 1000px;
+    padding: 20px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+/* Table Styling */
+.vehicle-status-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin-bottom: 10px;
+}
+
+.vehicle-status-table th, .vehicle-status-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Header styling - Dark blue header */
+.vehicle-status-table th {
+    background-color: #0a3d62; 
+    color: white;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    font-weight: bold;
+}
+
+/* Table cell */
+.vehicle-status-table td {
+    font-size: 16px;
+    color: #495057;
+    word-wrap: break-word;
+}
+
+/* Select dropdown for status */
+.vehicle-status-select {
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease;
+}
+
+.vehicle-status-select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Button Styling - Light blue button */
+.action-button {
+    padding: 8px 15px;
+    background-color: #00a8ff; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.action-button:hover {
+    background-color: #0097e6;
+    transform: scale(1.05);
+}
+
+/* Table Row hover effect */
+.vehicle-status-table tbody tr:hover {
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+}
+
+/* Responsive Design for smaller screens */
+@media (max-width: 768px) {
+    .table-frame {
+        padding: 10px;
+    }
+
+    .vehicle-status-table th, .vehicle-status-table td {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .vehicle-status-select {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+
+    .action-button {
+        font-size: 14px;
+        padding: 6px 10px;
+    }
+}

@@ -18,9 +18,17 @@ import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage';
 import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage';
 import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
 import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
+import VehicleManagement from './compoments/Delivery/VehicleManagement';
+import VehicleAdd from './compoments/Delivery/VehicleAdd';
+import VehicleStatus from './compoments/Delivery/VehicleStatus';
+import UpdateVehicle from './compoments/Delivery/UpdateVehicle';
+import IssueDeliveryForm from './compoments/Delivery/IssueDeliveryForm';
+import ViewAllDeliveries from './compoments/Delivery/ViewAllDeliveries';
+
+
 import Or_add from './compoments/Order/AddForm';
 import Or_Confirm from './compoments/Order/Or_confirm';
-import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Outlet} from "react-router-dom";
 //Employee Section
 import EditEmployee from './compoments/Employee/EditEmployee';
 import AddEmployee from './compoments/Employee/AddEmployee';
@@ -52,8 +60,13 @@ function App() {
         <Route path="/PaymentDashBoardPage" element={<PaymentDashBoardPage/>}/> 
         <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/>   
         <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
-        <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
-        
+        <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>
+        <Route path="/vehicle-management" element={<VehicleManagement />} />
+        <Route path="/DeliveryDashBoardPage/add-vehicle" element={<VehicleAdd />} />
+        <Route path="/DeliveryDashBoardPage/Vehicle-Status" element={<VehicleStatus />} />
+        <Route path="/update-vehicle/:id" element={<UpdateVehicle />} />
+        <Route path="/IssueDeliveryForm" element={<IssueDeliveryForm />} />
+        <Route path="/ViewAllDeliveries" element={<ViewAllDeliveries />} />
         /*EmployeeSection*/
         <Route path="/EditEmployee/:empId" element={<EditEmployee />} />
         <Route path="AddEmployee" element={<AddEmployee />} />

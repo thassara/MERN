@@ -1,0 +1,221 @@
+/* Container Styling */
+.container {
+  padding: 30px;
+  background-color: #f4f4f9;
+  max-width: 1800px;
+  margin: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Container Styling */
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.addButton, .viewProcessButton, .reportButton {
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-weight: bold;
+}
+
+.addButton {
+  background-color: #007bff;
+}
+
+.addButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-3px);
+}
+
+.viewProcessButton {
+  background-color: #3551f0;
+}
+
+.viewProcessButton:hover {
+  background-color: #011bac;
+  transform: translateY(-3px);
+}
+
+.reportButton {
+  background-color: #17a2b8;
+}
+
+.reportButton:hover {
+  background-color: #117a8b;
+  transform: translateY(-3px);
+}
+
+/* Search bar styling */
+.searchContainer {
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.searchInput {
+  width: 320px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.searchInput:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Table container */
+.tableFrame {
+  border-radius: 12px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  margin-bottom: 80px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeader {
+  background-color: #003366; 
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-size: 18px;
+  border-bottom: 3px solid #ddd;
+}
+.tableCell {
+  padding: 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 16px;
+  color: #333;
+  text-align: center; 
+}
+
+.tableCell.capacity {
+  padding-right: 50px; 
+}
+
+/* Center buttons inside the Actions column */
+.tableCell.actions {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 10px; 
+}
+
+/* Edit button */
+.editButton {
+  padding: 12px 20px;
+  background-color: #0048c7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-right: 8px;
+  display: inline-block;
+}
+
+.editButton:hover {
+  background-color: #0a1dc2;
+  transform: translateY(-2px);
+}
+/* Delete button */
+.deleteButton {
+  padding: 12px 20px;
+  background-color: #e02c18;
+  color: white;
+  border: none; 
+  border-radius: 8px;
+  font-size: 16px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease, transform 0.3s ease; 
+  display: inline-block; 
+}
+
+.deleteButton:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px); 
+}
+/* Status dropdown styling */
+.statusDropdown {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  font-size: 16px;
+  background-color: white;
+  transition: border-color 0.3s ease;
+}
+
+.statusDropdown:focus {
+  border-color: #007bff;
+  outline: none;
+}
+/* Stock cards styling */
+.stock-cards {
+  display: flex;
+  justify-content: center;
+  justify-content: center; 
+  align-items: center;
+  margin-top: 20px;
+  padding: 0 20px;
+  margin-bottom: 40px;
+ 
+}
+
+.stock-cards .card {
+  text-align: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 200px;
+  height: auto;
+  margin: 0 50px; 
+}
+
+.stock-cards .card img {
+  width: 140px;
+  height: 100px;
+  object-fit: contain; 
+  margin-bottom: 10px;
+}
+
+.stock-cards .card h3 {
+  font-size: 18px;
+  color: #333;
+  margin-top: 20px;
+}
+
+.stock-cards .card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+
+
+/* Heading Styling */
+h5 {
+  font-size: 28px;
+  color: #333;
+  text-align: center;
+  margin-bottom: 40px;
+  margin-top: 60px;
+  font-weight: bold;
+}

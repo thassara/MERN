@@ -1,0 +1,119 @@
+.container {
+  max-width: 1600px;
+  margin: 20px auto; 
+  padding: 20px; 
+  background-color: #ffffff; 
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+}
+
+/* Heading styles */
+.container h2 {
+  text-align: center; 
+  color: #000000; 
+  margin-bottom: 20px; 
+}
+
+/* Search bar container */
+.search-container {
+  display: flex;
+  justify-content: flex-end; /* Aligns the search bar to the right */
+  margin-bottom: 20px;
+}
+
+/* Search bar styles */
+.search-bar {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 300px;
+}
+
+/* Button styles */
+button {
+  padding: 10px 15px; 
+  margin: 10px; 
+  border: none; 
+  border-radius: 5px; 
+  font-size: 16px; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease; 
+}
+
+/* Edit and Delete button styles */
+.btn-edit {
+  background-color: #ffc107; 
+  color: white;
+}
+
+.btn-edit:hover {
+  background-color: #e0a800; 
+}
+
+.btn-delete {
+  background-color: #ff6666; 
+  color: white; 
+}
+
+.btn-delete:hover {
+  background-color: #ff3333; 
+}
+
+/* Table styles */
+.table {
+  width: 100%; 
+  border-collapse: collapse; 
+  margin-top: 20px;
+}
+
+/* Table header styles */
+.table thead th {
+  background-color: #003366;
+  color: white; 
+  padding: 10px; 
+  text-align: center; 
+}
+
+/* Table cell styles */
+.table th, .table td {
+  padding: 10px; 
+  border: 1px solid #ddd; 
+  text-align: center; 
+}
+
+/* Alternating row colors in the table body */
+.table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Select dropdown styles */
+select {
+  padding: 10px; 
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%; 
+  font-size: 16px; 
+}
+
+/* Status message styles */
+.status-message {
+  padding: 10px; 
+  margin: 10px 0; 
+  border-radius: 5px; 
+  text-align: center; 
+}
+
+.success {
+  background-color: #e0ffe0; 
+  color: #005700; 
+}
+
+.error {
+  background-color: #ffe0e0; 
+  color: #b00000; 
+}
