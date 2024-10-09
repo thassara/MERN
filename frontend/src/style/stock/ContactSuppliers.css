@@ -1,0 +1,154 @@
+/* ContactSuppliers.css */
+
+/* General container styling */
+.contact-suppliers-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #2a2a2a;
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Flexbox layout */
+.CSflex-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 20px; /* add some space between the two containers */
+}
+
+/* Restocked Items form styling */
+.restocked-items-container {
+    width: 45%;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+}
+
+.restocked-items-container h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.CSform-group {
+    margin-bottom: 15px;
+}
+
+.CSform-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #555;
+}
+
+.CSform-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.CSform-control:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.25);
+}
+
+.CSbtn_submit {
+    background-color: #0088a9;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+}
+
+.CSbtn_submit:hover {
+    background-color: rgba(30, 51, 154, 0.8);
+}
+
+/* Supplier Details table styling */
+.supplier-details-container {
+    width: 45%;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+}
+
+.supplier-details-container h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.CStable {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+    font-size: 1rem;
+}
+
+.CStable thead {
+    background-color: #007bff;
+    color: #333;
+}
+
+.CStable th,
+.CStable td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.CStable th {
+    font-weight: bold;
+}
+
+.CStable tr:hover {
+    background-color: #f1f1f1;
+}
+
+
+/* Buttons inside the table for contact */
+.CSbtn-sm {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    margin: 0 5px;
+    border-radius: 4px;
+}
+
+.CSbtn_email {
+    background-color: #004cfe;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.CSbtn_email:hover {
+    background-color: #006aff;
+}
+
+.CSbtn_call {
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.CSbtn_call:hover {
+    background-color: #c90b0b;
+}

@@ -1,0 +1,125 @@
+.stock-dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh; 
+}
+
+.form-container {
+    width: 80%; 
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: center; 
+}
+
+.alltable {
+    width: 100%; 
+    margin-top: 20px;
+}
+
+.alltable td, .alltable th {
+    text-align: center; 
+}
+
+.mngItems {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.itmSearch{
+    text-align: right;
+  }
+
+  .itmbtn{
+    background-color: #0088a9;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    
+  }
+
+  .edit-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Bring it in front */
+    width: 400px;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-content h4 {
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.modal-content label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.modal-content input:focus {
+    outline: none;
+    border-color: #0088a9; 
+}
+
+.btn-success {
+    background-color: #0088a9;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-success:hover {
+    background-color: rgba(30, 51, 154, 0.8);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.search-control{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
