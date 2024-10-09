@@ -80,7 +80,7 @@ function AdminLogin({ userType }) {
     </div>
   );
 }
-}
+
 
 const styles = {
   container: {
