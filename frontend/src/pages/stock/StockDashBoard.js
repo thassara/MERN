@@ -88,7 +88,6 @@ function StockDashBoardOne() {
                                     <td style={getQuantityStyle(item.availableQty, item.alrtQty)}>
                                         {item.availableQty}
                                     </td>
-                                    <td>{item.availableQty}</td>
                                     <td>{item.alrtQty}</td>
                                     <td>{item.measurement}</td>
                                 </tr>

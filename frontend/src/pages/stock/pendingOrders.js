@@ -16,6 +16,21 @@ function PendingOrders() {
             .catch((err) => alert(err.message));
     }, []);
 
+
+    // Fetch orders from the server on component mount
+    useEffect(() => {
+        axios.get("http://localhost:8070/orders/Allread")
+            .then((res) => {
+                setOrders(res.data);
+            })
+            .catch((err) => {
+                console.error("Error fetching orders:", err);
+                alert("Error fetching orders: " + err.message);
+            });
+    }, []);
+
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -127,31 +142,21 @@ function PendingOrders() {
                             </tr>
                         </thead>
                         <tbody>
-                            
-                            <tr>
-                                <td>08/25/2024</td>
-                                <td>P0019</td>
+                        
+                        {/* Loop through the orders and display each one */}
+                        {orders.map((order) => (
+                            <tr key={order._id}>
+                                <td>{new Date(order.date).toLocaleDateString()}</td> {/* Format the date */}
+                                <td>{order._id}</td> {/* Order ID */}
                                 <td>
-                                    <div>Type: bottle, Material: glass, Quantity: 100</div>
-                                    <div>Type: box, Material: cardboard, Quantity: 20</div>
+                                    {/* Display package_type, qty, and Cus_note in the Order Details column */}
+                                    <strong>Package Type:</strong> {order.package_type}<br />
+                                    <strong>Quantity:</strong> {order.qty}<br />
+                                    <strong>Customer Note:</strong> {order.Cus_note || "N/A"} {/* If Cus_note is empty, show "N/A" */}
                                 </td>
                             </tr>
-                            <tr>
-                                <td>08/23/2024</td>
-                                <td>P0018</td>
-                                <td>
-                                    <div>Type: box, Material: rigiform, Quantity: 50</div>
-                                    <div>Type: box, Material: cardboard, Quantity: 40</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>08/20/2024</td>
-                                <td>P0017</td>
-                                <td>
-                                    <div>Type: bottle, Material: paper, Quantity: 100</div>
-                                    <div>Type: box, Material: cardboard, Quantity: 20</div>
-                                </td>
-                            </tr>
+                        ))}  
+                        
                         </tbody>
                     </table>
                 </div>
