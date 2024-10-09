@@ -1,0 +1,127 @@
+/* Centering the title */
+.title-center {
+    text-align: center;
+    margin-bottom: 40px;
+    font-size: 2em;
+    color: #333;
+}
+
+/* Adjust container to align elements vertically */
+.pending-orders-container {
+    width: 100%;
+    padding: 20px;
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.assign-order-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    gap: 30px;
+}
+
+/* Assign Items container */
+.assign-items-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.assign-items-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #4c4c4c;
+}
+
+/* Form fields styling */
+.POform-group {
+    margin-bottom: 15px;
+}
+
+.POform-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    color: #555;
+}
+
+.POform-control {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.POsubmit {
+    width: 100%;
+    padding: 10px;
+    background-color: #0088a9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.POsubmit:hover {
+    background-color: rgba(30, 51, 154, 0.8);
+}
+
+/* Order Details container */
+.POorder-details-container {
+    flex: 2;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.order-details-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+    color: #4c4c4c;
+}
+
+/* Table styling */
+.POtable {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.POtable th, .POtable td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.POtable th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    color: #333;
+}
+
+.POtable-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.POtable-striped tbody tr:hover {
+    background-color: #f1f1f1;
+}
+.POtitle{
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-align: center;
+}

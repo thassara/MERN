@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./../../style/stock/StockDashBoard.css"; // Add your styles here
 
+
 function StockDashBoardOne() {
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
@@ -40,7 +41,7 @@ function StockDashBoardOne() {
             return { backgroundColor: "orange", color: "white", fontWeight: "bold" }; // Orange for difference between 20 and 0
         }
         return {}; // Default style (no color)
-    };
+    }; 
 
     return (
         <div className="dashboard-container">
@@ -52,6 +53,7 @@ function StockDashBoardOne() {
                 <button onClick={() => handleNavigate('/StockDetails')}>Stock Details</button>
             </div>
 
+            
             <div className="inventory-container">
                 <h3 className="inventory-title">Inventory</h3>
                 <div className="search-bar-container">
@@ -86,6 +88,7 @@ function StockDashBoardOne() {
                                     <td style={getQuantityStyle(item.availableQty, item.alrtQty)}>
                                         {item.availableQty}
                                     </td>
+                                    <td>{item.availableQty}</td>
                                     <td>{item.alrtQty}</td>
                                     <td>{item.measurement}</td>
                                 </tr>
