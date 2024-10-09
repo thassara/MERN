@@ -11,6 +11,7 @@ function Or_Dashboard() {
            <Or_AnalysisCard/>
             <Or_AdminTable />
             <button onClick={() => navigate('/Or_Add')}>Add</button>
+            <button onClick={() => navigate('/OrderTracking')}>Add</button>
         </div>
     );
 }

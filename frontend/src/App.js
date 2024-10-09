@@ -24,6 +24,8 @@ import Profile from './pages/payment/PMprofile';
 import PaymentForm from './pages/payment/Addpaymentform';
 import CusDashboard from './pages/payment/CusDashboard';
 
+import PaymentAdd from './pages/payment/Addpaymentform'
+import OrderTracking from './pages/order/OrderTracking'
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 
 function App() {
@@ -52,6 +54,7 @@ function App() {
         <Route path="/OrderDashBoardPage" element={<OrderDashBoardPage/>}/> 
         <Route path="/PaymentDashBoardPage" element={<PaymentDashBoardPage/>}/> 
         <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/>   
+        <Route path="/OrderTracking" element={<OrderTracking/>}/>  
         <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
         <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
         </Routes>
