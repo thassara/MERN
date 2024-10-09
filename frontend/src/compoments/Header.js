@@ -23,6 +23,7 @@ function Header() {
                         <li><a href="/">Home</a></li>
                         <li><a href="/Regi">Register</a></li>
                         <li><a href="/AdminLogin">Admin</a></li>
+                        <li><a onClick={() => navigate('/Or_Add')}>Place Order</a></li>
                         <li><a href="/EmpLogin">Employee</a></li>
                     </ul>
                 </nav>

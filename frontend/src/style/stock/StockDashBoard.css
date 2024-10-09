@@ -1,0 +1,107 @@
+/* Ensure the whole page height is considered */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Center the entire dashboard container */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Vertically center the content */
+    height: 100vh; /* Full viewport height for centering vertically */
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box; /* Ensure padding is accounted in height */
+}
+
+/* Button Group Styling */
+.button-group {
+    margin-bottom: 20px;
+}
+
+.button-group button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #0088a9;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.button-group button:hover {
+    background-color: rgba(30, 51, 154, 0.8);
+}
+
+/* Inventory Section Centering */
+.inventory-container {
+    width: 100%;
+    max-width: 800px; /* Control the maximum width of the table */
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* Inventory Title */
+.inventory-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+/* Search Bar Container */
+.search-bar-container {
+    width: 100%; /* Make the search bar span the entire container */
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar-container label {
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.form-control {
+    width: 60%; /* Set input width */
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+table th, table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+table tbody tr:hover {
+    background-color: #f1f1f1;
+}
