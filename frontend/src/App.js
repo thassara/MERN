@@ -25,7 +25,6 @@ import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
 import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
 import Or_add from './compoments/Order/AddForm';
 import Or_Confirm from './compoments/Order/Or_confirm';
-<<<<<<< HEAD
 import Handlepayment from './pages/payment/Handlepayment';
 import Profile from './pages/payment/PMprofile';
 import PaymentForm from './pages/payment/Addpaymentform';
@@ -33,10 +32,8 @@ import CusDashboard from './pages/payment/CusDashboard';
 
 import PaymentAdd from './pages/payment/Addpaymentform'
 import OrderTracking from './pages/order/OrderTracking'
-=======
 import Or_track from './pages/order/OrderTracking';
 import Or_update from './compoments/Order/Or_Updateform';
->>>>>>> main
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 //Employee Section
 import EditEmployee from './compoments/Employee/EditEmployee';
@@ -78,14 +75,11 @@ function App() {
         <Route path="/Or_Add/order-details" element={<Or_Confirm/>}/>
         <Route path="/OrderDashBoardPage" element={<OrderDashBoardPage/>}/> 
         <Route path="/PaymentDashBoardPage" element={<PaymentDashBoardPage/>}/> 
-<<<<<<< HEAD
         <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/>   
         <Route path="/OrderTracking" element={<OrderTracking/>}/>  
-=======
         <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/> 
 
         <Route path="/EmployeeProfile" element={<EmployeeProfile/>}/>   
->>>>>>> main
         <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
         <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
         

@@ -1,8 +1,6 @@
-<<<<<<< HEAD
-import React from 'react';
 
-function App() {
-=======
+
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -78,7 +76,6 @@ function App() {
     fetchOrderData();
   }, [id]); 
 
->>>>>>> main
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
       <style>
@@ -221,7 +218,6 @@ function App() {
         `}
       </style>
 
-<<<<<<< HEAD
       <h1 className="or_header">Ruchi Package</h1>
 
       <div className="or_orderSection">
@@ -256,7 +252,6 @@ function App() {
         </div>
       </div>
 
-=======
       {orderData ? (
         <div className="or_orderSection">
           {/* Order Tracking Section */}
@@ -324,7 +319,6 @@ function App() {
         <p>Loading...</p>
       )}
       
->>>>>>> main
       <div className="or_otherOrders">
         <h2 className="or_title">OTHER ORDERS</h2>
         <table className="or_table">
@@ -343,11 +337,8 @@ function App() {
             </tr>
             <tr>
               <td className="or_tableData">E2895A</td>
-<<<<<<< HEAD
               <td className="or_tableData">Restaurants pack</td>
-=======
               <td className="or_tableData">Restaurants packs</td>
->>>>>>> main
               <td className="or_tableData"><button className="or_moreButton">More</button></td>
             </tr>
           </tbody>

@@ -10,14 +10,11 @@ function AdminLogin({ userType }) {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-<<<<<<< HEAD
     // Dummy logic - Replace with backend logic
     const StoredRole = "General"; // Example stored role, replace with real logic
-=======
     try {
       const response = await fetch(`http://localhost:8080/api/login/${username}/${password}/${role}`);
       const data = await response.json();
->>>>>>> main
 
       if (response.ok) {
         // Perform client-side comparison
@@ -51,37 +48,21 @@ function AdminLogin({ userType }) {
       <form onSubmit={handleLogin} style={styles.form}>
         <div style={styles.inputContainer}>
           <label style={styles.label}>Username:</label>
-<<<<<<< HEAD
-          <input 
-            type="text" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-            required 
-=======
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
->>>>>>> main
             style={styles.input}
           />
         </div>
         <div style={styles.inputContainer}>
           <label style={styles.label}>Password:</label>
-<<<<<<< HEAD
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
-=======
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
->>>>>>> main
             style={styles.input}
           />
         </div>

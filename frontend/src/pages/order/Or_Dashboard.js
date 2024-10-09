@@ -10,12 +10,9 @@ function Or_Dashboard() {
             <h1 style={{ fontSize: '30px',fontWeight: 'bold', marginLeft:'25px' }}>Order Dashboard</h1>
            <Or_AnalysisCard/>
             <Or_AdminTable />
-<<<<<<< HEAD
             <button onClick={() => navigate('/Or_Add')}>Add</button>
             <button onClick={() => navigate('/OrderTracking')}>Add</button>
-=======
             {/* <button onClick={() => navigate('/Or_Add')}>Add</button> */}
->>>>>>> main
         </div>
     );
 }

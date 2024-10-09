@@ -2,17 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-<<<<<<< HEAD
-=======
-const app = express();
+
 const or_Routes = require("./Routes/Order");
->>>>>>> main
 require('dotenv').config();
 const stockRouter = require('./Routes/stockRoutes');
 const restockRouter = require('./Routes/restockRoutes');
 const assign_itemsRouter = require('./Routes/assign_itemsRoutes');
 
-<<<<<<< HEAD
 const app = express();
 
 // Import routes
@@ -20,10 +16,8 @@ const expenseRoutes = require('./Routes/ExpenseRoutes.js');
 const PMprofileRoutes = require('./Routes/PMprofile.js');
 const paymentRoutes = require('./Routes/paymentRoutes.js');
 
-const PORT = process.env.PORT || 8070;
-=======
+
 const PORT = process.env.PORT||8080;
->>>>>>> main
 
 const employeeRoutes = require('./Routes/employeeRoutes.js'); 
 const attendanceRoutes = require('./Routes/attendanceRoutes.js');
@@ -47,7 +41,6 @@ app.use("/orders",or_Routes);
 // Connect to MongoDB
 const URL = process.env.MONGODB_URL;
 
-<<<<<<< HEAD
 mongoose.connect(URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -63,7 +56,6 @@ mongoose.connect(URL, {
 app.use("/expenses", expenseRoutes); // Using /expenses for clarity
 app.use("/PMprofiles", PMprofileRoutes); 
 app.use("/payments", paymentRoutes);
-=======
 
 mongoose.connect(URL, {
     useNewUrlParser: true,
@@ -80,14 +72,9 @@ app.use("/restock", restockRouter);
 app.use("/assign_items", assign_itemsRouter);
 
 
->>>>>>> main
 
 // Start the server
 app.listen(PORT, () => {
-<<<<<<< HEAD
-    console.log(`Server is up and running on Port: ${PORT}`);
-=======
     console.log(`Server is up and running on Port number: ${PORT}`);
 
->>>>>>> main
 });
