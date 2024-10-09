@@ -3,22 +3,28 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 const MachineStatus = () => {
   const location = useLocation();
-  const navigate = useNavigate(); // Import useNavigate for navigation
-  const { machineNames } = location.state || { machineNames: [] }; // Default to empty array if no data passed
+  const navigate = useNavigate();
+  const { machineNames } = location.state || { machineNames: [] };
 
   // Function to get the initial statuses from localStorage or default to 'Available'
-  const getInitialStatuses = () => {
+  const getInitialStatuses = (machineNames) => {
     const savedStatuses = localStorage.getItem('machineStatuses');
     return savedStatuses ? JSON.parse(savedStatuses) : machineNames.map(() => 'Available');
   };
 
   // State to hold the status for each machine
-  const [machineStatuses, setMachineStatuses] = useState(getInitialStatuses);
+  const [machineStatuses, setMachineStatuses] = useState(getInitialStatuses(machineNames));
+  const [currentMachineNames, setCurrentMachineNames] = useState(machineNames);
 
   // Sync machineStatuses to localStorage on every change
   useEffect(() => {
     localStorage.setItem('machineStatuses', JSON.stringify(machineStatuses));
   }, [machineStatuses]);
+
+  // Update machine statuses when currentMachineNames change
+  useEffect(() => {
+    setMachineStatuses(getInitialStatuses(currentMachineNames));
+  }, [currentMachineNames]);
 
   // Function to update machine status
   const handleStatusChange = (index, newStatus) => {
@@ -42,15 +48,18 @@ const MachineStatus = () => {
   };
 
   // Function to handle Assign Order and navigate to AssignMachine
-  const HandleAssignOrder = (index) => {
-    console.log(`Assigning order to machine: ${machineNames[index]}`);
-    navigate('/MachineStatus/Assign-machine', { state: { machineId: machineNames[index] } });
+  const handleAssignOrder = (index) => {
+    console.log(`Assigning order to machine: ${currentMachineNames[index]}`);
+    navigate('/MachineStatus/Assign-machine', { state: { machineId: currentMachineNames[index] } });
   };
 
-  // Function to handle Maintain
-  const handleMaintain = (index) => {
-    console.log(`Maintaining machine: ${machineNames[index]}`);
-    // Implement logic for maintenance
+  // Function to remove a machine
+  const handleRemoveMachine = (index) => {
+    const updatedNames = currentMachineNames.filter((_, i) => i !== index);
+    const updatedStatuses = machineStatuses.filter((_, i) => i !== index);
+    
+    setCurrentMachineNames(updatedNames);
+    setMachineStatuses(updatedStatuses);
   };
 
   // Count the machines by status
@@ -87,7 +96,7 @@ const MachineStatus = () => {
             </tr>
           </thead>
           <tbody>
-            {machineNames.map((machineName, index) => (
+            {currentMachineNames.map((machineName, index) => (
               <tr
                 key={index}
                 style={{ backgroundColor: getRowColor(machineStatuses[index]) }} // Apply dynamic background color
@@ -105,15 +114,20 @@ const MachineStatus = () => {
                   </select>
                 </td>
                 <td style={styles.tableCell}>
-                  {/* Conditionally render the button only if the machine is "Available" */}
                   {machineStatuses[index] === 'Available' && (
                     <button
-                      onClick={() => HandleAssignOrder(index)}
+                      onClick={() => handleAssignOrder(index)}
                       style={styles.actionButton}
                     >
                       Assign Order
                     </button>
                   )}
+                  <button
+                    onClick={() => handleRemoveMachine(index)}
+                    style={styles.removeButton}
+                  >
+                    Remove
+                  </button>
                 </td>
               </tr>
             ))}
@@ -188,6 +202,16 @@ const styles = {
     padding: '5px 10px',
     marginRight: '5px',
     backgroundColor: '#28a745',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
+  removeButton: {
+    padding: '5px 10px',
+    marginLeft: '5px',
+    backgroundColor: '#dc3545',
     color: '#fff',
     border: 'none',
     borderRadius: '5px',

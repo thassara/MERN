@@ -12,30 +12,26 @@ const MachineAdd = () => {
     const navigate = useNavigate();
 
     // Regex to match symbols
-    const symbolRegex = /[^a-zA-Z0-9\s]/;
+    const symbolRegex = /[^a-zA-Z0-9\s]/g;
 
-    // Function to validate form fields
-    const validateFields = () => {
-        const validationErrors = {};
+    // Real-time validation for machine name, description, and quality details
+    const validateRealTime = (field, value) => {
+        let error = '';
+        const invalidSymbols = value.match(symbolRegex);
 
-        if (symbolRegex.test(machineName)) {
-            validationErrors.machineName = 'Symbols are not allowed in Machine Name.';
-        }
-        if (symbolRegex.test(description)) {
-            validationErrors.description = 'Symbols are not allowed in Description.';
-        }
-        if (symbolRegex.test(qualityDetails)) {
-            validationErrors.qualityDetails = 'Symbols are not allowed in Quality Details.';
-        }
-        if (!durationTime || isNaN(durationTime) || durationTime <= 0) {
-            validationErrors.durationTime = 'Please enter a valid duration time in hours.';
+        if (invalidSymbols) {
+            error = `Invalid symbol(s): ${invalidSymbols.join(', ')} are not allowed in ${field}.`;
         }
 
-        return validationErrors;
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [field]: error,
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const validationErrors = validateFields();
 
         if (Object.keys(validationErrors).length === 0) {
@@ -66,11 +62,31 @@ const MachineAdd = () => {
         }
     };
 
+    // Full validation when form is submitted
+    const validateFields = () => {
+        const validationErrors = {};
+
+        if (symbolRegex.test(machineName)) {
+            validationErrors.machineName = 'Symbols are not allowed in Machine Name.';
+        }
+        if (symbolRegex.test(description)) {
+            validationErrors.description = 'Symbols are not allowed in Description.';
+        }
+        if (symbolRegex.test(qualityDetails)) {
+            validationErrors.qualityDetails = 'Symbols are not allowed in Quality Details.';
+        }
+        if (!durationTime || isNaN(durationTime) || durationTime <= 0) {
+            validationErrors.durationTime = 'Please enter a valid duration time in hours.';
+        }
+
+        return validationErrors;
+    };
+
     return (
-        <div style={styles.formContainer }>
-         
+        <div style={styles.formContainer}>
             <form onSubmit={handleSubmit}>
                 <h2 style={styles.heading}>Add Machine</h2>
+                
                 <label htmlFor="machine-name" style={styles.label}>Machine Name:</label>
                 <input
                     type="text"
@@ -78,7 +94,10 @@ const MachineAdd = () => {
                     name="machine-name"
                     placeholder="Enter machine name"
                     value={machineName}
-                    onChange={(e) => setMachineName(e.target.value)}
+                    onChange={(e) => {
+                        setMachineName(e.target.value);
+                        validateRealTime('machineName', e.target.value);
+                    }}
                     required
                     style={styles.input}
                 />
@@ -99,13 +118,15 @@ const MachineAdd = () => {
 
                 <label htmlFor="description" style={styles.label}>Description:</label>
                 <textarea
-                    type="text"
                     id="description"
                     name="description"
                     placeholder="Enter description"
                     rows="4"
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    onChange={(e) => {
+                        setDescription(e.target.value);
+                        validateRealTime('description', e.target.value);
+                    }}
                     required
                     style={styles.textarea}
                 ></textarea>
@@ -113,13 +134,15 @@ const MachineAdd = () => {
 
                 <label htmlFor="quality-details" style={styles.label}>Quality Details:</label>
                 <textarea
-                    type="text"
                     id="quality-details"
                     name="quality-details"
                     placeholder="Enter quality details"
                     rows="4"
                     value={qualityDetails}
-                    onChange={(e) => setQualityDetails(e.target.value)}
+                    onChange={(e) => {
+                        setQualityDetails(e.target.value);
+                        validateRealTime('qualityDetails', e.target.value);
+                    }}
                     required
                     style={styles.textarea}
                 ></textarea>
@@ -133,8 +156,7 @@ const MachineAdd = () => {
 };
 
 const styles = {
-  
-  formContainer: {
+    formContainer: {
         backgroundColor: '#ffffff',
         padding: '20px 40px',
         borderRadius: '10px',
@@ -190,5 +212,3 @@ const styles = {
 };
 
 export default MachineAdd;
-
-
