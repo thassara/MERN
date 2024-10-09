@@ -13,7 +13,11 @@ function EmployeeDashBoardTwo() {
   useEffect(() => {
     const fetchAttendanceData = async () => {
       try {
+<<<<<<< HEAD
         const response = await fetch('http://localhost:8070/api/GetAttendance');
+=======
+        const response = await fetch('http://localhost:8080/api/GetAttendance');
+>>>>>>> main
         const data = await response.json();
         setEmployeeData(data);
         setFilteredData(data); // Initialize filtered data
@@ -49,7 +53,11 @@ function EmployeeDashBoardTwo() {
   const handleDelete = async (AttID) => {
     if (window.confirm("Are you sure you want to delete this attendance record?")) {
       try {
+<<<<<<< HEAD
         const response = await fetch(`http://localhost:8070/api/DelAttendance/${AttID}`, {
+=======
+        const response = await fetch(`http://localhost:8080/api/DelAttendance/${AttID}`, {
+>>>>>>> main
           method: 'DELETE',
         });
         if (response.ok) {
@@ -270,3 +278,7 @@ function EmployeeDashBoardTwo() {
 }
 
 export default EmployeeDashBoardTwo;
+<<<<<<< HEAD
+=======
+//test
+>>>>>>> main

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const OrderForm = () => {
   const [customerName, setCustomerName] = useState('');
@@ -7,18 +7,47 @@ const OrderForm = () => {
   const [quantity, setQuantity] = useState(1);
   const [packageType, setPackageType] = useState('');
   const [customerNote, setCustomerNote] = useState('');
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10)); 
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    if (!customerName) {
+      window.alert('Please enter your name.');
+      return false;
+    }
+    if (!customerEmail || !/\S+@\S+\.\S+/.test(customerEmail)) {
+      window.alert('Please enter a valid email.');
+      return false;
+    }
+    if (quantity < 1) {
+      window.alert('Quantity must be at least 1.');
+      return false;
+    }
+    if (!packageType) {
+      window.alert('Please select a package type.');
+      return false;
+    }
+    if (!customerNote) {
+      window.alert('Please add a customer note.');
+      return false;
+    }
+    return true;
+  };
+
   const handleNext = () => {
+    if (!validateForm()) {
+      return; 
+    }
+
     const orderData = {
       customerName,
       customerEmail,
       quantity,
       packageType,
       customerNote,
+      date,
     };
 
-    
     localStorage.setItem('orderData', JSON.stringify(orderData));
 
     navigate(`/Or_Add/order-details`);
@@ -28,6 +57,7 @@ const OrderForm = () => {
     <div>
       <style>
         {`
+        body{background-color:#e6eee4;}
         .Or_addcard {
           box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
           transition: 0.3s;
@@ -111,10 +141,10 @@ const OrderForm = () => {
             />
           </div>
           <div className="or_form-group">
-            <label className='or_addleable' htmlFor="customerName">Your Email:</label>
+            <label className='or_addleable' htmlFor="customerEmail">Your Email:</label>
             <input
               type="email"
-              id="customerName"
+              id="customerEmail"
               value={customerEmail}
               onChange={(e) => setCustomerEmail(e.target.value)}
               required
@@ -131,6 +161,14 @@ const OrderForm = () => {
               required
             />
           </div>
+          <input
+            hidden
+            type="date"
+            id="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            required
+          />
           <div className="or_form-group">
             <label className='or_addleable' htmlFor="packageType">Package Type:</label>
             <select
