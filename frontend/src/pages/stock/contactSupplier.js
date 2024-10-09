@@ -20,9 +20,16 @@ function ContactSuppliers() {
     // Handle form submission to add restocked item
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Validate that the quantity is greater than zero
+    if (Number(quantity) <= 0) {
+        alert("Error: Quantity must be a positive number greater than zero");
+        return;  // Prevent form submission
+    }
+
         const newRestockedItem = {
             itemName,
-            quantity,
+            quantity: Number(quantity),
             measurement,
             purchaseDate,
         };

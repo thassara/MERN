@@ -41,16 +41,11 @@ connection.once("open", () => {
 });
 
 
-<<<<<<< HEAD
 app.use("/items", stockRouter);
 app.use("/restock", restockRouter);
 app.use("/assign_items", assign_itemsRouter);
 
-app.listen(PORT, () => {
-    console.log(`Server is up and running on port ${PORT}`);
-=======
 
 app.listen(PORT, () => {
     console.log(`Server is up and running on Port number: ${PORT}`);
->>>>>>> main
 });

@@ -18,6 +18,12 @@ function PendingOrders() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Validate quantity to ensure it's a positive number
+        if (Number(quantity) <= 0) {
+            alert("Error: Quantity must be a positive number greater than zero");
+            return;  // Prevent submission
+        }
         
         // Find the selected item's details
         const selectedItemDetails = items.find(item => item.itemName === selectedItem);
