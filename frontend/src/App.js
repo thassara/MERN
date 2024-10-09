@@ -62,7 +62,7 @@ function App() {
         <Route path="/EditEmployee/:empId" element={<EditEmployee />} />
         <Route path="AddEmployee" element={<AddEmployee />} />
         <Route path="/EditAttendance" element={<EditAttendance />} />
-
+   
         </Routes>
         <Footer />
       </div>
