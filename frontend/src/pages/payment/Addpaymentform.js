@@ -4,26 +4,36 @@ import '../../style/payment/PaymentForm.css';
 
 const PaymentForm = () => {
   const [paymentType, setPaymentType] = useState('Card Payment');
-  const [formData, setFormData] = useState({
+  const [cardFormData, setCardFormData] = useState({
     email: '',
     cardHolderName: '',
     cardNumber: '',
     expires: '',
     cvv: '',
+  });
+  const [slipFormData, setSlipFormData] = useState({
+    email: '',
     bankName: '',
     remark: '',
     slipFile: null,
   });
   const [errors, setErrors] = useState({});
   const [submitError, setSubmitError] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // Added loading state
+  const [isLoading, setIsLoading] = useState(false); // Loading state
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+  const handleCardChange = (e) => {
+    setCardFormData({ ...cardFormData, [e.target.id]: e.target.value });
+  };
+
+  const handleSlipChange = (e) => {
+    setSlipFormData({ ...slipFormData, [e.target.id]: e.target.value });
   };
 
   const handleFileChange = (e) => {
-    setFormData({ ...formData, slipFile: e.target.files[0] });
+    const file = e.target.files[0];
+    if (file) {
+      setSlipFormData({ ...slipFormData, slipFile: file });
+    }
   };
 
   // Validation Functions
@@ -33,7 +43,7 @@ const PaymentForm = () => {
   
   const validateExpiryDate = (expires) => {
     const [month, year] = expires.split('/');
-    const currentYear = new Date().getFullYear() % 100;
+    const currentYear = new Date().getFullYear() % 100; // Last two digits of the year
     const currentMonth = new Date().getMonth() + 1;
 
     return (
@@ -47,38 +57,44 @@ const PaymentForm = () => {
 
   const validateCVV = (cvv) => /^\d{3,4}$/.test(cvv); // CVV is typically 3 or 4 digits
 
-  const validateForm = () => {
+  const validateCardForm = () => {
     let formErrors = {};
     setSubmitError('');
 
-    if (!validateEmail(formData.email)) {
-      formErrors.email = 'Email must be in the format: example@gmail.com';
+    if (!validateEmail(cardFormData.email)) {
+      formErrors.email = 'Please enter a valid email address.';
+    }
+    if (!cardFormData.cardHolderName.trim()) {
+      formErrors.cardHolderName = 'Cardholder name is required.';
+    }
+    if (!validateCardNumber(cardFormData.cardNumber)) {
+      formErrors.cardNumber = 'Card number must be 16 digits and numeric.';
+    }
+    if (!validateExpiryDate(cardFormData.expires)) {
+      formErrors.expires = 'Expiry date must be in the format MM/YY and must be in the future.';
+    }
+    if (!validateCVV(cardFormData.cvv)) {
+      formErrors.cvv = 'CVV must be 3 or 4 digits.';
     }
 
-    if (paymentType === 'Card Payment') {
-      if (!formData.cardHolderName.trim()) {
-        formErrors.cardHolderName = 'Cardholder name is required';
-      }
-      if (!validateCardNumber(formData.cardNumber)) {
-        formErrors.cardNumber = 'Card number must be 16 digits and numeric';
-      }
-      if (!validateExpiryDate(formData.expires)) {
-        formErrors.expires = 'Expiry date must be in the format: MM/YY and in the future';
-      }
-      if (!validateCVV(formData.cvv)) {
-        formErrors.cvv = 'CVV must be 3 or 4 digits';
-      }
-    }
+    setErrors(formErrors);
+    return Object.keys(formErrors).length === 0;
+  };
 
-    if (paymentType === 'Slip Upload') {
-      if (!formData.bankName.trim()) {
-        formErrors.bankName = 'Bank name is required';
-      }
-      if (!formData.slipFile) {
-        formErrors.slipFile = 'Slip upload is required';
-      } else if (!['image/jpeg', 'image/png', 'application/pdf'].includes(formData.slipFile.type)) {
-        formErrors.slipFile = 'Only JPEG, PNG, or PDF formats are allowed';
-      }
+  const validateSlipForm = () => {
+    let formErrors = {};
+    setSubmitError('');
+
+    if (!validateEmail(slipFormData.email)) {
+      formErrors.email = 'Please enter a valid email address.';
+    }
+    if (!slipFormData.bankName.trim()) {
+      formErrors.bankName = 'Bank name is required.';
+    }
+    if (!slipFormData.slipFile) {
+      formErrors.slipFile = 'Please upload the payment slip.';
+    } else if (!['image/jpeg', 'image/png', 'application/pdf'].includes(slipFormData.slipFile.type)) {
+      formErrors.slipFile = 'Only JPEG, PNG, or PDF formats are allowed.';
     }
 
     setErrors(formErrors);
@@ -87,34 +103,32 @@ const PaymentForm = () => {
 
   const handleCardPaymentSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!validateCardForm()) return;
 
     setIsLoading(true); // Start loading
 
     try {
       const response = await axios.post('http://localhost:8070/payments/add', {
-        email: formData.email,
-        cardHolderName: formData.cardHolderName,
-        cardNumber: formData.cardNumber,
-        expires: formData.expires,
-        cvv: formData.cvv,
+        email: cardFormData.email,
+        cardHolderName: cardFormData.cardHolderName,
+        cardNumber: cardFormData.cardNumber,
+        expires: cardFormData.expires,
+        cvv: cardFormData.cvv,
       });
       alert('Card Payment successful!');
       console.log(response.data);
-      setFormData({
+      // Clear form after successful submission
+      setCardFormData({
         email: '',
         cardHolderName: '',
         cardNumber: '',
         expires: '',
         cvv: '',
-        bankName: '',
-        remark: '',
-        slipFile: null,
       });
       setErrors({});
     } catch (error) {
       console.error('Error during card payment:', error);
-      const errorMessage = error.response?.data?.message || 'Unknown error occurred';
+      const errorMessage = error.response?.data?.message || 'An unknown error occurred.';
       setSubmitError(errorMessage);
     } finally {
       setIsLoading(false); // Stop loading
@@ -123,35 +137,38 @@ const PaymentForm = () => {
 
   const handleSlipUploadSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+    if (!validateSlipForm()) return;
 
     const slipData = new FormData();
-    slipData.append('bankName', formData.bankName);
-    slipData.append('remark', formData.remark);
-    slipData.append('slipFile', formData.slipFile);
+    slipData.append('email', slipFormData.email); // Ensure email is sent with the slip data
+    slipData.append('bankName', slipFormData.bankName);
+    slipData.append('remark', slipFormData.remark);
+    slipData.append('slipFile', slipFormData.slipFile);
+
+    setIsLoading(true); // Start loading
 
     try {
-      const response = await axios.post('http://localhost:8070/slips/', slipData, {
+      const response = await axios.post('http://localhost:8070/payments/upload', slipData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
       alert('Slip uploaded successfully!');
       console.log(response.data);
-      setFormData({
+      // Clear form after successful submission
+      setSlipFormData({
         email: '',
-        cardHolderName: '',
-        cardNumber: '',
-        expires: '',
-        cvv: '',
         bankName: '',
         remark: '',
         slipFile: null,
       });
       setErrors({});
     } catch (error) {
-      console.error('Error uploading slip:', error.response.data);
-      setSubmitError('Error uploading slip: ' + (error.response?.data?.message || 'Unknown error occurred'));
+      console.error('Error uploading slip:', error.response?.data);
+      const errorMessage = error.response?.data?.message || 'An unknown error occurred.';
+      setSubmitError(errorMessage);
+    } finally {
+      setIsLoading(false); // Stop loading
     }
   };
 
@@ -166,8 +183,8 @@ const PaymentForm = () => {
               type="email"
               id="email"
               placeholder="example@gmail.com"
-              value={formData.email}
-              onChange={handleChange}
+              value={cardFormData.email}
+              onChange={handleCardChange}
               required
             />
             {errors.email && <p className="error">{errors.email}</p>}
@@ -178,8 +195,8 @@ const PaymentForm = () => {
               type="text"
               id="cardHolderName"
               placeholder="Card Holder Name"
-              value={formData.cardHolderName}
-              onChange={handleChange}
+              value={cardFormData.cardHolderName}
+              onChange={handleCardChange}
               required
             />
             {errors.cardHolderName && <p className="error">{errors.cardHolderName}</p>}
@@ -190,8 +207,8 @@ const PaymentForm = () => {
               type="text"
               id="cardNumber"
               placeholder="1234 5678 1234 5678"
-              value={formData.cardNumber}
-              onChange={handleChange}
+              value={cardFormData.cardNumber}
+              onChange={handleCardChange}
               required
             />
             {errors.cardNumber && <p className="error">{errors.cardNumber}</p>}
@@ -203,8 +220,8 @@ const PaymentForm = () => {
                 type="text"
                 id="expires"
                 placeholder="MM/YY"
-                value={formData.expires}
-                onChange={handleChange}
+                value={cardFormData.expires}
+                onChange={handleCardChange}
                 required
               />
               {errors.expires && <p className="error">{errors.expires}</p>}
@@ -215,8 +232,8 @@ const PaymentForm = () => {
                 type="text"
                 id="cvv"
                 placeholder="123"
-                value={formData.cvv}
-                onChange={handleChange}
+                value={cardFormData.cvv}
+                onChange={handleCardChange}
                 required
               />
               {errors.cvv && <p className="error">{errors.cvv}</p>}
@@ -224,41 +241,54 @@ const PaymentForm = () => {
           </div>
           {submitError && <p className="error">{submitError}</p>}
           <button type="submit" className="btn-red" disabled={isLoading}>
-            {isLoading ? 'Processing...' : 'Make Payment'}
+            {isLoading ? 'Processing...' : 'Pay Now'}
           </button>
         </form>
       );
-    } else if (paymentType === 'Slip Upload') {
+    } else {
       return (
         <form className="payment-form" onSubmit={handleSlipUploadSubmit}>
-          <h3>Bank Slip Upload</h3>
+          <h3>Slip Upload Details</h3>
+          <div className="form-group">
+            <label htmlFor="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              placeholder="example@gmail.com"
+              value={slipFormData.email}
+              onChange={handleSlipChange}
+              required
+            />
+            {errors.email && <p className="error">{errors.email}</p>}
+          </div>
           <div className="form-group">
             <label htmlFor="bankName">Bank Name</label>
             <input
               type="text"
               id="bankName"
               placeholder="Bank Name"
-              value={formData.bankName}
-              onChange={handleChange}
+              value={slipFormData.bankName}
+              onChange={handleSlipChange}
               required
             />
             {errors.bankName && <p className="error">{errors.bankName}</p>}
           </div>
           <div className="form-group">
-            <label htmlFor="remark">Remark</label>
+            <label htmlFor="remark">Remark (Optional)</label>
             <input
               type="text"
               id="remark"
-              placeholder="Remark (Optional)"
-              value={formData.remark}
-              onChange={handleChange}
+              placeholder="Add a remark"
+              value={slipFormData.remark}
+              onChange={handleSlipChange}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="slipFile">Upload Slip</label>
+            <label htmlFor="slipFile">Upload Payment Slip</label>
             <input
               type="file"
               id="slipFile"
+              accept=".jpg,.jpeg,.png,.pdf"
               onChange={handleFileChange}
               required
             />
@@ -274,17 +304,17 @@ const PaymentForm = () => {
   };
 
   return (
-    <div className="payment-container">
-      <h2>Payment Form</h2>
-      <div className="payment-type-selector">
+    <div className="payment-form-container">
+      <h2>Select Payment Method</h2>
+      <div className="payment-methods">
         <button
-          className={paymentType === 'Card Payment' ? 'active' : ''}
+          className={`btn-toggle ${paymentType === 'Card Payment' ? 'active' : ''}`}
           onClick={() => setPaymentType('Card Payment')}
         >
           Card Payment
         </button>
         <button
-          className={paymentType === 'Slip Upload' ? 'active' : ''}
+          className={`btn-toggle ${paymentType === 'Slip Upload' ? 'active' : ''}`}
           onClick={() => setPaymentType('Slip Upload')}
         >
           Slip Upload
@@ -296,4 +326,3 @@ const PaymentForm = () => {
 };
 
 export default PaymentForm;
-
