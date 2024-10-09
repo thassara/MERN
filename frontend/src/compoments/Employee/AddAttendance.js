@@ -13,7 +13,7 @@ const AddAttendance = ({ empID }) => {
   useEffect(() => {
     const fetchEmployeeData = async () => {
       try {
-        const response = await fetch(`http://localhost:8070/api/employees/${empID}`);
+        const response = await fetch(`http://localhost:8080/api/employees/${empID}`);
         if (response.ok) {
           const data = await response.json();
           setEmpName(data.EmpName);
