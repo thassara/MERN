@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sidebar from '../../compoments/Payment/Sidebar';
-import '../../style/payment/Profile.css';
+import Sidebar from '../../compoments/Payment/Sidebar'; // Corrected 'compoments' to 'components'
+import '../../style/payment/Profile.css'; 
+import backgroundImage from '../../images/Pmangbackground.jpg'; // Ensure this path is correct
+
 
 
 const Profile = () => {
@@ -177,23 +179,28 @@ const Profile = () => {
 const styles = {
   container: {
     display: 'flex',
-    backgroundColor: '#f4f4f9',
     minHeight: '100vh',
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
   },
   profileContent: {
     flex: 1,
     padding: '40px',
     marginLeft: '250px',
-    backgroundColor: '#fff',
+    backdropFilter: 'blur(10px)',
     borderRadius: '10px',
-    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0 4px 10px rgba(0, 0, 0, 0.2)',
     transition: 'all 0.3s ease',
+    color: '#333', // Set text color
   },
   profileTitle: {
     fontSize: '2.5rem',
     fontWeight: 'bold',
-    color: '#333',
+    color: '#fff',
     marginBottom: '20px',
+    textAlign: 'center',
   },
   profileImageContainer: {
     display: 'flex',
@@ -216,12 +223,17 @@ const styles = {
   profileDetails: {
     marginBottom: '30px',
     padding: '20px',
-    backgroundColor: '#f9f9f9',
+    backgroundColor: 'transparent', // Keep background transparent
     borderRadius: '8px',
     boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)',
+    color: 'white', // Set text color to white
+  },
+  profileText: {
+    color: '#fff', // Ensure profile text is white
   },
   buttonContainer: {
     display: 'flex',
+    justifyContent: 'center',
     gap: '15px',
   },
   button: {
@@ -236,15 +248,7 @@ const styles = {
     boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
   },
   editButton: {
-    backgroundColor: '#000', // Changed to black
-    color: '#fff',
-    border: 'none',
-    borderRadius: '5px',
-    padding: '12px 20px',
-    fontSize: '16px',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    backgroundColor: '#007bff', // Blue for edit button
   },
   deleteButton: {
     backgroundColor: '#d32f2f',
@@ -253,7 +257,8 @@ const styles = {
     backgroundColor: '#388e3c',
   },
   cancelButton: {
-    backgroundColor: '#b0bec5',
+    backgroundColor: '#ccc',
+    color: '#333',
   },
   modalOverlay: {
     position: 'fixed',
@@ -267,30 +272,30 @@ const styles = {
     alignItems: 'center',
   },
   modalContent: {
-    backgroundColor: '#fff',
-    padding: '20px',
+    padding: '30px',
     borderRadius: '10px',
-    width: '400px',
-    boxShadow: '0 2px 10px rgba(0, 0, 0, 0.2)',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+    backdropFilter: 'blur(10px)', // Optional: Apply blur effect to modal content as well
+    backgroundColor: 'rgba(255, 255, 255, 0.9)', // Semi-transparent background for modal content
   },
   modalTitle: {
-    fontSize: '1.8rem',
     marginBottom: '20px',
+    fontSize: '1.5rem',
+    color: '#333',
   },
   form: {
     display: 'flex',
     flexDirection: 'column',
   },
   label: {
-    fontSize: '1.1rem',
-    marginBottom: '10px',
+    marginBottom: '5px',
+    fontWeight: 'bold',
   },
   input: {
     padding: '10px',
     marginBottom: '15px',
-    fontSize: '1rem',
+    border: '1px solid #ccc',
     borderRadius: '5px',
-    border: '1px solid #ddd',
   },
   error: {
     color: 'red',

@@ -49,6 +49,21 @@ const PaymentDashBoardPage = () => {
     return idMatch || emailMatch;
   });
 
+  // Define the onView function here
+  const onView = (id) => {
+    // Implement your logic to view payment details
+    console.log(`View payment with ID: ${id}`);
+  };
+
+  // Define onVerify and onReject if needed
+  const onVerify = (id) => {
+    console.log(`Verify payment with ID: ${id}`);
+  };
+
+  const onReject = (id) => {
+    console.log(`Reject payment with ID: ${id}`);
+  };
+
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -63,12 +78,10 @@ const PaymentDashBoardPage = () => {
           </div>
           <div className="summary-card">
             <h3>Total Expenses</h3>
-            {/* Display total expenses */}
             <p>Rs. {totalExpenses}</p>
           </div>
           <div className="summary-card">
             <h3>Available Balance</h3>
-            {/* Calculate and display the available balance */}
             <p>Rs. {35000 - totalExpenses}</p>
           </div>
         </div>
@@ -78,7 +91,12 @@ const PaymentDashBoardPage = () => {
 
         {/* Payment table showing filtered data */}
         {filteredPayments.length > 0 ? (
-          <PaymentTable payments={filteredPayments} />
+          <PaymentTable
+            payments={filteredPayments}
+            onVerify={onVerify}
+            onReject={onReject}
+            onView={onView} // Pass the onView function here
+          />
         ) : (
           <p>No payments found.</p>
         )}

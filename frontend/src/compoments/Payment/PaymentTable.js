@@ -1,41 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-const PaymentTable = () => {
-  const [payments, setPayments] = useState([]);
-
-  useEffect(() => {
-    const fetchPayments = async () => {
-      try {
-        const response = await fetch('http://localhost:8070/payments');
-        const data = await response.json(); // Correctly parse the JSON data
-        setPayments(data); // Set the state with the fetched data
-      } catch (error) {
-        console.error('Error fetching payments:', error);
-      }
-    };
-    fetchPayments();
-  }, []);
-
-  const onVerify = (id) => {
-    console.log(`Verify payment with ID: ${id}`);
-    // Add your verification logic here
-  };
-
-  const onReject = (id) => {
-    console.log(`Reject payment with ID: ${id}`);
-    // Add your rejection logic here
-  };
-
-  const onView = (id) => {
-    console.log(`View payment with ID: ${id}`);
-    // Add your view logic here
-  };
-
+const PaymentTable = ({ payments, onVerify, onReject, onView }) => {
   return (
     <table style={styles.table}>
       <thead>
         <tr>
-          
           <th>Customer Name</th>
           <th>Payment ID</th>
           <th>Email</th>
@@ -44,20 +13,25 @@ const PaymentTable = () => {
         </tr>
       </thead>
       <tbody>
-        {payments.map((payment) => (
-          <tr key={payment.id}>
-            <td>{payment.cardHolderName}</td>
-            <td>{payment._id}</td>
-            <td>{payment.email}</td>
-            <td>{payment.expires}</td>
-            
-            <td>
-              <button style={styles.verifyButton} onClick={() => onVerify(payment.id)}>Verify</button>
-              <button style={styles.rejectButton} onClick={() => onReject(payment.id)}>Reject</button>
-              <button style={styles.viewButton} onClick={() => onView(payment.id)}>View</button>
-            </td>
+        {payments.length > 0 ? (
+          payments.map((payment) => (
+            <tr key={payment._id}>
+              <td>{payment.cardHolderName}</td>
+              <td>{payment._id}</td>
+              <td>{payment.email}</td>
+              <td>{payment.date}</td> {/* Assuming 'date' is the correct field for the payment date */}
+              <td>
+                <button style={styles.verifyButton} onClick={() => onVerify(payment._id)}>Verify</button>
+                <button style={styles.rejectButton} onClick={() => onReject(payment._id)}>Reject</button>
+                <button style={styles.viewButton} onClick={() => onView(payment._id)}>View</button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="5">No payments found.</td>
           </tr>
-        ))}
+        )}
       </tbody>
     </table>
   );
@@ -75,6 +49,7 @@ const styles = {
     border: 'none',
     padding: '5px 10px',
     margin: '0 5px',
+    cursor: 'pointer',
   },
   rejectButton: {
     backgroundColor: 'red',
@@ -82,6 +57,7 @@ const styles = {
     border: 'none',
     padding: '5px 10px',
     margin: '0 5px',
+    cursor: 'pointer',
   },
   viewButton: {
     backgroundColor: '#1e90ff',
@@ -89,6 +65,7 @@ const styles = {
     border: 'none',
     padding: '5px 10px',
     margin: '0 5px',
+    cursor: 'pointer',
   },
 };
 
