@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../style/payment/Addpayment.css';
+
 
 function App() {
   return (
