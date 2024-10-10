@@ -43,17 +43,17 @@ const Cusdetails = () => {
   // Function to handle PDF generation
   const generatePDF = () => {
     const doc = new jsPDF();
-    const tableColumn = ["Username","Email", "Age", "Customer Name", "Payment Status", "Feedback"];
+    const tableColumn = ["Username","Email","Address", "Age", "Customer Name" ];
     const tableRows = [];
 
     customers.forEach(customer => {
       const customerData = [
         customer.username,
         customer.email,
+        customer.address,
         customer.age,
         customer.name,
-        "Pending", // Adjust according to your data
-        "No Feedback", // Adjust according to your data
+        
       ];
       tableRows.push(customerData);
     });
