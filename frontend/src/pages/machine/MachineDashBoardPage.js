@@ -1,10 +1,9 @@
 import React from 'react';
-import Machinetable from '../../compoments/Machine/MachineManager';
 
 function MachineDashBoardPage() {
   return (
     <div>
-        <Machinetable/>
+        <h1>THis is the machine dashboard Page</h1>
         
       </div>
        
