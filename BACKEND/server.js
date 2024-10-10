@@ -9,6 +9,7 @@ const stockRouter = require('./Routes/stockRoutes');
 const restockRouter = require('./Routes/restockRoutes');
 const assign_itemsRouter = require('./Routes/assign_itemsRoutes');
 
+//8070
 const app = express();
 
 // Import routes
