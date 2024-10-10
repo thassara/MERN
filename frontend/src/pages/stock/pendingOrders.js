@@ -8,6 +8,10 @@ function PendingOrders() {
     const [quantity, setQuantity] = useState("");
     const [assignDate, setAssignDate] = useState(new Date());
     const [orders, setOrders] = useState([]);
+    
+    // State for validation error messages
+    const [quantityError, setQuantityError] = useState("");
+    const [selectedItemError, setSelectedItemError] = useState("");
 
     // Fetch items from the stock collection for dropdown
     useEffect(() => {
@@ -16,32 +20,70 @@ function PendingOrders() {
             .catch((err) => alert(err.message));
     }, []);
 
+    // Fetch orders from the server on component mount
+    useEffect(() => {
+        axios.get("http://localhost:8070/orders/Allread")
+            .then((res) => {
+                setOrders(res.data);
+            })
+            .catch((err) => {
+                console.error("Error fetching orders:", err);
+                alert("Error fetching orders: " + err.message);
+            });
+    }, []);
+
+    // Validate the quantity field
+    const handleQuantityChange = (e) => {
+        const value = e.target.value;
+        setQuantity(value);
+
+        if (isNaN(value) || Number(value) <= 0) {
+            setQuantityError("Please enter a valid positive number.");
+        } else {
+            setQuantityError("");
+        }
+    };
+
+    // Handle form submission with additional validations
     const handleSubmit = (e) => {
         e.preventDefault();
-        
+
+        // Validate item selection
+        if (!selectedItem) {
+            setSelectedItemError("Please select an item.");
+            return;
+        } else {
+            setSelectedItemError("");
+        }
+
+        // Validate quantity to ensure it's a positive number
+        if (Number(quantity) <= 0) {
+            setQuantityError("Quantity must be a positive number greater than zero.");
+            return;  // Prevent submission
+        }
+
         // Find the selected item's details
         const selectedItemDetails = items.find(item => item.itemName === selectedItem);
-        
+
         if (!selectedItemDetails) {
-            alert("Please select a valid item.");
+            setSelectedItemError("Please select a valid item.");
             return;
         }
-        
+
         // Check if the entered quantity is greater than the available quantity
         if (Number(quantity) > selectedItemDetails.availableQty) {
-            alert(`Error: The entered quantity for ${selectedItem} exceeds the available quantity (${selectedItemDetails.availableQty}).`);
-            return; 
+            setQuantityError(`The entered quantity exceeds the available quantity (${selectedItemDetails.availableQty}).`);
+            return;
         }
 
         const assignData = {
             itemName: selectedItem,
-            quantity: Number(quantity), 
+            quantity: Number(quantity),
             assignDate
         };
 
         axios.post("http://localhost:8070/assign_items/add", assignData)
             .then(() => {
-                
                 axios.put(`http://localhost:8070/items/updateQuantity/${selectedItem}`, { quantity: -quantity })
                     .then(() => {
                         alert("Items assigned successfully and stock updated");
@@ -55,7 +97,6 @@ function PendingOrders() {
             })
             .catch((err) => alert(err.message));
     };
-    
 
     return (
         <div className="pending-orders-container">
@@ -80,6 +121,7 @@ function PendingOrders() {
                                     </option>
                                 ))}
                             </select>
+                            {selectedItemError && <span className="sterror-message">{selectedItemError}</span>}
                         </div>
     
                         <div className="POform-group">
@@ -88,9 +130,10 @@ function PendingOrders() {
                                 type="number"
                                 className="POform-control"
                                 value={quantity}
-                                onChange={(e) => setQuantity(e.target.value)}
+                                onChange={handleQuantityChange}
                                 required
                             />
+                            {quantityError && <span className="sterror-message">{quantityError}</span>}
                         </div>
     
                         <div className="POform-group">
@@ -121,38 +164,25 @@ function PendingOrders() {
                             </tr>
                         </thead>
                         <tbody>
-                            
-                            <tr>
-                                <td>08/25/2024</td>
-                                <td>P0019</td>
+                        
+                        {orders.map((order) => (
+                            <tr key={order._id}>
+                                <td>{new Date(order.date).toLocaleDateString()}</td>
+                                <td>{order._id}</td>
                                 <td>
-                                    <div>Type: bottle, Material: glass, Quantity: 100</div>
-                                    <div>Type: box, Material: cardboard, Quantity: 20</div>
+                                    <strong>Package Type:</strong> {order.package_type}<br />
+                                    <strong>Quantity:</strong> {order.qty}<br />
+                                    <strong>Customer Note:</strong> {order.Cus_note || "N/A"}
                                 </td>
                             </tr>
-                            <tr>
-                                <td>08/23/2024</td>
-                                <td>P0018</td>
-                                <td>
-                                    <div>Type: box, Material: rigiform, Quantity: 50</div>
-                                    <div>Type: box, Material: cardboard, Quantity: 40</div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>08/20/2024</td>
-                                <td>P0017</td>
-                                <td>
-                                    <div>Type: bottle, Material: paper, Quantity: 100</div>
-                                    <div>Type: box, Material: cardboard, Quantity: 20</div>
-                                </td>
-                            </tr>
+                        ))}
+                        
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     );
-    
 }
 
 export default PendingOrders;

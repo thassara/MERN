@@ -1,5 +1,3 @@
-App.js
-
 import React from 'react';
 import './App.css';
 import Header from './compoments/Header'; // Importing Header component
@@ -12,7 +10,7 @@ import EmpLogin from './compoments/EmpLogin'; // Importing Employee Login compon
 import GMChoose from './compoments/GMChoose'; // Importing GM Choose component
 import DMChoose from './compoments/DMChoose'; // Importing DM Choose component
 import PMChoose from './compoments/PMChoose'; // Importing PM Choose component
-import StockDashBoardPage from './pages/stock/StockDashBoardPage'; // Importing Stock Dashboard Page component
+import StockDashBoardPage from './pages/stock/StockDashBoard'; // Importing Stock Dashboard Page component
 import PackageDashBoardPage from './pages/package/PackageDashBoardPage'; // Importing Package Dashboard Page component
 import OrderDashBoardPage from './pages/order/Or_Dashboard'; // Importing Order Dashboard Page component
 import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage'; // Importing Payment Dashboard Page component
@@ -32,6 +30,13 @@ import AddEmployee from './compoments/Employee/AddEmployee'; // Importing Add Em
 import CreatePackage from './compoments/Package/CreatePackage'; // Import Create Package component
 import PackageList from './compoments/Package/PackageList'; // Import Package List component
 import ReportGen from './pages/package/ReportGen'; // Import Package Report Generation component
+
+// Stock Section Imports
+import StockAddForm from './pages/stock/AddItems';
+import ContactSupplier from './pages/stock/contactSupplier'
+import AssignItems from './pages/stock/pendingOrders';
+import StockDetails from './pages/stock/stockDetails';
+
 
 
 function App() {
@@ -67,6 +72,12 @@ function App() {
           <Route path="/package-dashboard" element={<PackageDashBoardPage />} />
           <Route path="/reportGen" element={<ReportGen/>} />
 
+
+          {/* Stock Section Routes */}
+          <Route path="/StockAddForm" element={<StockAddForm/>}/> 
+          <Route path="/ContactSupplier" element={<ContactSupplier/>}/>
+          <Route path="/AssignItems" element={<AssignItems/>}/>
+          <Route path="/StockDetails" element={<StockDetails/>}/>
           
         </Routes>
 

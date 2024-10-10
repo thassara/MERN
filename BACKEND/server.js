@@ -47,11 +47,11 @@ connection.once("open", () => {
     console.log("MongoDB Connection Success");
 });
 
+
 app.use("/items", stockRouter);
 app.use("/restock", restockRouter);
 app.use("/assign_items", assign_itemsRouter);
-
-
+app.use("/orders",or_Routes);
 
 
 app.use("/machines",machine_Routes);
