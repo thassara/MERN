@@ -2,13 +2,32 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from '../../compoments/Payment/Sidebar';
 import PaymentTable from '../../compoments/Payment/PaymentTable';
 import SearchBar from '../../compoments/Payment/SearchBar';
+import PieChart from './PieChart'; // Import the PieChart component
 import axios from 'axios';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import '../../style/payment/PaymentDashBoardPage.css';
+
+import { Pie } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+// Register the required elements for Chart.js
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+
+
+
 
 const PaymentDashBoardPage = () => {
   const [payments, setPayments] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [totalExpenses, setTotalExpenses] = useState(0); // State to store total expenses
+  const [totalExpenses, setTotalExpenses] = useState(0);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     const fetchPayments = async () => {
@@ -29,14 +48,14 @@ const PaymentDashBoardPage = () => {
         const res = await axios.get('http://localhost:8070/expenses/all');
         const expensesData = res.data;
         const total = expensesData.reduce((sum, expense) => sum + Number(expense.price), 0);
-        setTotalExpenses(total); // Set total expenses
+        setTotalExpenses(total);
       } catch (error) {
         console.error('Error fetching expenses', error);
       }
     };
 
     fetchPayments();
-    fetchExpenses(); // Fetch total expenses when the component mounts
+    fetchExpenses();
   }, []);
 
   const handleSearch = (term) => {
@@ -44,24 +63,60 @@ const PaymentDashBoardPage = () => {
   };
 
   const filteredPayments = payments.filter((payment) => {
-    const idMatch = payment.id && payment.id.toString().toLowerCase().includes(searchTerm.toLowerCase());
+    const idMatch = payment._id && payment._id.toString().toLowerCase().includes(searchTerm.toLowerCase());
     const emailMatch = payment.email && payment.email.toLowerCase().includes(searchTerm.toLowerCase());
     return idMatch || emailMatch;
   });
 
-  // Define the onView function here
   const onView = (id) => {
-    // Implement your logic to view payment details
     console.log(`View payment with ID: ${id}`);
   };
 
-  // Define onVerify and onReject if needed
-  const onVerify = (id) => {
-    console.log(`Verify payment with ID: ${id}`);
+  const onVerify = async (id) => {
+    try {
+      await axios.post(`http://localhost:8070/payments/verify/${id}`);
+      setSuccessMessage('Email sent successfully!');
+      setTimeout(() => setSuccessMessage(''), 3000);
+      console.log(`Verify payment with ID: ${id}`);
+    } catch (error) {
+      console.error(`Error verifying payment with ID: ${id}`, error);
+      setSuccessMessage('Failed to send email.');
+      setTimeout(() => setSuccessMessage(''), 3000);
+    }
   };
 
   const onReject = (id) => {
     console.log(`Reject payment with ID: ${id}`);
+  };
+
+  const downloadPDF = (payment) => {
+    const doc = new jsPDF();
+    doc.text('Payment Details', 20, 10);
+
+    doc.autoTable({
+      head: [['Field', 'Value']],
+      body: [
+        ['Payment ID', payment.id],
+        ['Customer Email', payment.email],
+        ['Amount', payment.amount],
+        ['Date', new Date(payment.createdAt).toLocaleDateString()],
+        ['Payment Method', payment.method],
+      ],
+    });
+
+    doc.save(`${payment.email}_payment_details.pdf`);
+  };
+
+  // Pie Chart Data
+  const pieChartData = {
+    labels: ['Total Income', 'Total Expenses', 'Available Balance'],
+    datasets: [
+      {
+        data: [35000, totalExpenses, 35000 - totalExpenses],
+        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+        hoverOffset: 4,
+      },
+    ],
   };
 
   return (
@@ -86,6 +141,14 @@ const PaymentDashBoardPage = () => {
           </div>
         </div>
 
+        {/* Success message display */}
+        {successMessage && <p className="success-message">{successMessage}</p>}
+
+        {/* Pie Chart Section */}
+        <div className="pie-chart-container">
+          <Pie data={pieChartData} className="pie-chart" />
+        </div>
+
         {/* Search bar for filtering payments */}
         <SearchBar onSearch={handleSearch} />
 
@@ -95,7 +158,8 @@ const PaymentDashBoardPage = () => {
             payments={filteredPayments}
             onVerify={onVerify}
             onReject={onReject}
-            onView={onView} // Pass the onView function here
+            onView={onView}
+            onDownloadPDF={downloadPDF}
           />
         ) : (
           <p>No payments found.</p>
@@ -106,3 +170,14 @@ const PaymentDashBoardPage = () => {
 };
 
 export default PaymentDashBoardPage;
+
+
+
+
+
+
+
+
+
+
+
