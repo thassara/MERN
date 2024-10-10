@@ -3,13 +3,17 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const app = express();
+const machine_Routes = require("./Routes/machine.js");
+const orderqueue_Routes = require("./Routes/orderqueue.js");
+
 const or_Routes = require("./Routes/Order");
 require('dotenv').config();
 const stockRouter = require('./Routes/stockRoutes');
 const restockRouter = require('./Routes/restockRoutes');
 const assign_itemsRouter = require('./Routes/assign_itemsRoutes');
 
-const PORT = process.env.PORT||8080;
+//8070
+const PORT = process.env.PORT||8070;
 
 const employeeRoutes = require('./Routes/employeeRoutes.js'); 
 const attendanceRoutes = require('./Routes/attendanceRoutes.js');
@@ -49,7 +53,19 @@ app.use("/assign_items", assign_itemsRouter);
 
 
 
+
+app.use("/machines",machine_Routes);
+app.use("/orderqueues",orderqueue_Routes);
+
+
 app.listen(PORT, () => {
     console.log(`Server is up and running on Port number: ${PORT}`);
 
 });
+
+
+
+
+
+
+
