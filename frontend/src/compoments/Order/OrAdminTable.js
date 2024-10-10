@@ -29,32 +29,39 @@ function OrAdminTable() {
         }
     };
 
-    const handleGeneratePDF = () =>{
+
+    const handleGeneratePDF = () => {
         const doc = new jsPDF();
-        const tableclm=[
-            "Order ID ",
+        doc.setFontSize(16); 
+        doc.text("Order Details", 14, 20);
+        
+        const tableclm = [
+            "Order ID",
             "Customer Name",
-            "Quntity",
+            "Quantity",
             "Package Type",
             "Order Status",
             "Tracking Status"
         ];
-        const tablerow = data.map((order)=>[
+    
+        const tablerow = data.map((order) => [
             order._id,
             order.Cus_name,
             order.qty,
             order.package_type,
             order.status,
-           order.Or_tracking,
-
+            order.Or_tracking
         ]);
+    
+    
         doc.autoTable({
-            head : [tableclm],
-            body : tablerow
+            head: [tableclm],
+            body: tablerow,
+            startY: 30 
         });
+    
         doc.save("Order_Details.pdf");
-    }
-
+    };
     
     const columns = [
         {

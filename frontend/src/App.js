@@ -12,14 +12,20 @@ import DMChoose from './compoments/DMChoose'; // Importing DM Choose component
 import PMChoose from './compoments/PMChoose'; // Importing PM Choose component
 import StockDashBoardPage from './pages/stock/StockDashBoard'; // Importing Stock Dashboard Page component
 import PackageDashBoardPage from './pages/package/PackageDashBoardPage'; // Importing Package Dashboard Page component
-import OrderDashBoardPage from './pages/order/Or_Dashboard'; // Importing Order Dashboard Page component
+
 import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage'; // Importing Payment Dashboard Page component
 import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage'; // Importing Employee Dashboard Page component
 import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage'; // Importing Customer Dashboard Page component
 import MachineDashBoardPage from './pages/machine/MachineDashBoardPage'; // Importing Machine Dashboard Page component
 import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage'; // Importing Delivery Dashboard Page component
+//order mee tika nm atha thiynna epa kanawa thowa
 import Or_add from './compoments/Order/AddForm'; // Importing Order Add Form component
 import Or_Confirm from './compoments/Order/Or_confirm'; // Importing Order Confirm component
+import Or_track from './pages/order/OrderTracking';
+import Or_update from './compoments/Order/Or_Updateform';
+import OrderDashBoardPage from './pages/order/Or_Dashboard'; // Importing Order Dashboard Page component
+import Cus_Order from './pages/order/Customer_orders.js';
+import Find_order from './pages/order/FindOrder.js';
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom"; // Importing React Router components
 
 // Employee Section Imports
@@ -59,8 +65,15 @@ function App() {
           <Route path="/CustomerDashBoardPage" element={<CustomerDashBoardPage/>}/> {/* Customer Dashboard */}
           <Route path="/StockDashBoardPage" element={<StockDashBoardPage/>}/> {/* Stock Dashboard */}
           <Route path="/PackageDashBoardPage" element={<PackageDashBoardPage/>}/> {/* Package Dashboard */}
-          <Route path="/Or_add" element={<Or_add/>}/> {/* Order Add Form */}
+       
+          <Route path="/Or_add" element={<Or_add/>}/>     {/*ee tika nm allanna epa kanawa thowa*/}
           <Route path="/Or_Add/order-details" element={<Or_Confirm/>}/> {/* Order Confirmation */}
+          <Route path="/OrderDashBoardPage/updateOrder/:id" element={<Or_update/>}/>
+          <Route path="/OrderDashBoardPage/orderTrack/:id" element={<Or_track />} />
+          <Route path="/OrderDashBoardPage" element={<OrderDashBoardPage/>}/>
+          <Route path="/OrderDashBoardPage/orderTracks/:id" element={<Cus_Order/>} /> 
+          <Route path="/My/FindOrder" element={<Find_order/>} /> 
+
 
           {/* Employee Section Routes */}
           <Route path="/EditEmployee/:empId" element={<EditEmployee />} /> {/* Edit Employee */}

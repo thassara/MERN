@@ -13,7 +13,7 @@ const restockRouter = require('./Routes/restockRoutes');
 const assign_itemsRouter = require('./Routes/assign_itemsRoutes');
 
 //8070
-const PORT = process.env.PORT||8070;
+const PORT = process.env.PORT||8080;
 
 const employeeRoutes = require('./Routes/employeeRoutes.js'); 
 const attendanceRoutes = require('./Routes/attendanceRoutes.js');
