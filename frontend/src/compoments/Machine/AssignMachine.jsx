@@ -4,22 +4,29 @@ import axios from 'axios';
 const AssignMachine = () => {
   const [orderQueue, setOrderQueue] = useState({ orderId: '', machineId: '' });
   const [infoOrders, setInfoOrders] = useState([]);
-  const [loading, setLoading] = useState(false); // For loading state
+  const [completedOrders, setCompletedOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   // Fetch all orders on component mount
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        setLoading(true); // Start loading
+        setLoading(true);
         const response = await axios.get('http://localhost:8070/orderqueues/Allread');
         setInfoOrders(response.data);
-        setLoading(false); // End loading
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching orders:', error);
-        setLoading(false); // End loading on error
+        setLoading(false);
       }
     };
     fetchOrders();
+
+    // Load completed orders from localStorage
+    const storedCompletedOrders = localStorage.getItem('completedOrders');
+    if (storedCompletedOrders) {
+      setCompletedOrders(JSON.parse(storedCompletedOrders));
+    }
   }, []);
 
   // Handling form input changes
@@ -35,20 +42,20 @@ const AssignMachine = () => {
     e.preventDefault();
     if (orderQueue.orderId && orderQueue.machineId) {
       const orderData = {
-        orderid: orderQueue.orderId, // Matching the backend schema field
-        machineid: orderQueue.machineId, // Matching the backend schema field
+        orderid: orderQueue.orderId,
+        machineid: orderQueue.machineId,
       };
       try {
-        setLoading(true); // Start loading
-        const response = await axios.post('http://localhost:8070/orderqueues/add', orderData); // Correct route
+        setLoading(true);
+        const response = await axios.post('http://localhost:8070/orderqueues/add', orderData);
         alert('Order assigned successfully!');
-        setInfoOrders([...infoOrders, response.data]); // Update the orders list
+        setInfoOrders([...infoOrders, response.data]);
         setOrderQueue({ orderId: '', machineId: '' });
-        setLoading(false); // End loading
+        setLoading(false);
       } catch (error) {
         console.error('Error assigning order:', error);
         alert('Error assigning order.');
-        setLoading(false); // End loading on error
+        setLoading(false);
       }
     }
   };
@@ -56,22 +63,38 @@ const AssignMachine = () => {
   // Removing an order
   const handleRemoveOrder = async (id, index) => {
     try {
-      setLoading(true); // Start loading
+      setLoading(true);
       await axios.delete(`http://localhost:8070/orderqueues/delete/${id}`);
       alert('Order removed successfully!');
       const updatedOrders = [...infoOrders];
-      updatedOrders.splice(index, 1); // Remove the deleted order from the list
-      setInfoOrders(updatedOrders); // Update the orders list
-      setLoading(false); // End loading
+      updatedOrders.splice(index, 1);
+      setInfoOrders(updatedOrders);
+      setLoading(false);
     } catch (error) {
       console.error('Error removing order:', error);
       alert('Error removing order.');
-      setLoading(false); // End loading on error
+      setLoading(false);
     }
+  };
+
+  // Marking an order as completed
+  const handleMarkAsCompleted = (order, index) => {
+    // Move the order to completedOrders list
+    const updatedCompletedOrders = [...completedOrders, order];
+    setCompletedOrders(updatedCompletedOrders);
+
+    // Save completed orders to localStorage
+    localStorage.setItem('completedOrders', JSON.stringify(updatedCompletedOrders));
+
+    // Remove from infoOrders list
+    const updatedOrders = [...infoOrders];
+    updatedOrders.splice(index, 1);
+    setInfoOrders(updatedOrders);
   };
 
   return (
     <div style={styles.container}>
+      {/* Assign Machine to Order Form */}
       <div style={styles.manageOrderQueue}>
         <h2>Assign Machine to Order</h2>
         <form onSubmit={handleAssignOrder} style={styles.box}>
@@ -103,6 +126,7 @@ const AssignMachine = () => {
         </form>
       </div>
 
+      {/* Assigned Orders */}
       <div style={styles.infoSection}>
         <h2>Assigned Orders</h2>
         {loading ? (
@@ -118,9 +142,34 @@ const AssignMachine = () => {
               <div>
                 <strong>Machine ID:</strong> {order.machineid}
               </div>
+              <button onClick={() => handleMarkAsCompleted(order, index)} style={styles.completedButton} disabled={loading}>
+                Mark as Completed
+              </button>
               <button onClick={() => handleRemoveOrder(order._id, index)} style={styles.removeButton} disabled={loading}>
                 {loading ? 'Removing...' : 'Remove'}
               </button>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Completed Orders Section */}
+      <div style={styles.infoSection}>
+        <h2>Completed Orders</h2>
+        {completedOrders.length === 0 ? (
+          <p>No completed orders yet.</p>
+        ) : (
+          completedOrders.map((order, index) => (
+            <div key={order._id} style={styles.infoBox}>
+              <div>
+                <strong>Order ID:</strong> {order.orderid}
+              </div>
+              <div>
+                <strong>Machine ID:</strong> {order.machineid}
+              </div>
+              <div>
+                <strong>Status:</strong> Completed
+              </div>
             </div>
           ))
         )}
@@ -174,6 +223,14 @@ const styles = {
   },
   removeButton: {
     backgroundColor: '#dc3545',
+    color: '#fff',
+    border: 'none',
+    padding: '10px 20px',
+    borderRadius: '5px',
+    cursor: 'pointer',
+  },
+  completedButton: {
+    backgroundColor: '#28a745',
     color: '#fff',
     border: 'none',
     padding: '10px 20px',
