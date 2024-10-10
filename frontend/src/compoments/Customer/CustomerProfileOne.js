@@ -45,7 +45,8 @@ function CustomerProfileOne  ()  {
       <div className="sidebar">
         <h2>Customer Dashboard</h2>
         <ul className="sidebar-menu">
-          <li><a href="#">Profile</a></li>
+          <li><a href="/CusProfile">Profile</a></li>
+          {/* <li><a href="/CusProfile" onClick={() => navigate('/CusProfile')}>Profile</a></li> */}
           <li><a href="#">My Orders</a></li>
           <li><a href="/FeedbackForm">Feedback</a></li>
           <li><a href="/PaymentDashBoardOne">Payment</a></li>

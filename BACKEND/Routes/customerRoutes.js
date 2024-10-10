@@ -24,4 +24,5 @@ router.post('/response/:id', customerController.addResponseToCustomer);
 // Get customer profile (No authentication middleware used)
 router.get('/profile', customerController.getCustomerProfile);
 
+
 module.exports = router;

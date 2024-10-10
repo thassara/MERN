@@ -12,6 +12,8 @@ import FeedbackList from './compoments/Customer/FeedbackList';
 import CustomerProfileOne from './compoments/Customer/CustomerProfileOne';
 
 import Regi from './compoments/Regi';
+
+import CusProfile from './compoments/Customer/CusProfile';
  
 
 import CustomerLogin from './compoments/Login/CustomerLogin';
@@ -65,6 +67,8 @@ function App() {
         <Route path="/DMChoose" element={<DMChoose/>}/> 
 
         <Route path="/AdminLogin" element={<AdminLogin/>}/>
+
+        <Route path="/CusProfile" element={<CusProfile />} />
 
          
         {/* <Route path="/AdminChoose/GMLogin" element={<GMLogin/>}/> 
