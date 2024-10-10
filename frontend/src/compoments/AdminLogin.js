@@ -9,37 +9,42 @@ function AdminLogin({ onLogin, userType }) {
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
-    e.preventDefault(); // Prevent the default login
+    e.preventDefault(); // Prevent default form submission
 
-    // Dummy logic - Replace with backend logic
+    // Dummy logic - Replace with backend logic if needed
     const StoredRole = "General"; // Example stored role, replace with real logic
 
     if (username && password) {
-        if (role === "Stock") {
-            if (StoredRole === "Stock" || StoredRole === "General") {
-                navigate('/StockDashBoardPage'); // Redirect
-            } else {
-                alert("Access denied. Incorrect role.");
-            }
-        } else if (role === "Deputy") {
-            if (StoredRole === "Deputy" || StoredRole === "General") {
-                navigate('/DMChoose'); // Redirect
-            } else {
-                alert("Access denied. Incorrect role.");
-            }
-        } else if (role === "Plant") {
-            if (StoredRole === "Plant" || StoredRole === "General") {
-                navigate('/PMChoose'); // Redirect
-            } else {
-                alert("Access denied. Incorrect role.");
-            }
-        } else if (role === "General") {
-            navigate('/GMChoose'); // Redirect
+      if (role === "Stock") {
+        if (StoredRole === "Stock" || StoredRole === "General") {
+          navigate('/StockDashBoardPage'); // Redirect
         } else {
-            alert("Invalid role selected.");
+          alert("Access denied. Incorrect role.");
         }
+      } else if (role === "Deputy") {
+        // Validation for Deputy Manager login
+        if (username === 'admin' && password === 'admin') {
+          if (StoredRole === "Deputy" || StoredRole === "General") {
+            navigate('/DMChoose'); // Redirect
+          } else {
+            alert("Access denied. Incorrect role.");
+          }
+        } else {
+          alert("Invalid username or password for Deputy Manager.");
+        }
+      } else if (role === "Plant") {
+        if (StoredRole === "Plant" || StoredRole === "General") {
+          navigate('/PMChoose'); // Redirect
+        } else {
+          alert("Access denied. Incorrect role.");
+        }
+      } else if (role === "General") {
+        navigate('/GMChoose'); // Redirect
+      } else {
+        alert("Invalid role selected.");
+      }
     } else {
-        alert("Please enter both username and password.");
+      alert("Please enter both username and password.");
     }
   };
 

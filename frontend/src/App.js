@@ -1,34 +1,45 @@
+
 import React from 'react';
 import './App.css';
 import Header from './compoments/Header';
 import Footer from './compoments/Footer';
 import Intro from './compoments/Intro';
+
+import FeedbackForm from './compoments/Customer/FeedbackForm';
+
+import Cusdetails from './compoments/Customer/Cusdetails';
+import FeedbackList from './compoments/Customer/FeedbackList';
+import CustomerProfileOne from './compoments/Customer/CustomerProfileOne';
+
+import Regi from './compoments/Regi';
+ 
+
 import CustomerLogin from './compoments/Login/CustomerLogin';
-import CustomerProfilePage from './pages/customer/CustomerProfilePage';
 import AdminLogin from './compoments/AdminLogin';
-import EmpLogin from './compoments/EmpLogin';
+
+import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage';
+// import GMLogin from './compoments/Login/GMLogin';
+ 
+// import PMLogin from './compoments/Login/PMLogin';
+// import SMLogin from './compoments/Login/SMLogin';
 import GMChoose from './compoments/GMChoose';
 import DMChoose from './compoments/DMChoose';
 import PMChoose from './compoments/PMChoose';
-import StockDashBoardPage from './pages/stock/StockDashBoardPage';
-import PackageDashBoardPage from './pages/package/PackageDashBoardPage';
-import OrderDashBoardPage from './pages/order/Or_Dashboard';
-import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage';
-import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage';
-import EmployeeProfile from './pages/employee/EmployeeProfile';
-import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage';
-import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
-import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
-import Or_add from './compoments/Order/AddForm';
-import Or_Confirm from './compoments/Order/Or_confirm';
+// import StockDashBoard from './compoments/Stock/StockDashBoardOne';
+// import PackageDashBoard from './compoments/Package/PackageDashBoardOne';
+// import OrderDashBoard from './compoments/Order/OrderDashBoardOne';
+// import PaymentDashBoard from './compoments/Payment/PaymentDashBoardOne';
+// import EmployeeDashBoard from './compoments/Employee/EmployeeDashBoardOne';
+
+ import UpdateCustomer from './compoments/Customer/UpdateCustomer';
+
+// import MachineDashBoard from './compoments/Machine/MachineDashBoardOne';
+// import DeliveryDashBoard from './compoments/Delivery/DeliveryDashBoardOne';
+import EditInstructorFeedback from './compoments/DMChoose';
+
+
+
 import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
-//Employee Section
-import EditEmployee from './compoments/Employee/EditEmployee';
-import AddEmployee from './compoments/Employee/AddEmployee';
-import EditAttendance from './compoments/Employee/EditAttendance';
-
-
-
 
 function App() {
   return (
@@ -36,34 +47,50 @@ function App() {
       <div>
         <Header />
         <Routes>
-        <Route path="/" element={<Intro/>} />
-        <Route path="/*" element={<Outlet/>}/>
+        <Route path="/" element={<Intro />} />
+        <Route path="/*" element={<Outlet />}/>
         <Route path="/CustomerLogin" element={<CustomerLogin/>}/> 
-        <Route path="/CustomerProfilePage" element={<CustomerProfilePage/>}/>
-        <Route path="/AdminLogin" element={<AdminLogin/>}/> 
-        <Route path="/EmpLogin" element={<EmpLogin/>}/> 
-        <Route path="/GMChoose" element={<GMChoose/>}/>
-        <Route path="/DMChoose" element={<DMChoose/>}/>  
-        <Route path="/PMChoose" element={<PMChoose/>}/> 
-        <Route path="/CustomerDashBoardPage" element={<CustomerDashBoardPage/>}/> 
-        <Route path="/StockDashBoardPage" element={<StockDashBoardPage/>}/> 
-        <Route path="/PackageDashBoardPage" element={<PackageDashBoardPage/>}/>
-        <Route path="/Or_add" element={<Or_add/>}/>
-        <Route path="/Or_Add/order-details" element={<Or_Confirm/>}/>
-        <Route path="/OrderDashBoardPage" element={<OrderDashBoardPage/>}/> 
-        <Route path="/PaymentDashBoardPage" element={<PaymentDashBoardPage/>}/> 
-        <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/> 
-        <Route path="/EmployeeProfile" element={<EmployeeProfile/>}/>   
-        <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
-        <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
+
+        <Route path="/FeedbackForm" element={<FeedbackForm />}/>    
+        <Route path="/AdminChoose/DMChoose/CustomerDashBoardPage/FeedbackList" element={<FeedbackList />}/> 
+        <Route path="/AdminChoose/DMChoose/CustomerDashBoardPage/Cusdetails" element={<Cusdetails />}/> 
+        <Route path="/CustomerDashBoardPage" element={<CustomerDashBoardPage />}/> 
+         
+
+        <Route path="/Regi" element={<Regi />}/> 
+
+        <Route path="/update-customer/:id" element={<UpdateCustomer />} />
+
+        <Route path="/CustomerProfileOne" element={<CustomerProfileOne/>}/>
+        <Route path="/DMChoose" element={<DMChoose/>}/> 
+
+        <Route path="/AdminLogin" element={<AdminLogin/>}/>
+
+         
+        {/* <Route path="/AdminChoose/GMLogin" element={<GMLogin/>}/> 
+
         
-        /*EmployeeSection*/
-        <Route path="/EditEmployee/:empId" element={<EditEmployee />} />
-        <Route path="AddEmployee" element={<AddEmployee />} />
-        <Route path="/EditAttendance" element={<EditAttendance />} />
+        <Route path="/AdminChoose/PMLogin" element={<PMLogin/>}/> 
+        <Route path="/AdminChoose/SMLogin" element={<SMLogin/>}/>  */}
+        <Route path="/AdminChoose/GMChoose" element={<GMChoose/>}/>
+        <Route path="/AdminChoose/DMChoose" element={<DMChoose/>}/>  
+        <Route path="/AdminChoose/PMChoose" element={<PMChoose/>}/> 
+        {/* <Route path="/AdminChoose/StockDashBoard" element={<StockDashBoard/>}/> 
+        <Route path="/AdminChoose/GMChoose/PackageDashBoard" element={<PackageDashBoard/>}/>
+        <Route path="/AdminChoose/GMChoose/OrderDashBoard" element={<OrderDashBoard/>}/> 
+        <Route path="/AdminChoose/GMChoose/PaymentDashBoard" element={<PaymentDashBoard/>}/> 
+        <Route path="/AdminChoose/DMChoose/EmployeeDashBoard" element={<EmployeeDashBoard/>}/>  */}
+        
+        {/* <Route path="/AdminChoose/DMChoose/CustomerDashBoard" element={<CustomerDashBoard/>}/>  */}
+
+        {/* <Route path="/AdminChoose/PMChoose/MachineDashBoard" element={<MachineDashBoard/>}/>  */}
+        {/* <Route path="/AdminChoose/PMChoose/DeliveryDashBoard" element={<DeliveryDashBoard/>}/>   */}
+        <Route path="/AdminChoose/DMChoose/CustomerDashBoard/EditInstructorFeedback" element={<EditInstructorFeedback/>}/> 
+        
+ 
 
         </Routes>
-        <Footer />
+       <Footer/>
       </div>
     </Router>
   );

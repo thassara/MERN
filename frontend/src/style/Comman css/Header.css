@@ -9,6 +9,7 @@
 } 
 
 .cta {
+    width: 100px;
     position: absolute;
     right: 2%;
     top: 6%;
