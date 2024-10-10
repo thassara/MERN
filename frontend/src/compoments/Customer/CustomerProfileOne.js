@@ -59,7 +59,7 @@ function CustomerProfileOne  ()  {
 
       <div className="customer-profile-main-content">
         <header className="dashboard-header">
-          <h1>Welcome</h1>
+          <h1>Welcome !</h1>
           <p>Your last login: </p>
         </header>
 
