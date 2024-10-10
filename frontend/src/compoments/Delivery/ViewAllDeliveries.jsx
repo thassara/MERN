@@ -1,9 +1,8 @@
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import '../../style/delivery/ViewAllDeliveries.css';
 
 const ViewAllDeliveries = () => {
@@ -12,18 +11,20 @@ const ViewAllDeliveries = () => {
     const [assignedVehicles, setAssignedVehicles] = useState({});
     const [searchTerm, setSearchTerm] = useState('');
     const [allVehicles, setAllVehicles] = useState([]);
-    const navigate = useNavigate(); // Initialize the navigate hook
+    const [orders, setOrders] = useState([]);
+    const [selectedOrder, setSelectedOrder] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchDeliveries();
         fetchVehicles();
+        fetchOrders();
     }, []);
 
     const fetchDeliveries = async () => {
         try {
             const response = await axios.get('http://localhost:8070/api/issue-delivery');
             setDeliveries(response.data);
-
             const assigned = {};
             response.data.forEach(delivery => {
                 if (delivery.assignedVehicleId) {
@@ -40,7 +41,6 @@ const ViewAllDeliveries = () => {
         try {
             const response = await axios.get('http://localhost:8070/api/vehicle');
             setAllVehicles(response.data);
-
             const availableVehicles = response.data.filter(vehicle => vehicle.status === 'Available');
             const filteredVehicles = availableVehicles.filter(vehicle => {
                 const count = Object.values(assignedVehicles).filter(id => id === vehicle._id).length;
@@ -52,130 +52,155 @@ const ViewAllDeliveries = () => {
         }
     };
 
-    const handleVehicleAssign = async (deliveryId, vehicleId) => {
+    const fetchOrders = async () => {
+        try {
+            const response = await axios.get('http://localhost:8070/api/orders/Allread');
+            setOrders(response.data);
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        }
+    };
+
+    const handleVehicleAssign = async (orderId, vehicleId) => {
         const updatedAssignments = {
             ...assignedVehicles,
-            [deliveryId]: vehicleId,
+            [orderId]: vehicleId,
         };
-
         setAssignedVehicles(updatedAssignments);
 
         if (vehicleId) {
             const vehicleAssignments = Object.values(updatedAssignments).filter(id => id === vehicleId).length;
             if (vehicleAssignments >= 3) {
                 await axios.put(`http://localhost:8070/api/vehicle/${vehicleId}`, { status: 'Unavailable' });
-                fetchVehicles();
+                fetchVehicles(); // Refresh vehicles after status update
             }
         }
     };
 
-    const handleEdit = (delivery) => {
-        // Navigate to the IssueDeliveryForm with the delivery ID for editing
-        navigate(`/IssueDeliveryForm`, { state: { delivery } });
+    const handleEditOrder = (order) => {
+        setSelectedOrder(order);
     };
 
-    const handleDelete = async (id) => {
-        const confirmDelete = window.confirm(`Are you sure you want to delete the delivery?`);
+    const handleFormChange = (e) => {
+        const { name, value } = e.target;
+        setSelectedOrder({ ...selectedOrder, [name]: value });
+    };
 
-        if (confirmDelete) {
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.put(`http://localhost:8070/api/orders/update/${selectedOrder._id}`, selectedOrder);
+            fetchOrders(); // Refresh orders after update
+            setSelectedOrder(null); // Clear selected order
+        } catch (error) {
+            console.error('Error updating order:', error);
+        }
+    };
+
+    const handleDelete = async (deliveryId) => {
+        try {
+            await axios.delete(`http://localhost:8070/api/issue-delivery/${deliveryId}`);
+            fetchDeliveries(); // Refresh the deliveries after deletion
+        } catch (error) {
+            console.error('Error deleting delivery:', error);
+        }
+    };
+
+    const handleStatusChange = async (orderId, newStatus) => {
+        // Ensure newStatus is valid
+        if (newStatus !== 'Pending' && newStatus !== 'Delivered') {
+            console.error('Invalid status:', newStatus);
+            return;
+        }
+
+        const updatedOrder = orders.find(order => order._id === orderId);
+        if (updatedOrder) {
+            updatedOrder.status = newStatus; // Update to match the backend schema
             try {
-                await axios.delete(`http://localhost:8070/api/issue-delivery/${id}`);
-                setDeliveries(deliveries.filter(delivery => delivery._id !== id));
+                await axios.put(`http://localhost:8070/api/orders/update/${orderId}`, updatedOrder);
+                fetchOrders(); // Refresh orders after status update
             } catch (error) {
-                console.error('Error deleting delivery:', error);
+                console.error('Error updating status:', error);
             }
         }
     };
 
+    // Filter deliveries based on customer name or status
+    const filteredOrders = orders.filter(order => 
+        (order.Cus_name && order.Cus_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (order.status && order.status.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+
+    // Generate PDF for filtered orders
     const generatePDF = () => {
         const doc = new jsPDF();
-        doc.text('Filtered Delivery Issues Report', 14, 20);
-
-        const tableColumn = ["Order ID", "Total Quantity", "Total Amount", "Issue Date", "Delivered Date", "Status", "Location", "Assigned Vehicle"];
-        const tableRows = [];
-
-        deliveries.forEach(delivery => {
-            const assignedVehicleName = assignedVehicles[delivery._id]
-                ? allVehicles.find(v => v._id === assignedVehicles[delivery._id])?.name || 'Vehicle Unavailable'
-                : 'No vehicle assigned';
-
-            const deliveryData = [
-                delivery.OrderId,
-                delivery.TotalQty,
-                delivery.TotalAmt,
-                delivery.IssueDate ? new Date(delivery.IssueDate).toLocaleDateString() : '-',
-                delivery.DeliveryDate ? new Date(delivery.DeliveryDate).toLocaleDateString() : '-',
-                delivery.Status,
-                delivery.Location,
-                assignedVehicleName,
-            ];
-            tableRows.push(deliveryData);
+        doc.text('Orders Report', 14, 16);
+        doc.autoTable({
+            head: [['Customer Name', 'Quantity', 'Location', 'Issue Date', 'Delivery Date', 'Status']],
+            body: filteredOrders.map(order => [
+                order.Cus_name,
+                order.qty,
+                order.Location,
+                order.IssueDate ? new Date(order.IssueDate).toLocaleDateString() : '-',
+                order.DeliveryDate ? new Date(order.DeliveryDate).toLocaleDateString() : '-',
+                order.status, // Match the backend field
+            ]),
         });
-
-        doc.autoTable(tableColumn, tableRows, { startY: 30 });
-        doc.save('filtered_delivery_issues_report.pdf');
+        doc.save('orders_report.pdf');
     };
-
-    const filteredDeliveries = deliveries.filter((delivery) =>
-        (delivery.OrderId && typeof delivery.OrderId === 'string' ? delivery.OrderId.toLowerCase() : '')
-            .includes(searchTerm.toLowerCase()) ||
-        (delivery.Status && typeof delivery.Status === 'string' ? delivery.Status.toLowerCase() : '')
-            .includes(searchTerm.toLowerCase())
-    );
 
     return (
         <div className="container">
-            <h5 style={{ textAlign: 'center', fontSize: '30px', marginTop: '15px', marginBottom: '35px' }}>View All Delivery Issues</h5> 
+            <h5 style={{ textAlign: 'center', fontSize: '30px', marginTop: '15px', marginBottom: '35px' }}>View All Orders</h5>
 
             <div className="search-container">
                 <input
                     type="text"
                     className="search-bar"
-                    placeholder="Search by Order ID or Status"
+                    placeholder="Search by Customer Name or Status"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                 />
             </div>
 
-            {/* Button to navigate to the add delivery form */}
             <button onClick={() => navigate('/IssueDeliveryForm')}>Add New Issue Delivery</button>
-
             <button onClick={generatePDF}>Generate Report</button>
 
+            {/* Orders Table */}
             <table className="table">
                 <thead>
                     <tr>
-                        <th>Order ID</th>
-                        <th>Total Quantity</th>
-                        <th>Total Amount</th>
-                        <th>Issue Date</th>
-                        <th>Delivered Date</th>
-                        <th>Status</th>
+                        <th>Customer Name</th>
+                        <th>Quantity</th>
                         <th>Location</th>
+                        <th>Issue Date</th>
+                        <th>Delivery Date</th>
+                        <th>Status</th>
                         <th>Assigned Vehicle</th>
-                        <th>Assign Vehicle</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredDeliveries.map((delivery) => (
-                        <tr key={delivery._id}>
-                            <td>{delivery.OrderId}</td>
-                            <td>{delivery.TotalQty}</td>
-                            <td>{delivery.TotalAmt}</td>
-                            <td>{delivery.IssueDate ? new Date(delivery.IssueDate).toLocaleDateString() : '-'}</td>
-                            <td>{delivery.DeliveryDate ? new Date(delivery.DeliveryDate).toLocaleDateString() : '-'}</td>
-                            <td>{delivery.Status}</td>
-                            <td>{delivery.Location}</td>
+                    {filteredOrders.map((order) => (
+                        <tr key={order._id}>
+                            <td>{order.Cus_name}</td>
+                            <td>{order.qty}</td>
+                            <td>{order.Location}</td>
+                            <td>{order.IssueDate ? new Date(order.IssueDate).toLocaleDateString() : '-'}</td>
+                            <td>{order.DeliveryDate ? new Date(order.DeliveryDate).toLocaleDateString() : '-'}</td>
                             <td>
-                                {assignedVehicles[delivery._id]
-                                    ? allVehicles.find(v => v._id === assignedVehicles[delivery._id])?.name || 'Vehicle Unavailable'
-                                    : 'No vehicle assigned'}
+                                <select
+                                    value={order.status || ''} // Update to match the backend field
+                                    onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                                >
+                                    <option value="Pending">Pending</option>
+                                    <option value="Delivered">Delivered</option>
+                                </select>
                             </td>
                             <td>
                                 <select
-                                    value={assignedVehicles[delivery._id] || ''}
-                                    onChange={(e) => handleVehicleAssign(delivery._id, e.target.value)}
+                                    value={assignedVehicles[order._id] || ''}
+                                    onChange={(e) => handleVehicleAssign(order._id, e.target.value)}
                                 >
                                     <option value="">Select Vehicle</option>
                                     {vehicles.map(vehicle => (
@@ -186,13 +211,43 @@ const ViewAllDeliveries = () => {
                                 </select>
                             </td>
                             <td>
-                            <button className="btn-edit" onClick={() => navigate(`/edit-delivery/${delivery._id}`)}>Edit</button>
-                                <button className="btn-delete" onClick={() => handleDelete(delivery._id)}>Delete</button>
+                                <button onClick={() => handleEditOrder(order)}>Issue Delivery</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
+
+            {/* Conditional Form for Editing Selected Order */}
+            {selectedOrder && (
+                <div className="edit-form">
+                    <h3>Edit Order</h3>
+                    <form onSubmit={handleFormSubmit}>
+                        <div>
+                            <label>Customer Name:</label>
+                            <input type="text" name="Cus_name" value={selectedOrder.Cus_name} onChange={handleFormChange} required />
+                        </div>
+                        <div>
+                            <label>Quantity:</label>
+                            <input type="number" name="qty" value={selectedOrder.qty} onChange={handleFormChange} required />
+                        </div>
+                        <div>
+                            <label>Location:</label>
+                            <input type="text" name="Location" value={selectedOrder.Location} onChange={handleFormChange} required />
+                        </div>
+                        <div>
+                            <label>Issue Date:</label>
+                            <input type="date" name="IssueDate" value={selectedOrder.IssueDate ? selectedOrder.IssueDate.substring(0, 10) : ''} onChange={handleFormChange} required />
+                        </div>
+                        <div>
+                            <label>Delivery Date:</label>
+                            <input type="date" name="DeliveryDate" value={selectedOrder.DeliveryDate ? selectedOrder.DeliveryDate.substring(0, 10) : ''} onChange={handleFormChange} required />
+                        </div>
+                        <button type="submit">Update Order</button>
+                        <button type="button" onClick={() => setSelectedOrder(null)}>Cancel</button>
+                    </form>
+                </div>
+            )}
         </div>
     );
 };
