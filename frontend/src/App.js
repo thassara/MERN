@@ -37,6 +37,13 @@ import ContactSupplier from './pages/stock/contactSupplier'
 import AssignItems from './pages/stock/pendingOrders';
 import StockDetails from './pages/stock/stockDetails';
 
+// Machine Section Imports
+import MachineAdd from './compoments/Machine/machineadd';
+import MachineManager from './compoments/Machine/MachineManager';
+import UpdateMachine from './compoments/Machine/UpdateMachine';
+import MachineStatus from './compoments/Machine/MachineStatus';
+import AssignMachine from './compoments/Machine/AssignMachine';
+
 
 
 function App() {
@@ -58,6 +65,7 @@ function App() {
           <Route path="/PMChoose" element={<PMChoose/>}/> {/* PM Choose */}
           <Route path="/CustomerDashBoardPage" element={<CustomerDashBoardPage/>}/> {/* Customer Dashboard */}
           <Route path="/StockDashBoardPage" element={<StockDashBoardPage/>}/> {/* Stock Dashboard */}
+          <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage />} /> {/* Machine Dashboard */}
           <Route path="/PackageDashBoardPage" element={<PackageDashBoardPage/>}/> {/* Package Dashboard */}
           <Route path="/Or_add" element={<Or_add/>}/> {/* Order Add Form */}
           <Route path="/Or_Add/order-details" element={<Or_Confirm/>}/> {/* Order Confirmation */}
@@ -79,6 +87,25 @@ function App() {
           <Route path="/AssignItems" element={<AssignItems/>}/>
           <Route path="/StockDetails" element={<StockDetails/>}/>
           
+          
+
+         {/* Machine Section Routes */}
+         <Route path="/MachineDashBoardPage/add-machine" element={<MachineAdd />} />
+          <Route path="/add-machine//MachineDashBoardPage" element={<MachineAdd />} />
+          <Route path="/machine-manager" element={<MachineManager />} />
+          <Route path="/update-machine/:id" element={<UpdateMachine />} />
+          <Route path="/MachineDashBoardPage/UpdateMachine" element={<UpdateMachine />} />
+          <Route path="/MachineDashBoardPage/Machine-Status" element={<MachineStatus />} />
+          <Route path="/MachineStatus/Assign-machine" element={<AssignMachine />} />
+
+
+
+
+
+
+
+
+
         </Routes>
 
         <Footer /> {/* Render Footer component */}
