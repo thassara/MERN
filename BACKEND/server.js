@@ -18,7 +18,7 @@ const PMprofileRoutes = require('./Routes/PMprofile.js');
 const paymentRoutes = require('./Routes/paymentRoutes.js');
 
 
-const PORT = process.env.PORT||8080;
+const PORT = process.env.PORT||8070;
 
 const employeeRoutes = require('./Routes/employeeRoutes.js'); 
 const attendanceRoutes = require('./Routes/attendanceRoutes.js');
