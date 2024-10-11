@@ -1,9 +1,11 @@
-const orderService = require('../service/orders');
+const or_service = require("../services/orders");
+const mails =  require("../helpers/SendMail");
+
 
 class OrderController {
     async createOrder(req, res) {
         try {
-            const order = await orderService.createOrder(req.body);
+            const order = await or_service.createOrder(req.body);
             res.status(201).json(order);
         } catch (error) {
             res.status(400).json({ message: error.message });
@@ -12,7 +14,7 @@ class OrderController {
 
     async getAllOrders(req, res) {
         try {
-            const orders = await orderService.getAllOrders();
+            const orders = await or_service.getAllOrders();
             res.status(200).json(orders);
         } catch (error) {
             res.status(400).json({ message: error.message });
@@ -21,29 +23,31 @@ class OrderController {
 
     async getOrderById(req, res) {
         try {
-            const order = await orderService.getOrderByID(req.params.id);
-            if (!order) {
-                return res.status(404).json({ message: 'Order not found' });
-            }
+            const order = await or_service.getOrderByID(req.params.id);
             res.status(200).json(order);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     }
-    
 
     async updateOrder(req, res) {
         try {
-            const updatedOrder = await orderService.updateOrder(req.params.id, req.body);
+            const updatedOrder = await or_service.updateOrder(req.params.id, req.body);
+            const gmail = req.body.Cus_email;
+             const or_status = req.body.status;
+            if(or_status == 'Approval'){
+            mails.sendOrderConfirmation(gmail);
+           }
+
             res.status(200).json(updatedOrder);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     }
-
-    async deleteOrder(req, res) {
+    
+    async deleteorder(req, res) {
         try {
-            await orderService.deleteOrder(req.params.id);
+            await or_service.deleteOrder(req.params.id);
             res.status(200).json({ message: "Order deleted successfully" });
         } catch (error) {
             res.status(400).json({ message: error.message });

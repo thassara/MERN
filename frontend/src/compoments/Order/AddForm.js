@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const OrderForm = () => {
   const [customerName, setCustomerName] = useState('');
@@ -7,20 +7,52 @@ const OrderForm = () => {
   const [quantity, setQuantity] = useState(1);
   const [packageType, setPackageType] = useState('');
   const [customerNote, setCustomerNote] = useState('');
+  const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!customerName) {
+      newErrors.customerName = 'Please enter your name.';
+    }
+
+    if (!customerEmail || !/\S+@\S+\.\S+/.test(customerEmail)) {
+      newErrors.customerEmail = 'Please enter a valid email.';
+    }
+
+    if (quantity < 1) {
+      newErrors.quantity = 'Quantity must be at least 1.';
+    }
+
+    if (!packageType) {
+      newErrors.packageType = 'Please select a package type.';
+    }
+
+    if (!customerNote) {
+      newErrors.customerNote = 'Please add a customer note.';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleNext = () => {
+    if (!validateForm()) {
+      return;
+    }
+
     const orderData = {
       customerName,
       customerEmail,
       quantity,
       packageType,
       customerNote,
+      date,
     };
 
-    
     localStorage.setItem('orderData', JSON.stringify(orderData));
-
     navigate(`/Or_Add/order-details`);
   };
 
@@ -28,6 +60,7 @@ const OrderForm = () => {
     <div>
       <style>
         {`
+        body{background-color:#e6eee4;}
         .Or_addcard {
           box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
           transition: 0.3s;
@@ -44,7 +77,6 @@ const OrderForm = () => {
 
         .Or_addhead {
           text-align: center;
-          
         }
 
         .or_addform {
@@ -56,25 +88,23 @@ const OrderForm = () => {
 
         .or_form-group {
           display: flex;
-          align-items: center;
-          justify-content: space-between;
+          flex-direction: column;
+          align-items: flex-start;
           margin-bottom: 1rem;
           width: 100%;
           max-width: 600px;
         }
 
         .or_addleable {
-          flex: 1;
-          margin-right: 1rem;
-          text-align: right;
           font-weight: bold;
+          margin-bottom: 0.5rem;
         }
 
         .or_form-group input, select, textarea {
-          flex: 2;
           padding: 0.5rem;
           border: 1px solid #ccc;
           border-radius: 4px;
+          width: 100%;
         }
 
         .or_addtextarea {
@@ -90,18 +120,31 @@ const OrderForm = () => {
           border-radius: 4px;
           cursor: pointer;
           transition: background-color 0.3s;
+          margin-top: 1rem;
         }
 
         .or_addbuttonx:hover {
           background-color: #385cd2;
         }
+
+        .or_error-message {
+          color: red;
+          font-size: 0.875rem;
+          margin-top: 0.25rem;
+          border: 1px solid red;
+          padding: 0.5rem;
+          border-radius: 4px;
+          width: 100%;
+          background-color: #fdecea;
+        }
         `}
       </style>
+
       <div className="Or_addcard">
         <h2 className="Or_addhead">Place Your Order</h2>
-        <form className='or_addform' onSubmit={(e) => e.preventDefault()}>
+        <form className="or_addform" onSubmit={(e) => e.preventDefault()}>
           <div className="or_form-group">
-            <label className='or_addleable' htmlFor="customerName">Customer Name:</label>
+            <label className="or_addleable" htmlFor="customerName">Customer Name:</label>
             <input
               type="text"
               id="customerName"
@@ -109,19 +152,23 @@ const OrderForm = () => {
               onChange={(e) => setCustomerName(e.target.value)}
               required
             />
+            {errors.customerName && <div className="or_error-message">{errors.customerName}</div>}
           </div>
+
           <div className="or_form-group">
-            <label className='or_addleable' htmlFor="customerName">Your Email:</label>
+            <label className="or_addleable" htmlFor="customerEmail">Your Email:</label>
             <input
               type="email"
-              id="customerName"
+              id="customerEmail"
               value={customerEmail}
               onChange={(e) => setCustomerEmail(e.target.value)}
               required
             />
+            {errors.customerEmail && <div className="or_error-message">{errors.customerEmail}</div>}
           </div>
+
           <div className="or_form-group">
-            <label className='or_addleable' htmlFor="quantity">Quantity:</label>
+            <label className="or_addleable" htmlFor="quantity">Quantity:</label>
             <input
               type="number"
               id="quantity"
@@ -130,9 +177,20 @@ const OrderForm = () => {
               min="1"
               required
             />
+            {errors.quantity && <div className="or_error-message">{errors.quantity}</div>}
           </div>
+
+          <input
+            hidden
+            type="date"
+            id="date"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            required
+          />
+
           <div className="or_form-group">
-            <label className='or_addleable' htmlFor="packageType">Package Type:</label>
+            <label className="or_addleable" htmlFor="packageType">Package Type:</label>
             <select
               id="packageType"
               value={packageType}
@@ -144,17 +202,24 @@ const OrderForm = () => {
               <option value="premium">Premium</option>
               <option value="custom">Custom</option>
             </select>
+            {errors.packageType && <div className="or_error-message">{errors.packageType}</div>}
           </div>
+
           <div className="or_form-group">
-            <label className='or_addleable' htmlFor="customerNote">Customer Note:</label>
-            <textarea className='or_addtextarea'
+            <label className="or_addleable" htmlFor="customerNote">Customer Note:</label>
+            <textarea
+              className="or_addtextarea"
               id="customerNote"
               value={customerNote}
               onChange={(e) => setCustomerNote(e.target.value)}
               required
             />
+            {errors.customerNote && <div className="or_error-message">{errors.customerNote}</div>}
           </div>
-          <button className="or_addbuttonx" type="submit" onClick={handleNext} >Next</button>
+
+          <button className="or_addbuttonx" type="submit" onClick={handleNext}>
+            Next
+          </button>
         </form>
       </div>
     </div>
