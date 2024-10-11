@@ -13,7 +13,7 @@ const EditOrder = () => {
     useEffect(() => {
         const fetchOrder = async () => {
             try {
-                const response = await axios.get(`http://localhost:8070/api/orders/read/${id}`);
+                const response = await axios.get(`http://localhost:8070/orders/read/${id}`);
                 if (response.data) {
                     setOrder(response.data);
                     setLoading(false);  // Data fetched successfully
@@ -34,7 +34,7 @@ const EditOrder = () => {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8070/api/orders/update/${order._id}`, order);
+            await axios.put(`http://localhost:8070/orders/update/${order._id}`, order);
             navigate('/ViewAllDeliveries');
         } catch (error) {
             setError('Error updating order');
@@ -53,7 +53,7 @@ const EditOrder = () => {
 
     return (
         <div className="edit-order-container">
-            <h3>Edit Order</h3>
+            <h3>Issue Delivery</h3>
             <form onSubmit={handleFormSubmit}>
                 <div>
                     <label>Customer Name:</label>

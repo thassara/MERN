@@ -53,7 +53,7 @@ const ViewAllDeliveries = () => {
 
     const fetchOrders = async () => {
         try {
-            const response = await axios.get('http://localhost:8070/api/orders/Allread');
+            const response = await axios.get('http://localhost:8070/orders/Allread');
             setOrders(response.data);
         } catch (error) {
             console.error('Error fetching orders:', error);
@@ -190,7 +190,7 @@ const ViewAllDeliveries = () => {
                                 </select>
                             </td>
                             <td>
-                                <button onClick={() => handleEditOrder(order._id)}>Edit Order</button>
+                                <button onClick={() => handleEditOrder(order._id)}>Issue Delivery</button>
                             </td>
                         </tr>
                     ))}

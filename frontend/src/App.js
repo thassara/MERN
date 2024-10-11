@@ -16,7 +16,7 @@ import PackageDashBoardPage from './pages/package/PackageDashBoardPage'; // Impo
 import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage'; // Importing Payment Dashboard Page component
 import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage'; // Importing Employee Dashboard Page component
 import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage'; // Importing Customer Dashboard Page component
-import MachineDashBoardPage from './pages/machine/MachineDashBoardPage'; // Importing Machine Dashboard Page component
+import MachineDashBoardPage from './compoments/Machine/MachineManager'; // Importing Machine Dashboard Page component
 import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage'; // Importing Delivery Dashboard Page component
 //order mee tika nm atha thiynna epa kanawa thowa
 import Or_add from './compoments/Order/AddForm'; // Importing Order Add Form component
@@ -38,29 +38,60 @@ import PackageList from './compoments/Package/PackageList'; // Import Package Li
 import ReportGen from './pages/package/ReportGen'; // Import Package Report Generation component
 
 // Stock Section Imports
-import Header from './compoments/Header';
-import Footer from './compoments/Footer';
-import Intro from './compoments/Intro';
-import CustomerLogin from './compoments/Login/CustomerLogin';
-import CustomerProfilePage from './pages/customer/CustomerProfilePage';
-import AdminLogin from './compoments/AdminLogin';
-import EmpLogin from './compoments/EmpLogin';
-import GMChoose from './compoments/GMChoose';
-import DMChoose from './compoments/DMChoose';
-import PMChoose from './compoments/PMChoose';
-import StockDashBoardPage from './pages/stock/StockDashBoard';
+//import Header from './compoments/Header';
+//import Footer from './compoments/Footer';
+//import Intro from './compoments/Intro';
+//import CustomerLogin from './compoments/Login/CustomerLogin';
+//import CustomerProfilePage from './pages/customer/CustomerProfilePage';
+//import AdminLogin from './compoments/AdminLogin';
+//import EmpLogin from './compoments/EmpLogin';
+//import GMChoose from './compoments/GMChoose';
+//import DMChoose from './compoments/DMChoose';
+//import PMChoose from './compoments/PMChoose';
+//import StockDashBoardPage from './pages/stock/StockDashBoard';
 import StockAddForm from './pages/stock/AddItems';
 import ContactSupplier from './pages/stock/contactSupplier'
 import AssignItems from './pages/stock/pendingOrders';
 import StockDetails from './pages/stock/stockDetails';
-import PackageDashBoardPage from './pages/package/PackageDashBoardPage';
-import OrderDashBoardPage from './pages/order/Or_Dashboard';
-import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage';
-import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage';
+//import PackageDashBoardPage from './pages/package/PackageDashBoardPage';
+//import OrderDashBoardPage from './pages/order/Or_Dashboard';
+//import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage';
+//import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage';
 import EmployeeProfile from './pages/employee/EmployeeProfile';
-import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage';
-import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
-import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
+//import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage';
+//import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
+//import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
+//import Or_add from './compoments/Order/AddForm';
+//import Or_Confirm from './compoments/Order/Or_confirm';
+import Handlepayment from './pages/payment/Handlepayment';
+import Profile from './pages/payment/PMprofile';
+import PaymentForm from './pages/payment/Addpaymentform';
+import CusDashboard from './pages/payment/CusDashboard';
+
+import PaymentAdd from './pages/payment/Addpaymentform'
+import OrderTracking from './pages/order/OrderTracking'
+//import Or_track from './pages/order/OrderTracking';
+//import Or_update from './compoments/Order/Or_Updateform';
+//import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
+//Employee Section
+//import EditEmployee from './compoments/Employee/EditEmployee';
+//import AddEmployee from './compoments/Employee/AddEmployee';
+import EditAttendance from './compoments/Employee/EditAttendance';
+
+
+// Machine Section Imports
+import MachineAdd from './compoments/Machine/machineadd';
+import MachineManager from './compoments/Machine/MachineManager';
+import UpdateMachine from './compoments/Machine/UpdateMachine';
+import MachineStatus from './compoments/Machine/MachineStatus';
+import AssignMachine from './compoments/Machine/AssignMachine';
+
+
+
+
+
+//Delivery
+
 import VehicleManagement from './compoments/Delivery/VehicleManagement';
 import VehicleAdd from './compoments/Delivery/VehicleAdd';
 import VehicleStatus from './compoments/Delivery/VehicleStatus';
@@ -69,26 +100,6 @@ import IssueDeliveryForm from './compoments/Delivery/IssueDeliveryForm';
 import ViewAllDeliveries from './compoments/Delivery/ViewAllDeliveries';
 import EditOrder from './compoments/Delivery/EditOrder';
 import EditDelivery from './compoments/Delivery/EditDelivery';
-
-import Or_add from './compoments/Order/AddForm';
-import Or_Confirm from './compoments/Order/Or_confirm';
-import { BrowserRouter as Router, Route, Routes, Outlet} from "react-router-dom";
-import Handlepayment from './pages/payment/Handlepayment';
-import Profile from './pages/payment/PMprofile';
-import PaymentForm from './pages/payment/Addpaymentform';
-import CusDashboard from './pages/payment/CusDashboard';
-
-import PaymentAdd from './pages/payment/Addpaymentform'
-import OrderTracking from './pages/order/OrderTracking'
-import Or_track from './pages/order/OrderTracking';
-import Or_update from './compoments/Order/Or_Updateform';
-import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
-//Employee Section
-import EditEmployee from './compoments/Employee/EditEmployee';
-import AddEmployee from './compoments/Employee/AddEmployee';
-import EditAttendance from './compoments/Employee/EditAttendance';
-
-
 
 
 function App() {
@@ -109,6 +120,7 @@ function App() {
           <Route path="/PMChoose" element={<PMChoose/>}/> {/* PM Choose */}
           <Route path="/CustomerDashBoardPage" element={<CustomerDashBoardPage/>}/> {/* Customer Dashboard */}
           <Route path="/StockDashBoardPage" element={<StockDashBoardPage/>}/> {/* Stock Dashboard */}
+          <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage />} /> {/* Machine Dashboard */}
           <Route path="/PackageDashBoardPage" element={<PackageDashBoardPage/>}/> {/* Package Dashboard */}
        
           <Route path="/Or_add" element={<Or_add/>}/>     {/*ee tika nm allanna epa kanawa thowa*/}
@@ -149,10 +161,35 @@ function App() {
         <Route path="/OrderTracking" element={<OrderTracking/>}/>  
         <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/> 
 
-        <Route path="/EmployeeProfile" element={<EmployeeProfile/>}/>   
-        <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
-        <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>
-        <Route path="/vehicle-management" element={<VehicleManagement />} />
+          {/* Package Section Routes */}
+          <Route path="/create" element={<CreatePackage />} /> {/* Create Package */}
+          <Route path="/packages" element={<PackageList />} /> {/* Display All Packages */}
+          <Route path="/package-dashboard" element={<PackageDashBoardPage />} />
+          <Route path="/reportGen" element={<ReportGen/>} />
+
+
+          {/* Stock Section Routes */}
+          <Route path="/StockAddForm" element={<StockAddForm/>}/> 
+          <Route path="/ContactSupplier" element={<ContactSupplier/>}/>
+          <Route path="/AssignItems" element={<AssignItems/>}/>
+          <Route path="/StockDetails" element={<StockDetails/>}/>
+          
+          
+
+         {/* Machine Section Routes */}
+         <Route path="/MachineDashBoardPage/add-machine" element={<MachineAdd />} />
+          <Route path="/add-machine//MachineDashBoardPage" element={<MachineAdd />} />
+          <Route path="/machine-manager" element={<MachineManager />} />
+          <Route path="/update-machine/:id" element={<UpdateMachine />} />
+          <Route path="/MachineDashBoardPage/UpdateMachine" element={<UpdateMachine />} />
+          <Route path="/MachineDashBoardPage/Machine-Status" element={<MachineStatus />} />
+          <Route path="/MachineStatus/Assign-machine" element={<AssignMachine />} />
+
+
+          {/* Delivery */}
+
+
+          <Route path="/vehicle-management" element={<VehicleManagement />} />
         <Route path="/DeliveryDashBoardPage/add-vehicle" element={<VehicleAdd />} />
         <Route path="/DeliveryDashBoardPage/Vehicle-Status" element={<VehicleStatus />} />
         <Route path="/update-vehicle/:id" element={<UpdateVehicle />} />
@@ -161,6 +198,16 @@ function App() {
 
         <Route path="/edit-order/:id" element={<EditOrder />} />
         <Route path="/edit-delivery/:id" element={<EditDelivery />} />
+        
+
+
+
+
+
+
+        <Route path="/EmployeeProfile" element={<EmployeeProfile/>}/>   
+        <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
+        <Route path="/DeliveryDashBoardPage" element={<DeliveryDashBoardPage/>}/>  
         
         /*EmployeeSection*/
         <Route path="/EditEmployee/:empId" element={<EditEmployee />} />

@@ -9,6 +9,7 @@ const issueDeliveryRoutes = require('./Routes/issueDeliveryRoute.js');
 const vehicleRoutes = require('./Routes/vehicleRoutes.js');
 // Initialize Express app
 
+//const orderRoutes = require('./Routes/orderRoute.js');
 const or_Routes = require("./Routes/Order");
 require('dotenv').config();
 const stockRouter = require('./Routes/stockRoutes');
@@ -24,7 +25,7 @@ const PMprofileRoutes = require('./Routes/PMprofile.js');
 const paymentRoutes = require('./Routes/paymentRoutes.js');
 
 
-const PORT = process.env.PORT||8080;
+const PORT = process.env.PORT||8070;
 
 const employeeRoutes = require('./Routes/employeeRoutes.js'); 
 const attendanceRoutes = require('./Routes/attendanceRoutes.js');
@@ -49,7 +50,8 @@ app.use('/api/vehicle', vehicleRoutes);              // Vehicle Routes
 app.use('/api', employeeRoutes);
 app.use('/api', attendanceRoutes);
 app.use('/api', managerRoutes);
-app.use("/orders",or_Routes);
+app.use('/orders',or_Routes);
+//app.use('/api/orders', orderRoutes);   
 
 // Connect to MongoDB
 const URL = process.env.MONGODB_URL;

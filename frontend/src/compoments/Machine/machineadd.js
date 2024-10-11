@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './machineadd.css';
+// import './machineadd.css';
 
 const machineadd = () => {
     const [machineName, setMachineName] = useState('');
