@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./../../style/stock/StockDashBoard.css";
+import "./../../style/stock/StockDashBoard.css"; 
+
 
 function StockDashBoardOne() {
     const navigate = useNavigate();
@@ -28,6 +29,18 @@ function StockDashBoardOne() {
 
     const handleNavigate = (path) => {
         navigate(path);
+    };
+
+    // Function to return the appropriate inline style based on the comparison
+    const getQuantityStyle = (availableQty, alrtQty) => {
+        const difference = availableQty - alrtQty;
+
+        if (difference <= 0) {
+            return { backgroundColor: "red", color: "white", fontWeight: "bold" }; // Red for 0 or less
+        } else if (difference <= 20) {
+            return { backgroundColor: "orange", color: "white", fontWeight: "bold" }; // Orange for difference between 20 and 0
+        }
+        return {}; // Default style (no color)
     }; 
 
     return (
@@ -71,13 +84,27 @@ function StockDashBoardOne() {
                             .map((item) => (
                                 <tr key={item._id}>
                                     <td>{item.itemName}</td>
-                                    <td>{item.availableQty}</td>
+                                    {/* Applying inline style directly to the table cell */}
+                                    <td style={getQuantityStyle(item.availableQty, item.alrtQty)}>
+                                        {item.availableQty}
+                                    </td>
                                     <td>{item.alrtQty}</td>
                                     <td>{item.measurement}</td>
                                 </tr>
                             ))}
                     </tbody>
                 </table>
+
+                {/* Add the color legend */}
+                <div className="legend-container">
+                    <h5>Level</h5>
+                    <div className="legend-item">
+                        <span className="legend-box red-box"></span> 0 or below alert level
+                    </div>
+                    <div className="legend-item">
+                        <span className="legend-box orange-box"></span>Close to alert level
+                    </div>
+                </div>
             </div>
         </div>
     );
