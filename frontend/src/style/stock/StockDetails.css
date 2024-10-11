@@ -1,0 +1,107 @@
+.stock-details-container {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.sdtitle {
+    font-size: 36px;
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.actions-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 25px;
+    width: 300px;
+}
+
+.search-bar-container input {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 5px 10px;
+}
+
+.search-bar-container input:focus {
+    box-shadow: none;
+}
+
+.generate-report-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.generate-report-button:hover {
+    background-color: #0056b3;
+}
+
+.generate-report-button:before {
+    content: "\f02f"; /* FontAwesome print icon */
+    font-family: FontAwesome;
+    margin-right: 10px;
+}
+
+.table {
+    width: 100%;
+    margin-top: 20px;
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table th, .table td {
+    text-align: center;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #031f42;
+    color: white;
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagination button:hover {
+    background-color: #0056b3;
+}
+

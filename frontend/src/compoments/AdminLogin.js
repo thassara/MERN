@@ -1,52 +1,46 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function AdminLogin({ onLogin, userType }) {
+function AdminLogin({ userType }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('');
-
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault(); // Prevent default form submission
+  const handleLogin = async (e) => {
+    e.preventDefault();
 
     // Dummy logic - Replace with backend logic if needed
     const StoredRole = "General"; // Example stored role, replace with real logic
+    try {
+      const response = await fetch(`http://localhost:8080/api/login/${username}/${password}/${role}`);
+      const data = await response.json();
 
-    if (username && password) {
-      if (role === "Stock") {
-        if (StoredRole === "Stock" || StoredRole === "General") {
-          navigate('/StockDashBoardPage'); // Redirect
-        } else {
-          alert("Access denied. Incorrect role.");
-        }
-      } else if (role === "Deputy") {
-        // Validation for Deputy Manager login
-        if (username === 'admin' && password === 'admin') {
-          if (StoredRole === "Deputy" || StoredRole === "General") {
-            navigate('/DMChoose'); // Redirect
-          } else {
-            alert("Access denied. Incorrect role.");
+      if (response.ok) {
+        // Perform client-side comparison
+        if (data.manager.ManagerID === parseInt(username) && 
+            data.manager.ManagerPassKey === parseInt(password)) {
+          // Navigate to the corresponding dashboard based on the role
+          if (role === "Stock") {
+            navigate('/StockDashBoardPage');
+          } else if (role === "Deputy") {
+            navigate('/DMChoose');
+          } else if (role === "Plant") {
+            navigate('/PMChoose');
+          } else if (role === "General") {
+            navigate('/GMChoose');
           }
         } else {
-          alert("Invalid username or password for Deputy Manager.");
+          alert("Invalid credentials or role");
         }
-      } else if (role === "Plant") {
-        if (StoredRole === "Plant" || StoredRole === "General") {
-          navigate('/PMChoose'); // Redirect
-        } else {
-          alert("Access denied. Incorrect role.");
-        }
-      } else if (role === "General") {
-        navigate('/GMChoose'); // Redirect
       } else {
-        alert("Invalid role selected.");
+        alert(data.message || "Invalid login credentials");
       }
-    } else {
-      alert("Please enter both username and password.");
+    } catch (error) {
+      alert("An error occurred. Please try again later.");
     }
   };
+
 
   return (
     <div style={styles.container}>
@@ -54,21 +48,21 @@ function AdminLogin({ onLogin, userType }) {
       <form onSubmit={handleLogin} style={styles.form}>
         <div style={styles.inputContainer}>
           <label style={styles.label}>Username:</label>
-          <input 
-            type="text" 
-            value={username} 
-            onChange={(e) => setUsername(e.target.value)} 
-            required 
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
             style={styles.input}
           />
         </div>
         <div style={styles.inputContainer}>
           <label style={styles.label}>Password:</label>
-          <input 
-            type="password" 
-            value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
-            required 
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
             style={styles.input}
           />
         </div>

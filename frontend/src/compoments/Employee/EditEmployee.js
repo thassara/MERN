@@ -10,7 +10,7 @@ function EditEmployee() {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const response = await fetch(`http://localhost:8070/api/employees/${empId}`);
+        const response = await fetch(`http://localhost:8080/api/employees/${empId}`);
         if (response.ok) {
           const data = await response.json();
           setEmployee(data);
@@ -110,7 +110,9 @@ function EditEmployee() {
             background-color: #007bff; /* Blue color */
             color: white;
           }
-
+          .button.edit {
+            background-color: #0F9D58;
+          }
           .button:hover {
             background-color: #0056b3;
           }
@@ -162,7 +164,7 @@ function EditEmployee() {
           </div>
           <div className="button-container">
             <button className="button" type="button" onClick={() => navigate('/EmployeeDashBoardPage')}>Go Back</button>
-            <button className="button" type="submit">Submit Changes</button>
+            <button className="button edit" type="submit">Submit Changes</button>
           </div>
         </form>
       </div>

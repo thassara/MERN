@@ -43,6 +43,11 @@ function AddEmployee() {
       newErrors.EmpPassKey = 'PassKey must be a 4-digit number';
     }
 
+    // Validate EmpWage (positive number)
+    if (formData.EmpWage === '' || formData.EmpWage <= 0) {
+      newErrors.EmpWage = 'Salary/Wage must be a positive number';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -56,7 +61,7 @@ function AddEmployee() {
     }
 
     try {
-      const response = await fetch('http://localhost:8070/api/addEmployee', {
+      const response = await fetch('http://localhost:8080/api/addEmployee', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -132,6 +137,9 @@ function AddEmployee() {
             cursor: pointer;
             background-color: #007bff;
             color: white;
+          }
+          .button.add {
+            background-color: #0F9D58;
           }
 
           .button:hover {
@@ -225,6 +233,7 @@ function AddEmployee() {
               value={formData.EmpWage}
               onChange={handleChange}
             />
+            {errors.EmpWage && <div className="error">{errors.EmpWage}</div>}
           </div>
 
           <div className="form-group">
@@ -258,7 +267,7 @@ function AddEmployee() {
             >
               Go Back
             </button>
-            <button className="button" type="submit">
+            <button className="button add" type="submit">
               Add Employee
             </button>
           </div>
