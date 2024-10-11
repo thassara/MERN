@@ -159,7 +159,7 @@ function PendingOrders() {
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Order ID</th>
+                                <th>Package Type</th>
                                 <th>Order Details</th>
                             </tr>
                         </thead>
@@ -168,9 +168,8 @@ function PendingOrders() {
                         {orders.map((order) => (
                             <tr key={order._id}>
                                 <td>{new Date(order.date).toLocaleDateString()}</td>
-                                <td>{order._id}</td>
+                                <td>{order.package_type}</td>
                                 <td>
-                                    <strong>Package Type:</strong> {order.package_type}<br />
                                     <strong>Quantity:</strong> {order.qty}<br />
                                     <strong>Customer Note:</strong> {order.Cus_note || "N/A"}
                                 </td>
