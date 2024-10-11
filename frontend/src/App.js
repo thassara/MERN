@@ -16,7 +16,7 @@ import PackageDashBoardPage from './pages/package/PackageDashBoardPage'; // Impo
 import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage'; // Importing Payment Dashboard Page component
 import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage'; // Importing Employee Dashboard Page component
 import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage'; // Importing Customer Dashboard Page component
-import MachineDashBoardPage from './pages/machine/MachineDashBoardPage'; // Importing Machine Dashboard Page component
+import MachineDashBoardPage from './compoments/Machine/MachineManager'; // Importing Machine Dashboard Page component
 import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage'; // Importing Delivery Dashboard Page component
 //order mee tika nm atha thiynna epa kanawa thowa
 import Or_add from './compoments/Order/AddForm'; // Importing Order Add Form component
@@ -38,31 +38,31 @@ import PackageList from './compoments/Package/PackageList'; // Import Package Li
 import ReportGen from './pages/package/ReportGen'; // Import Package Report Generation component
 
 // Stock Section Imports
-import Header from './compoments/Header';
-import Footer from './compoments/Footer';
-import Intro from './compoments/Intro';
-import CustomerLogin from './compoments/Login/CustomerLogin';
-import CustomerProfilePage from './pages/customer/CustomerProfilePage';
-import AdminLogin from './compoments/AdminLogin';
-import EmpLogin from './compoments/EmpLogin';
-import GMChoose from './compoments/GMChoose';
-import DMChoose from './compoments/DMChoose';
-import PMChoose from './compoments/PMChoose';
-import StockDashBoardPage from './pages/stock/StockDashBoard';
+//import Header from './compoments/Header';
+//import Footer from './compoments/Footer';
+//import Intro from './compoments/Intro';
+//import CustomerLogin from './compoments/Login/CustomerLogin';
+//import CustomerProfilePage from './pages/customer/CustomerProfilePage';
+//import AdminLogin from './compoments/AdminLogin';
+//import EmpLogin from './compoments/EmpLogin';
+//import GMChoose from './compoments/GMChoose';
+//import DMChoose from './compoments/DMChoose';
+//import PMChoose from './compoments/PMChoose';
+//import StockDashBoardPage from './pages/stock/StockDashBoard';
 import StockAddForm from './pages/stock/AddItems';
 import ContactSupplier from './pages/stock/contactSupplier'
 import AssignItems from './pages/stock/pendingOrders';
 import StockDetails from './pages/stock/stockDetails';
-import PackageDashBoardPage from './pages/package/PackageDashBoardPage';
-import OrderDashBoardPage from './pages/order/Or_Dashboard';
-import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage';
-import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage';
+//import PackageDashBoardPage from './pages/package/PackageDashBoardPage';
+//import OrderDashBoardPage from './pages/order/Or_Dashboard';
+//import PaymentDashBoardPage from './pages/payment/PaymentDashBoardPage';
+//import EmployeeDashBoardPage from './pages/employee/EmployeeDashBoardPage';
 import EmployeeProfile from './pages/employee/EmployeeProfile';
-import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage';
-import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
-import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
-import Or_add from './compoments/Order/AddForm';
-import Or_Confirm from './compoments/Order/Or_confirm';
+//import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage';
+//import MachineDashBoardPage from './pages/machine/MachineDashBoardPage';
+//import DeliveryDashBoardPage from './pages/delivery/DeliveryDashBoardPage';
+//import Or_add from './compoments/Order/AddForm';
+//import Or_Confirm from './compoments/Order/Or_confirm';
 import Handlepayment from './pages/payment/Handlepayment';
 import Profile from './pages/payment/PMprofile';
 import PaymentForm from './pages/payment/Addpaymentform';
@@ -70,12 +70,12 @@ import CusDashboard from './pages/payment/CusDashboard';
 
 import PaymentAdd from './pages/payment/Addpaymentform'
 import OrderTracking from './pages/order/OrderTracking'
-import Or_track from './pages/order/OrderTracking';
-import Or_update from './compoments/Order/Or_Updateform';
-import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
+//import Or_track from './pages/order/OrderTracking';
+//import Or_update from './compoments/Order/Or_Updateform';
+//import { BrowserRouter as Router, Route, Routes, Outlet } from "react-router-dom";
 //Employee Section
-import EditEmployee from './compoments/Employee/EditEmployee';
-import AddEmployee from './compoments/Employee/AddEmployee';
+//import EditEmployee from './compoments/Employee/EditEmployee';
+//import AddEmployee from './compoments/Employee/AddEmployee';
 import EditAttendance from './compoments/Employee/EditAttendance';
 
 
@@ -123,6 +123,7 @@ function App() {
         <Route path="/Handlepayment" element={<Handlepayment />} />
         <Route path="/" element={<Intro/>} />
         <Route path="/*" element={<Outlet/>}/>
+
         <Route path="/CustomerLogin" element={<CustomerLogin/>}/> 
         <Route path="/CustomerProfilePage" element={<CustomerProfilePage/>}/>
         <Route path="/AdminLogin" element={<AdminLogin/>}/> 
