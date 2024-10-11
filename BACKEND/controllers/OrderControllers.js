@@ -22,11 +22,15 @@ class OrderController {
     async getOrderById(req, res) {
         try {
             const order = await orderService.getOrderByID(req.params.id);
+            if (!order) {
+                return res.status(404).json({ message: 'Order not found' });
+            }
             res.status(200).json(order);
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
     }
+    
 
     async updateOrder(req, res) {
         try {

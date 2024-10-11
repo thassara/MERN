@@ -12,7 +12,6 @@ const ViewAllDeliveries = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [allVehicles, setAllVehicles] = useState([]);
     const [orders, setOrders] = useState([]);
-    const [selectedOrder, setSelectedOrder] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -77,24 +76,8 @@ const ViewAllDeliveries = () => {
         }
     };
 
-    const handleEditOrder = (order) => {
-        setSelectedOrder(order);
-    };
-
-    const handleFormChange = (e) => {
-        const { name, value } = e.target;
-        setSelectedOrder({ ...selectedOrder, [name]: value });
-    };
-
-    const handleFormSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await axios.put(`http://localhost:8070/api/orders/update/${selectedOrder._id}`, selectedOrder);
-            fetchOrders(); // Refresh orders after update
-            setSelectedOrder(null); // Clear selected order
-        } catch (error) {
-            console.error('Error updating order:', error);
-        }
+    const handleEditOrder = (orderId) => {
+        navigate(`/edit-order/${orderId}`); // Navigate to the edit page
     };
 
     const handleDelete = async (deliveryId) => {
@@ -107,7 +90,6 @@ const ViewAllDeliveries = () => {
     };
 
     const handleStatusChange = async (orderId, newStatus) => {
-        // Ensure newStatus is valid
         if (newStatus !== 'Pending' && newStatus !== 'Delivered') {
             console.error('Invalid status:', newStatus);
             return;
@@ -115,7 +97,7 @@ const ViewAllDeliveries = () => {
 
         const updatedOrder = orders.find(order => order._id === orderId);
         if (updatedOrder) {
-            updatedOrder.status = newStatus; // Update to match the backend schema
+            updatedOrder.status = newStatus;
             try {
                 await axios.put(`http://localhost:8070/api/orders/update/${orderId}`, updatedOrder);
                 fetchOrders(); // Refresh orders after status update
@@ -125,13 +107,11 @@ const ViewAllDeliveries = () => {
         }
     };
 
-    // Filter deliveries based on customer name or status
     const filteredOrders = orders.filter(order => 
         (order.Cus_name && order.Cus_name.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (order.status && order.status.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
-    // Generate PDF for filtered orders
     const generatePDF = () => {
         const doc = new jsPDF();
         doc.text('Orders Report', 14, 16);
@@ -143,7 +123,7 @@ const ViewAllDeliveries = () => {
                 order.Location,
                 order.IssueDate ? new Date(order.IssueDate).toLocaleDateString() : '-',
                 order.DeliveryDate ? new Date(order.DeliveryDate).toLocaleDateString() : '-',
-                order.status, // Match the backend field
+                order.status,
             ]),
         });
         doc.save('orders_report.pdf');
@@ -166,7 +146,6 @@ const ViewAllDeliveries = () => {
             <button onClick={() => navigate('/IssueDeliveryForm')}>Add New Issue Delivery</button>
             <button onClick={generatePDF}>Generate Report</button>
 
-            {/* Orders Table */}
             <table className="table">
                 <thead>
                     <tr>
@@ -190,7 +169,7 @@ const ViewAllDeliveries = () => {
                             <td>{order.DeliveryDate ? new Date(order.DeliveryDate).toLocaleDateString() : '-'}</td>
                             <td>
                                 <select
-                                    value={order.status || ''} // Update to match the backend field
+                                    value={order.status || ''}
                                     onChange={(e) => handleStatusChange(order._id, e.target.value)}
                                 >
                                     <option value="Pending">Pending</option>
@@ -211,43 +190,12 @@ const ViewAllDeliveries = () => {
                                 </select>
                             </td>
                             <td>
-                                <button onClick={() => handleEditOrder(order)}>Issue Delivery</button>
+                                <button onClick={() => handleEditOrder(order._id)}>Edit Order</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-
-            {/* Conditional Form for Editing Selected Order */}
-            {selectedOrder && (
-                <div className="edit-form">
-                    <h3>Edit Order</h3>
-                    <form onSubmit={handleFormSubmit}>
-                        <div>
-                            <label>Customer Name:</label>
-                            <input type="text" name="Cus_name" value={selectedOrder.Cus_name} onChange={handleFormChange} required />
-                        </div>
-                        <div>
-                            <label>Quantity:</label>
-                            <input type="number" name="qty" value={selectedOrder.qty} onChange={handleFormChange} required />
-                        </div>
-                        <div>
-                            <label>Location:</label>
-                            <input type="text" name="Location" value={selectedOrder.Location} onChange={handleFormChange} required />
-                        </div>
-                        <div>
-                            <label>Issue Date:</label>
-                            <input type="date" name="IssueDate" value={selectedOrder.IssueDate ? selectedOrder.IssueDate.substring(0, 10) : ''} onChange={handleFormChange} required />
-                        </div>
-                        <div>
-                            <label>Delivery Date:</label>
-                            <input type="date" name="DeliveryDate" value={selectedOrder.DeliveryDate ? selectedOrder.DeliveryDate.substring(0, 10) : ''} onChange={handleFormChange} required />
-                        </div>
-                        <button type="submit">Update Order</button>
-                        <button type="button" onClick={() => setSelectedOrder(null)}>Cancel</button>
-                    </form>
-                </div>
-            )}
         </div>
     );
 };

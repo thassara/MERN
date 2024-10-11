@@ -24,7 +24,7 @@ import VehicleStatus from './compoments/Delivery/VehicleStatus';
 import UpdateVehicle from './compoments/Delivery/UpdateVehicle';
 import IssueDeliveryForm from './compoments/Delivery/IssueDeliveryForm';
 import ViewAllDeliveries from './compoments/Delivery/ViewAllDeliveries';
-
+import EditOrder from './compoments/Delivery/EditOrder';
 import EditDelivery from './compoments/Delivery/EditDelivery';
 
 import Or_add from './compoments/Order/AddForm';
@@ -68,7 +68,8 @@ function App() {
         <Route path="/update-vehicle/:id" element={<UpdateVehicle />} />
         <Route path="/IssueDeliveryForm" element={<IssueDeliveryForm />} />
         <Route path="/ViewAllDeliveries" element={<ViewAllDeliveries />} />
-      
+
+        <Route path="/edit-order/:id" element={<EditOrder />} />
         <Route path="/edit-delivery/:id" element={<EditDelivery />} />
         
         /*EmployeeSection*/

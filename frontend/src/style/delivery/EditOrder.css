@@ -1,0 +1,105 @@
+/* Container styling */
+.edit-order-container {
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Form heading */
+.edit-order-container h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 24px;
+    color: #333;
+}
+
+/* Status message styles */
+.status-message {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.success {
+    background-color: #e0ffe0;
+    color: #005700;
+}
+
+.error {
+    background-color: #ffe0e0;
+    color: #b00000;
+}
+
+/* Form styles */
+.edit-order-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds uniform spacing between form elements */
+}
+
+/* Label styling */
+.edit-order-container form label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px; /* Less margin to tighten the layout */
+}
+
+/* Input field styling */
+.edit-order-container form input {
+    width: 100%;
+    padding: 12px; /* Slightly larger padding for better click/touch area */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Align label and input as a flexbox to ensure better alignment */
+.edit-order-container form .form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Button styling */
+.edit-order-container button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Submit button styling */
+.edit-order-container button[type="submit"] {
+    background-color: #0048c7;
+    color: white;
+}
+
+.edit-order-container button[type="submit"]:hover {
+    background-color: #023ea5;
+}
+
+/* Cancel button styling */
+.edit-order-container button[type="button"] {
+    background-color: #ff6666;
+    color: white;
+    margin-left: 10px;
+}
+
+.edit-order-container button[type="button"]:hover {
+    background-color: #ff3333;
+}
+
+/* Flex container for buttons */
+.edit-order-container .button-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Adds spacing between buttons */
+}
