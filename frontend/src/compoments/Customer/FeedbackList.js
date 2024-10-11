@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable'; // Import the autotable plugin
-import '../../style/customer/FeedbackList.css';
 
 function FeedbackList() {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -22,7 +21,6 @@ function FeedbackList() {
     fetchFeedbacks();
   }, []);
 
-  // Function to accept feedback
   const handleAccept = async (id) => {
     try {
       const response = await fetch(`http://localhost:8070/api/feedback/${id}`, {
@@ -45,7 +43,6 @@ function FeedbackList() {
     }
   };
 
-  // Function to reject feedback
   const handleReject = async (id) => {
     try {
       const response = await fetch(`http://localhost:8070/api/feedback/${id}`, {
@@ -64,7 +61,6 @@ function FeedbackList() {
     }
   };
 
-  // Function to request PDF generation
   const generatePDF = () => {
     const doc = new jsPDF();
 
@@ -89,35 +85,50 @@ function FeedbackList() {
   };
 
   return (
-    <div className="app-container">
-      <div className="main-content">
-        <h2>Feedback List</h2>
-        {message && <p className="message">{message}</p>} {/* Display message */}
-        <div className="actions">
-          <button className="generate-btn" onClick={generatePDF}>
+    <div style={{ padding: '20px', backgroundColor: '#f9f9f9' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Feedback List</h2>
+        {message && <p style={{ color: 'red', textAlign: 'center' }}>{message}</p>}
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+          <button 
+            onClick={generatePDF}
+            style={{
+              padding: '10px 20px',
+              backgroundColor: '#3498db',
+              color: '#fff',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer'
+            }}
+          >
             Generate PDF Report
           </button>
-          <div className="feedback-header">
-            <div className="search-bar">
-              <input 
-                type="text" 
-                placeholder="Search here" 
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+          <div style={{ display: 'flex' }}>
+            <input
+              type="text"
+              placeholder="Search here"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              style={{
+                padding: '10px',
+                width: '200px',
+                border: '1px solid #ccc',
+                borderRadius: '5px',
+                marginRight: '10px'
+              }}
+            />
           </div>
         </div>
-        <table className="feedback-table">
+        <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
           <thead>
             <tr>
-              <th>Customer Name</th>
-              <th>Email</th>
-              <th>Feedback</th>
-              <th>Rating</th>
-              <th>Status</th>
-              <th>Approve</th>
-              <th>Reject</th>
+              <th style={{ border: '1px solid #ddd', padding: '10px', backgroundColor: '#f4f4f4' }}>Customer Name</th>
+              <th style={{ border: '1px solid #ddd', padding: '10px', backgroundColor: '#f4f4f4' }}>Email</th>
+              <th style={{ border: '1px solid #ddd', padding: '10px', backgroundColor: '#f4f4f4' }}>Feedback</th>
+              <th style={{ border: '1px solid #ddd', padding: '10px', backgroundColor: '#f4f4f4' }}>Rating</th>
+              <th style={{ border: '1px solid #ddd', padding: '10px', backgroundColor: '#f4f4f4' }}>Status</th>
+              <th style={{ border: '1px solid #ddd', padding: '10px', backgroundColor: '#f4f4f4' }}>Approve</th>
+              <th style={{ border: '1px solid #ddd', padding: '10px', backgroundColor: '#f4f4f4' }}>Reject</th>
             </tr>
           </thead>
           <tbody>
@@ -127,16 +138,40 @@ function FeedbackList() {
               )
               .map(feedback => (
                 <tr key={feedback._id}>
-                  <td>{feedback.fullName}</td>
-                  <td>{feedback.email}</td>
-                  <td>{feedback.feedback}</td>
-                  <td>{feedback.rating}</td>
-                  <td>{feedback.status}</td>
-                  <td>
-                    <button className="accept-btn" onClick={() => handleAccept(feedback._id)}>Accept</button>
+                  <td style={{ border: '1px solid #ddd', padding: '10px' }}>{feedback.fullName}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '10px' }}>{feedback.email}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '10px' }}>{feedback.feedback}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '10px' }}>{feedback.rating}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '10px' }}>{feedback.status}</td>
+                  <td style={{ border: '1px solid #ddd', padding: '10px' }}>
+                    <button
+                      onClick={() => handleAccept(feedback._id)}
+                      style={{
+                        padding: '5px 10px',
+                        backgroundColor: '#2ecc71',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Accept
+                    </button>
                   </td>
-                  <td>
-                    <button className="reject-btn" onClick={() => handleReject(feedback._id)}>Reject</button>
+                  <td style={{ border: '1px solid #ddd', padding: '10px' }}>
+                    <button
+                      onClick={() => handleReject(feedback._id)}
+                      style={{
+                        padding: '5px 10px',
+                        backgroundColor: '#e74c3c',
+                        color: '#fff',
+                        border: 'none',
+                        borderRadius: '5px',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      Reject
+                    </button>
                   </td>
                 </tr>
               ))}
