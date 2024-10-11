@@ -43,6 +43,7 @@ import Handlepayment from './pages/payment/Handlepayment';
 import Profile from './pages/payment/PMprofile';
 import PaymentForm from './pages/payment/Addpaymentform';
 import CusDashboard from './pages/payment/CusDashboard';
+import SeePaymentnotification from './pages/payment/SeePaymentnotification';
 
 //Order Section
 import OrderTracking from './pages/order/OrderTracking'
@@ -127,6 +128,7 @@ function App() {
           <Route path="/Addpaymentform" element={<PaymentForm />} />
         <Route path="/PMprofile" element={<Profile />} />
         <Route path="/Handlepayment" element={<Handlepayment />} />
+        <Route path="/SeePaymentnotification" element={<SeePaymentnotification />} />
 
         </Routes>
         <Footer />

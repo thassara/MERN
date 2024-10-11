@@ -27,6 +27,9 @@ const Sidebar = () => {
   const navigateCusDashboard = () => {
     navigate('/CusDashboard');
   };
+  const navigatePaymentnotification = () => {
+    navigate('/SeePaymentnotification');
+  };
 
   return (
     <div style={styles.sidebar}>
@@ -53,6 +56,7 @@ const Sidebar = () => {
         style={hoveredButton === 'notifications' ? { ...styles.button, ...styles.buttonHover } : styles.button}
         onMouseEnter={() => handleMouseEnter('notifications')}
         onMouseLeave={handleMouseLeave}
+        onClick={navigatePaymentnotification}
       >
         See My Notifications
       </button>

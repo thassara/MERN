@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from '../../compoments/Payment/Sidebar';
 import PaymentTable from '../../compoments/Payment/PaymentTable';
-import SearchBar from '../../compoments/Payment/SearchBar';
-import PieChart from './PieChart'; // Import the PieChart component
 import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import '../../style/payment/PaymentDashBoardPage.css';
-
-import { Pie } from 'react-chartjs-2';
+import { Pie, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   ArcElement,
   Tooltip,
   Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
 } from 'chart.js';
 
 // Register the required elements for Chart.js
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
 const PaymentDashBoardPage = () => {
   const [payments, setPayments] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
   const [totalExpenses, setTotalExpenses] = useState(0);
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -53,20 +52,6 @@ const PaymentDashBoardPage = () => {
     fetchPayments();
     fetchExpenses();
   }, []);
-
-  const handleSearch = (term) => {
-    setSearchTerm(term);
-  };
-
-  const filteredPayments = payments.filter((payment) => {
-    const idMatch = payment._id && payment._id.toString().toLowerCase().includes(searchTerm.toLowerCase());
-    const emailMatch = payment.email && payment.email.toLowerCase().includes(searchTerm.toLowerCase());
-    return idMatch || emailMatch;
-  });
-
-  const onView = (id) => {
-    console.log(`View payment with ID: ${id}`);
-  };
 
   const onVerify = async (id) => {
     try {
@@ -108,11 +93,33 @@ const PaymentDashBoardPage = () => {
     labels: ['Total Income', 'Total Expenses', 'Available Balance'],
     datasets: [
       {
-        data: [35000, totalExpenses, 35000 - totalExpenses],
+        data: [2356300, totalExpenses, 2356300 - totalExpenses],
         backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
         hoverOffset: 4,
       },
     ],
+  };
+
+  // Bar Chart Data
+  const barChartData = {
+    labels: ['Total Income', 'Total Expenses', 'Available Balance'],
+    datasets: [
+      {
+        label: 'Amount (Rs)',
+        data: [2356300, totalExpenses, 2356300 - totalExpenses],
+        backgroundColor: ['#36A2EB', '#FF6384', '#FFCE56'],
+      },
+    ],
+  };
+
+  const barChartOptions = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
   };
 
   return (
@@ -125,7 +132,7 @@ const PaymentDashBoardPage = () => {
         <div className="unique-balance-summary">
           <div className="unique-summary-card">
             <h3>Total Income</h3>
-            <p>Rs. 35,000</p>
+            <p>Rs. 23,56300</p>
           </div>
           <div className="unique-summary-card">
             <h3>Total Expenses</h3>
@@ -133,28 +140,29 @@ const PaymentDashBoardPage = () => {
           </div>
           <div className="unique-summary-card">
             <h3>Available Balance</h3>
-            <p>Rs. {35000 - totalExpenses}</p>
+            <p>Rs. {2356300 - totalExpenses}</p>
           </div>
         </div>
 
         {/* Success message display */}
         {successMessage && <p className="unique-success-message">{successMessage}</p>}
 
-        {/* Pie Chart Section */}
-        <div className="unique-pie-chart-container">
-          <Pie data={pieChartData} className="unique-pie-chart" />
+        {/* Pie Chart and Bar Chart Section */}
+        <div className="unique-chart-container">
+          <div className="unique-pie-chart-container">
+            <Pie data={pieChartData} className="unique-pie-chart" />
+          </div>
+          <div className="unique-bar-chart-container">
+            <Bar data={barChartData} options={barChartOptions} height={200} />
+          </div>
         </div>
 
-        {/* Search bar for filtering payments */}
-        <SearchBar onSearch={handleSearch} />
-
         {/* Payment table showing filtered data */}
-        {filteredPayments.length > 0 ? (
+        {payments.length > 0 ? (
           <PaymentTable
-            payments={filteredPayments}
+            payments={payments}
             onVerify={onVerify}
             onReject={onReject}
-            onView={onView}
             onDownloadPDF={downloadPDF}
           />
         ) : (

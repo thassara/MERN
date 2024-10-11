@@ -62,3 +62,20 @@
   width: 100%; /* Make the pie chart fill the container */
   height: 100%; /* Make the pie chart fill the container */
 }
+
+.unique-chart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.unique-pie-chart-container {
+  width: 50%; /* Adjust the width as necessary */
+  height: 200px; /* Set a height for the pie chart */
+}
+
+.unique-bar-chart-container {
+  width: 50%; /* Adjust the width as necessary */
+  height: 200px; /* Set a height for the bar chart */
+}
