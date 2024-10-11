@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const OrderForm = () => {
+    const { id } = useParams(); // Extracting 'id' from the URL params
     const navigate = useNavigate();
     const initialOrderData = JSON.parse(localStorage.getItem('orderData')) || {};
 
@@ -12,10 +13,28 @@ const OrderForm = () => {
     const [packageType, setPackageType] = useState(initialOrderData.packageType || '');
     const [customerNote, setCustomerNote] = useState(initialOrderData.customerNote || '');
     const [date, setDate] = useState(initialOrderData.date || '');
- 
+    const [orderData, setOrderData] = useState({});
+    const [tracking, setTracking] = useState('');
+
+    useEffect(() => {
+        const fetchOrderData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/orders/read/${id}`);
+                setOrderData(response.data);
+                setTracking(response.data.Or_tracking); // Assuming 'Or_tracking' is part of the response
+            } catch (error) {
+                console.error("Error fetching order data", error);
+            }
+        };
+
+        if (id) {
+            fetchOrderData();
+        }
+    }, [id]);
+
     const sendData = (e) => {
         e.preventDefault();
-    
+
         const order = {
             Cus_name: customerName,
             Cus_email: customerEmail,
@@ -23,16 +42,14 @@ const OrderForm = () => {
             package_type: packageType,
             Cus_note: customerNote,
             date: date,
-        
         };
-    
-        console.log('Order Data:', order);
-    
+
         axios.post("http://localhost:8080/orders/add", order)
             .then((response) => {
                 alert("Order added successfully!");
                 console.log(response.data);
-                // Reset form fields
+
+                // Clear form fields and local storage
                 setCustomerName('');
                 setCustomerEmail('');
                 setQuantity('');
@@ -40,14 +57,15 @@ const OrderForm = () => {
                 setCustomerNote('');
                 setDate('');
                 localStorage.removeItem('orderData');
-                navigate('/OrderDashBoardPage'); 
+
+                // Navigate to the tracking page with the order ID
+                navigate(`/OrderDashBoardPage/orderTracks/${response.data._id}`); // Assuming '_id' is the order ID from the response
             })
             .catch((err) => {
                 console.error("Error details:", err.response ? err.response.data : err.message);
                 alert("Order not added: " + (err.response ? err.response.data.message : err.message));
             });
     };
-    
 
     return (
         <div>
@@ -113,7 +131,7 @@ const OrderForm = () => {
                         <div className="or_colon">:</div>
                         <div className="or_value">
                             <input
-                            readOnly
+                                readOnly
                                 type="text" 
                                 value={customerName} 
                                 onChange={(e) => setCustomerName(e.target.value)} 
@@ -126,7 +144,7 @@ const OrderForm = () => {
                         <div className="or_colon">:</div>
                         <div className="or_value">
                             <input 
-                            readOnly
+                                readOnly
                                 type="email" 
                                 value={customerEmail} 
                                 onChange={(e) => setCustomerEmail(e.target.value)} 
@@ -139,7 +157,7 @@ const OrderForm = () => {
                         <div className="or_colon">:</div>
                         <div className="or_value">
                             <input 
-                            readOnly
+                                readOnly
                                 type="number" 
                                 value={quantity} 
                                 onChange={(e) => setQuantity(e.target.value)} 
@@ -153,7 +171,7 @@ const OrderForm = () => {
                         <div className="or_colon">:</div>
                         <div className="or_value">
                             <input 
-                            readOnly
+                                readOnly
                                 type="text" 
                                 value={packageType} 
                                 onChange={(e) => setPackageType(e.target.value)} 
@@ -166,7 +184,7 @@ const OrderForm = () => {
                         <div className="or_colon">:</div>
                         <div className="or_value">
                             <textarea 
-                            readOnly
+                                readOnly
                                 value={customerNote} 
                                 onChange={(e) => setCustomerNote(e.target.value)} 
                                 rows="3"
@@ -178,7 +196,7 @@ const OrderForm = () => {
                         <div className="or_colon">:</div>
                         <div className="or_value"> 
                             <input
-                            readOnly
+                                readOnly
                                 type="date"
                                 value={date}
                                 onChange={(e) => setDate(e.target.value)}

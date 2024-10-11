@@ -25,6 +25,9 @@ function Header() {
                         <li><a href="/AdminLogin">Admin</a></li>
                         <li><a onClick={() => navigate('/Or_Add')}>Place Order</a></li>
                         <li><a href="/EmpLogin">Employee</a></li>
+                        <li><a onClick={() => navigate('/My/FindOrder')}>Find My Order</a></li>
+                        
+                        
                     </ul>
                 </nav>
                 <button className="cta" onClick={() => handleNavigate('/CustomerLogin')}>Login</button>

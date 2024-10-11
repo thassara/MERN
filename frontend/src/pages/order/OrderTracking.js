@@ -308,11 +308,11 @@ function App() {
               <p className="or_infoText">Package Type : <span className="or_infoSpan">{orderData.package_type}</span></p>
               <p className="or_infoText">Order Date : <span className="or_infoSpan">{orderData.date}</span></p>
             </div>
-
+{/* 
             <div className="or_actionButtons">
               <button className="or_editButton" onClick={() => handleNavigate("updateOrder", orderData._id)}>EDIT</button>
               <button className="or_deleteButton" onClick={() => handleDelete(orderData._id)}>DELETE</button>
-            </div>
+            </div> */}
           </div>
         </div>
       ) : (
