@@ -28,7 +28,7 @@ const OrderForm = () => {
     
         console.log('Order Data:', order);
     
-        axios.post("http://localhost:8080/orders/add", order)
+        axios.post("http://localhost:8070/orders/add", order)
             .then((response) => {
                 alert("Order added successfully!");
                 console.log(response.data);

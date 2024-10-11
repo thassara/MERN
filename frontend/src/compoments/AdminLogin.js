@@ -13,7 +13,7 @@ function AdminLogin({ userType }) {
     // Dummy logic - Replace with backend logic if needed
     const StoredRole = "General"; // Example stored role, replace with real logic
     try {
-      const response = await fetch(`http://localhost:8080/api/login/${username}/${password}/${role}`);
+      const response = await fetch(`http://localhost:8070/api/login/${username}/${password}/${role}`);
       const data = await response.json();
 
       if (response.ok) {

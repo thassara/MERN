@@ -124,7 +124,7 @@ function OrAdminTable() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/orders/Allread'); 
+                const response = await axios.get('http://localhost:8070/orders/Allread'); 
                 setData(response.data); 
                 setFilterOrder(response.data); 
             } catch (error) {

@@ -2,11 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const app = express();
-require('dotenv').config();
 
-const feedbackRoutes = require('./Routes/feedbackRoutes.js'); // Fix the path
-const customerRoutes = require('./Routes/customerRoutes.js')
 
 const or_Routes = require("./Routes/Order");
 require('dotenv').config();
@@ -14,20 +10,26 @@ const stockRouter = require('./Routes/stockRoutes');
 const restockRouter = require('./Routes/restockRoutes');
 const assign_itemsRouter = require('./Routes/assign_itemsRoutes');
 
+const feedbackRoutes = require('./Routes/feedbackRoutes.js');  
+const customerRoutes = require('./Routes/customerRoutes.js');
+
+
 //8070
- 
+const app = express();
 
 // Import routes
 const expenseRoutes = require('./Routes/ExpenseRoutes.js');
 const PMprofileRoutes = require('./Routes/PMprofile.js');
 const paymentRoutes = require('./Routes/paymentRoutes.js');
+const machine_Routes = require("./Routes/machine.js");
+const orderqueue_Routes = require("./Routes/orderqueue.js");
 
-
- 
+const PORT = process.env.PORT||8070;
 
 const employeeRoutes = require('./Routes/employeeRoutes.js'); 
 const attendanceRoutes = require('./Routes/attendanceRoutes.js');
 const managerRoutes = require('./Routes/managerRoutes.js');
+
 
 
 // Middleware
@@ -37,17 +39,6 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.json());
 
-app.use(express.static('public')); // Assuming you store PDF files in 'public' folder
-
-
-// Routes
-app.use('/api/feedback', feedbackRoutes);
-app.use('/api/customers', customerRoutes);
-
-// Database connection
-const PORT = process.env.PORT || 8070;
-const URL = process.env.MONGODB_URL;
-
 // Employee section
 
 app.use('/api', employeeRoutes);
@@ -56,7 +47,7 @@ app.use('/api', managerRoutes);
 app.use("/orders",or_Routes);
 
 // Connect to MongoDB
- 
+const URL = process.env.MONGODB_URL;
 
 mongoose.connect(URL, {
     useNewUrlParser: true,
@@ -74,13 +65,17 @@ app.use("/expenses", expenseRoutes); // Using /expenses for clarity
 app.use("/PMprofiles", PMprofileRoutes); 
 app.use("/payments", paymentRoutes);
 
+
+app.use('/api/feedback', feedbackRoutes);
+app.use('/api/customers', customerRoutes);
+
 mongoose.connect(URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
 
 const connection = mongoose.connection;
-connection.once("open", () => {
+connection.once("open", () => { 
     console.log("MongoDB Connection Success");
 });
 
@@ -88,9 +83,8 @@ app.use("/items", stockRouter);
 app.use("/restock", restockRouter);
 app.use("/assign_items", assign_itemsRouter);
 
-app.listen(PORT, () => {
-    console.log(`Server is up and running on Port: ${PORT}`);
-});
+app.use("/machines",machine_Routes);
+app.use("/orderqueues",orderqueue_Routes);
 
 
 // Start the server
