@@ -1,3 +1,6 @@
+
+
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -77,7 +80,10 @@ function App() {
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
       <style>
         {`
+<<<<<<< HEAD
+=======
         body{background-color:#e6eee4;}
+>>>>>>> main
           .or_container {
             font-family: Arial, sans-serif;
             padding: 20px;
@@ -125,11 +131,15 @@ function App() {
           .or_stepLine {
             width: 100%;
             height: 2px;
+<<<<<<< HEAD
+            background-color: #ccc;
+=======
             background-color: #000;  /* Black color for step line */
           }
           .or_completedLine {
             background-color: black;  /* Black bold line */
             height: 4px;  /* Bold line */
+>>>>>>> main
           }
           .or_trackingLabels {
             display: flex;
@@ -157,12 +167,20 @@ function App() {
             justify-content: space-between;
           }
           .or_editButton {
+<<<<<<< HEAD
+            background-color: #2da6ab;
+=======
             background-color: #439e2d;
+>>>>>>> main
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 5px;
+<<<<<<< HEAD
+            cursor: pointer;
+=======
             cursor: pointer; 
+>>>>>>> main
           }
           .or_deleteButton {
             background-color: #f44336;
@@ -199,6 +217,40 @@ function App() {
           }
         `}
       </style>
+
+      <h1 className="or_header">Ruchi Package</h1>
+
+      <div className="or_orderSection">
+        <div className="or_orderBox">
+          <h2 className="or_title">ORDER TRACKING</h2>
+          <div className="or_trackingBar">
+            <div className="or_step or_completedStep">✔</div>
+            <div className="or_stepLine"></div>
+            <div className="or_step or_completedStep">✔</div>
+            <div className="or_stepLine"></div>
+            <div className="or_step">⚪</div>
+          </div>
+          <div className="or_trackingLabels">
+            <p className="or_labelText">Approval Order</p>
+            <p className="or_labelText">Processing Order</p>
+            <p className="or_labelText">Finish Product</p>
+          </div>
+        </div>
+
+        <div className="or_orderBox">
+          <h2 className="or_title">ORDER INFO</h2>
+          <div className="or_infoBox">
+            <p className="or_infoText">Order ID : <span className="or_infoSpan">E43D213</span></p>
+            <p className="or_infoText">Quantity : <span className="or_infoSpan">250 pcs</span></p>
+            <p className="or_infoText">Package Type : <span className="or_infoSpan">restaurants pack</span></p>
+            <p className="or_infoText">Finishing data : <span className="or_infoSpan">15/05/2024</span></p>
+          </div>
+          <div className="or_actionButtons">
+            <button className="or_editButton">Edit</button>
+            <button className="or_deleteButton">Delete</button>
+          </div>
+        </div>
+      </div>
 
       {orderData ? (
         <div className="or_orderSection">
@@ -285,6 +337,7 @@ function App() {
             </tr>
             <tr>
               <td className="or_tableData">E2895A</td>
+              <td className="or_tableData">Restaurants pack</td>
               <td className="or_tableData">Restaurants packs</td>
               <td className="or_tableData"><button className="or_moreButton">More</button></td>
             </tr>
