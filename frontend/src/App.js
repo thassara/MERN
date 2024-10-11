@@ -54,6 +54,13 @@ import AddEmployee from './compoments/Employee/AddEmployee';
 import EditAttendance from './compoments/Employee/EditAttendance';
 import EmployeeProfile from './compoments/Employee/EmployeeDashBoardOne.js';
 
+// Machine Section Imports
+import MachineAdd from './compoments/Machine/machineadd';
+import MachineManager from './compoments/Machine/MachineManager';
+import UpdateMachine from './compoments/Machine/UpdateMachine';
+import MachineStatus from './compoments/Machine/MachineStatus';
+import AssignMachine from './compoments/Machine/AssignMachine';
+
 
 
 function App() {
@@ -74,6 +81,7 @@ function App() {
           <Route path="/PMChoose" element={<PMChoose/>}/> {/* PM Choose */}
           <Route path="/CustomerDashBoardPage" element={<CustomerDashBoardPage/>}/> {/* Customer Dashboard */}
           <Route path="/StockDashBoardPage" element={<StockDashBoardPage/>}/> {/* Stock Dashboard */}
+          <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage />} /> {/* Machine Dashboard */}
           <Route path="/PackageDashBoardPage" element={<PackageDashBoardPage/>}/> {/* Package Dashboard */}
        
           <Route path="/Or_add" element={<Or_add/>}/>     {/*ee tika nm allanna epa kanawa thowa*/}
@@ -113,6 +121,38 @@ function App() {
         <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/>   
         <Route path="/OrderTracking" element={<OrderTracking/>}/>  
         <Route path="/EmployeeDashBoardPage" element={<EmployeeDashBoardPage/>}/> 
+
+          {/* Package Section Routes */}
+          <Route path="/create" element={<CreatePackage />} /> {/* Create Package */}
+          <Route path="/packages" element={<PackageList />} /> {/* Display All Packages */}
+          <Route path="/package-dashboard" element={<PackageDashBoardPage />} />
+          <Route path="/reportGen" element={<ReportGen/>} />
+
+
+          {/* Stock Section Routes */}
+          <Route path="/StockAddForm" element={<StockAddForm/>}/> 
+          <Route path="/ContactSupplier" element={<ContactSupplier/>}/>
+          <Route path="/AssignItems" element={<AssignItems/>}/>
+          <Route path="/StockDetails" element={<StockDetails/>}/>
+          
+          
+
+         {/* Machine Section Routes */}
+         <Route path="/MachineDashBoardPage/add-machine" element={<MachineAdd />} />
+          <Route path="/add-machine//MachineDashBoardPage" element={<MachineAdd />} />
+          <Route path="/machine-manager" element={<MachineManager />} />
+          <Route path="/update-machine/:id" element={<UpdateMachine />} />
+          <Route path="/MachineDashBoardPage/UpdateMachine" element={<UpdateMachine />} />
+          <Route path="/MachineDashBoardPage/Machine-Status" element={<MachineStatus />} />
+          <Route path="/MachineStatus/Assign-machine" element={<AssignMachine />} />
+
+
+
+
+
+
+
+
 
         <Route path="/EmployeeProfile" element={<EmployeeProfile/>}/>   
         <Route path="/MachineDashBoardPage" element={<MachineDashBoardPage/>}/> 
