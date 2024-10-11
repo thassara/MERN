@@ -50,7 +50,6 @@ html, body {
     align-items: center;
     justify-content: center;
     margin: 0 auto;
-    position: relative;
 }
 
 /* Inventory Title */
@@ -106,38 +105,3 @@ table tbody tr:nth-child(even) {
 table tbody tr:hover {
     background-color: #f1f1f1;
 }
-
-/* Legend styling */
-.legend-container {
-    position: absolute; /* Position relative to the inventory container */
-    top: 40px; /* Adjust based on the height of the title and margin */
-    right: 10px; /* Aligns the legend to the right edge */
-    padding: 10px;
-    width: 200px;
-     /* Adds background color to distinguish it */
-    z-index: 1; /* Ensures it's on top of other elements */
-
-}
-
-.legend-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-}
-
-.legend-box {
-    width: 20px;
-    height: 20px;
-    margin-right: 10px;
-}
-
-.red-box {
-    background-color: red;
-}
-
-.orange-box {
-    background-color: orange;
-}
-
-
-
