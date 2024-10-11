@@ -62,6 +62,16 @@ button {
   cursor: pointer;
 }
 
+.generate-btn {
+  background-color: #0088a9; /* Button color */
+  color: white; /* Text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 15px; /* Padding for button */
+  cursor: pointer; /* Pointer cursor */
+  transition: background-color 0.3s ease; /* Transition for hover effect */
+}
+
 .accept-btn {
   background-color: #28a745;
   color: #fff;

@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';  
 import { useNavigate, useParams } from 'react-router-dom';  
 import axios from 'axios';  
-// import '../../style/Comman css/UpdateCustomer.css';  
 
 function UpdateCustomer() {
   const [customerData, setCustomerData] = useState({
+    username: '',
     name: '',
-    email:'',
-    address:'',
+    email: '',
+    address: '',
     age: '',
-    gender: '',
-    username: ''
+    gender: ''
+    
   });
 
   const navigate = useNavigate();
@@ -47,9 +47,39 @@ function UpdateCustomer() {
   };
 
   return (
-    <div>
-      <h1>Update Customer</h1>
-      <form onSubmit={handleSubmit}>
+    <div style={{ 
+      display: 'flex', 
+      flexDirection: 'column', 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      minHeight: '100vh', 
+      backgroundColor: '#f4f4f4', 
+      padding: '20px' 
+    }}>
+      <h1 style={{ marginBottom: '20px' }}>Update Customer</h1>
+      <form onSubmit={handleSubmit} style={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        width: '400px', 
+        padding: '20px', 
+        backgroundColor: '#fff', 
+        borderRadius: '8px', 
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' 
+      }}>
+          <input 
+          type="text" 
+          name="username" 
+          placeholder="Username" 
+          value={customerData.username} 
+          onChange={handleChange} 
+          required 
+          style={{ 
+            padding: '10px', 
+            marginBottom: '15px', 
+            borderRadius: '4px', 
+            border: '1px solid #ccc' 
+          }} 
+        />
         <input 
           type="text" 
           name="name" 
@@ -57,22 +87,40 @@ function UpdateCustomer() {
           value={customerData.name} 
           onChange={handleChange} 
           required 
+          style={{ 
+            padding: '10px', 
+            marginBottom: '15px', 
+            borderRadius: '4px', 
+            border: '1px solid #ccc' 
+          }} 
         />
-            <input 
+        <input 
           type="text" 
           name="email" 
           placeholder="Email" 
           value={customerData.email} 
           onChange={handleChange} 
           required 
+          style={{ 
+            padding: '10px', 
+            marginBottom: '15px', 
+            borderRadius: '4px', 
+            border: '1px solid #ccc' 
+          }} 
         />
-            <input 
+        <input 
           type="text" 
           name="address" 
           placeholder="Address" 
           value={customerData.address} 
           onChange={handleChange} 
           required 
+          style={{ 
+            padding: '10px', 
+            marginBottom: '15px', 
+            borderRadius: '4px', 
+            border: '1px solid #ccc' 
+          }} 
         />
         <input 
           type="number" 
@@ -81,6 +129,12 @@ function UpdateCustomer() {
           value={customerData.age} 
           onChange={handleChange} 
           required 
+          style={{ 
+            padding: '10px', 
+            marginBottom: '15px', 
+            borderRadius: '4px', 
+            border: '1px solid #ccc' 
+          }} 
         />
         <input 
           type="text" 
@@ -89,16 +143,27 @@ function UpdateCustomer() {
           value={customerData.gender} 
           onChange={handleChange} 
           required 
+          style={{ 
+            padding: '10px', 
+            marginBottom: '15px', 
+            borderRadius: '4px', 
+            border: '1px solid #ccc' 
+          }} 
         />
-        <input 
-          type="text" 
-          name="username" 
-          placeholder="Username" 
-          value={customerData.username} 
-          onChange={handleChange} 
-          required 
-        />
-        <button type="submit">Update</button>
+      
+        <button type="submit" style={{ 
+          padding: '10px 0', 
+          backgroundColor: '#2a9df4', 
+          color: '#fff', 
+          border: 'none', 
+          borderRadius: '4px', 
+          cursor: 'pointer',
+          width: '200px', // Set the desired width here
+          display: 'block',
+          margin: '20px auto'
+        }}>
+          Update
+        </button>
       </form>
     </div>
   );

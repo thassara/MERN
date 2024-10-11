@@ -43,17 +43,16 @@ const Cusdetails = () => {
   // Function to handle PDF generation
   const generatePDF = () => {
     const doc = new jsPDF();
-    const tableColumn = ["Username","Email","Address", "Age", "Customer Name" ];
+    const tableColumn = [ "Customer Name" ,"Username","Email","Address", "Age"];
     const tableRows = [];
 
     customers.forEach(customer => {
       const customerData = [
+        customer.name,
         customer.username,
         customer.email,
         customer.address,
         customer.age,
-        customer.name,
-        
       ];
       tableRows.push(customerData);
     });
@@ -92,11 +91,11 @@ const Cusdetails = () => {
       <table className="customer-table">
         <thead>
           <tr>
+          <th>Customer Name</th>
             <th>Username</th>
             <th>Email</th>
             <th>Address</th>
             <th>Age</th>
-            <th>Customer Name</th>
             {/* <th>Payment Status</th> */}
             {/* <th>Feedback</th> */}
             <th>Action</th>
@@ -105,11 +104,11 @@ const Cusdetails = () => {
         <tbody>
           {filteredCustomers.map(customer => (
             <tr key={customer._id}>
+               <td>{customer.name || 'N/A'}</td> {/* Fallback for missing names */}
               <td>{customer.username}</td>
               <td>{customer.email}</td>
               <td>{customer.address}</td>
               <td>{customer.age}</td>
-              <td>{customer.name || 'N/A'}</td> {/* Fallback for missing names */}
               {/* <td>
                 <button className="view-button">View</button>
               </td> */}
