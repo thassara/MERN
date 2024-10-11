@@ -1,0 +1,15 @@
+.dashboard-container {
+    background-image: url('../../images/Paymentdashboard.jpg');
+    background-size: cover; /* Make sure the image covers the entire container */
+    background-position: center; /* Center the image */
+    min-height: 100vh; /* Ensure it covers the full height of the viewport */
+    padding: 20px; /* Add some padding */
+    color: white; /* Set text color for contrast */
+}
+
+.inventory-container {
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for readability */
+    padding: 20px; /* Add padding to the inventory container */
+    border-radius: 10px; /* Optional: round corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional: add shadow for depth */
+}

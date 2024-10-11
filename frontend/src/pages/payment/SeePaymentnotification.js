@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import './StockDashBoardOne.css'; // Import the CSS file
 
 function StockDashBoardOne() {
     const navigate = useNavigate();
     const [items, setItems] = useState([]);
     const [search, setSearch] = useState("");
     const [paymentStatus, setPaymentStatus] = useState(() => {
-        // Initialize the status from localStorage if it exists, otherwise use an empty object
         const savedStatus = localStorage.getItem("paymentStatus");
         return savedStatus ? JSON.parse(savedStatus) : {};
     });
 
-    // Fetch items from the backend
     useEffect(() => {
         axios.get("http://localhost:8070/items/all")
             .then((res) => {
@@ -30,7 +29,6 @@ function StockDashBoardOne() {
             .catch((err) => alert(err.message));
     }, []);
 
-    // Function to return the appropriate inline style based on the comparison
     const getQuantityStyle = (availableQty, alrtQty) => {
         const difference = availableQty - alrtQty;
         if (difference <= 0) {
@@ -42,7 +40,6 @@ function StockDashBoardOne() {
         }
     };
 
-    // Handle payment done action
     const handlePaymentDone = (itemId) => {
         alert("Payment done status sent to the Stock Manager");
         setPaymentStatus((prevStatus) => {
@@ -50,16 +47,15 @@ function StockDashBoardOne() {
                 ...prevStatus,
                 [itemId]: "Payment Done"
             };
-            localStorage.setItem("paymentStatus", JSON.stringify(updatedStatus)); // Save status in localStorage
+            localStorage.setItem("paymentStatus", JSON.stringify(updatedStatus));
             return updatedStatus;
         });
     };
 
     const handleNavigate = () => {
-        navigate('/Handlepayment'); // Example path, replace with your desired path
+        navigate('/Handlepayment'); 
     };
 
-    // Function to apply color styling based on payment status
     const getStatusStyle = (status) => {
         return status === "Payment Done"
             ? { color: "green", fontWeight: "bold" }
@@ -67,16 +63,16 @@ function StockDashBoardOne() {
     };
 
     return (
-        <div className="dashboard-container">
+        <div className="dashboard-container"> {/* Main container with background image */}
             <h1>Stock Manager's Re-Fill Stock Details</h1>
 
-            <div className="inventory-container">
+            <div className="inventory-container"> {/* Container for the inventory section */}
                 <h3 className="inventory-title">Inventory</h3>
-                <table className="table table-striped">
+                <table className="table table-striped"> {/* Your table remains unchanged */}
                     <thead>
                         <tr>
                             <th scope="col">Item Name</th>
-                            <th scope="col"> Quantity</th>
+                            <th scope="col">Quantity</th>
                             <th scope="col">Status</th>
                             <th scope="col">Action</th>
                         </tr>
@@ -109,7 +105,6 @@ function StockDashBoardOne() {
                     </tbody>
                 </table>
 
-                {/* Add button below the table */}
                 <div style={{ textAlign: "center", marginTop: "20px" }}>
                     <button 
                         onClick={handleNavigate} 
