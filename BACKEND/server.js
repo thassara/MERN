@@ -23,6 +23,8 @@ const app = express();
 const expenseRoutes = require('./Routes/ExpenseRoutes.js');
 const PMprofileRoutes = require('./Routes/PMprofile.js');
 const paymentRoutes = require('./Routes/paymentRoutes.js');
+const machine_Routes = require("./Routes/machine.js");
+const orderqueue_Routes = require("./Routes/orderqueue.js");
 
 
 const PORT = process.env.PORT||8070;
@@ -86,7 +88,8 @@ app.use("/items", stockRouter);
 app.use("/restock", restockRouter);
 app.use("/assign_items", assign_itemsRouter);
 
-
+app.use("/machines",machine_Routes);
+app.use("/orderqueues",orderqueue_Routes);
 
 // Start the server
 app.listen(PORT, () => {

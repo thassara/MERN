@@ -38,8 +38,8 @@ const VehicleAdd = () => {
 
         const formErrors = validateForm();
         if (Object.keys(formErrors).length > 0) {
-            setErrors(formErrors);
-            return;
+            setErrors(formErrors); // Set the error messages
+            return; // If there are errors, stop form submission
         }
 
         const vehicleData = {
@@ -54,10 +54,8 @@ const VehicleAdd = () => {
 
         try {
             const response = await axios.post('http://localhost:8070/api/vehicle/add', vehicleData);
-            // Show a confirmation window alert on successful addition
             window.alert('Vehicle added successfully!'); 
 
-            // Clear form
             setVehicleId('');
             setName('');
             setType('');
@@ -67,16 +65,22 @@ const VehicleAdd = () => {
             setLastServiceDate(''); 
             setErrors({}); // Clear any errors
 
-            // Redirect to Vehicle Management page after adding the vehicle with replace to avoid back navigation
             navigate('/DeliveryDashBoardPage', { replace: true });
         } catch (error) {
             console.error('Error adding vehicle:', error);
         }
     };
 
-    // Function to handle cancel button click
     const handleCancel = () => {
-        navigate('/DeliveryDashBoardPage', { replace: true }); // Use replace to avoid going back to the form
+        navigate('/DeliveryDashBoardPage', { replace: true });
+    };
+
+    // onChange handlers to clear specific errors when input is valid
+    const handleInputChange = (field, value) => {
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [field]: value ? '' : prevErrors[field]
+        }));
     };
 
     return (
@@ -91,9 +95,11 @@ const VehicleAdd = () => {
               name="vehicle-id"
               placeholder="Enter vehicle ID"
               value={vehicleId}
-              onChange={(e) => setVehicleId(e.target.value)}
+              onChange={(e) => {
+                  setVehicleId(e.target.value);
+                  handleInputChange('vehicleId', e.target.value);
+              }}
               className={`input ${errors.vehicleId ? 'input-error' : ''}`}
-              required
             />
             {errors.vehicleId && <p className="error-message">{errors.vehicleId}</p>}
     
@@ -104,9 +110,11 @@ const VehicleAdd = () => {
               name="name"
               placeholder="Enter vehicle name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                  setName(e.target.value);
+                  handleInputChange('name', e.target.value);
+              }}
               className={`input ${errors.name ? 'input-error' : ''}`}
-              required
             />
             {errors.name && <p className="error-message">{errors.name}</p>}
     
@@ -117,9 +125,11 @@ const VehicleAdd = () => {
               name="type"
               placeholder="Enter vehicle type"
               value={type}
-              onChange={(e) => setType(e.target.value)}
+              onChange={(e) => {
+                  setType(e.target.value);
+                  handleInputChange('type', e.target.value);
+              }}
               className={`input ${errors.type ? 'input-error' : ''}`}
-              required
             />
             {errors.type && <p className="error-message">{errors.type}</p>}
     
@@ -130,9 +140,11 @@ const VehicleAdd = () => {
               name="registration-number"
               placeholder="Enter registration number"
               value={registrationNumber}
-              onChange={(e) => setRegistrationNumber(e.target.value)}
+              onChange={(e) => {
+                  setRegistrationNumber(e.target.value);
+                  handleInputChange('registrationNumber', e.target.value);
+              }}
               className={`input ${errors.registrationNumber ? 'input-error' : ''}`}
-              required
             />
             {errors.registrationNumber && <p className="error-message">{errors.registrationNumber}</p>}
     
@@ -143,9 +155,11 @@ const VehicleAdd = () => {
               name="capacity"
               placeholder="Enter capacity"
               value={capacity}
-              onChange={(e) => setCapacity(e.target.value)}
+              onChange={(e) => {
+                  setCapacity(e.target.value);
+                  handleInputChange('capacity', e.target.value);
+              }}
               className={`input ${errors.capacity ? 'input-error' : ''}`}
-              required
             />
             {errors.capacity && <p className="error-message">{errors.capacity}</p>}
     
@@ -155,9 +169,11 @@ const VehicleAdd = () => {
               id="last-service-date"
               name="last-service-date"
               value={lastServiceDate}
-              onChange={(e) => setLastServiceDate(e.target.value)}
+              onChange={(e) => {
+                  setLastServiceDate(e.target.value);
+                  handleInputChange('lastServiceDate', e.target.value);
+              }}
               className={`input ${errors.lastServiceDate ? 'input-error' : ''}`}
-              required
             />
             {errors.lastServiceDate && <p className="error-message">{errors.lastServiceDate}</p>}
     
@@ -167,9 +183,11 @@ const VehicleAdd = () => {
               id="next-service-date"
               name="next-service-date"
               value={nextServiceDate}
-              onChange={(e) => setNextServiceDate(e.target.value)}
+              onChange={(e) => {
+                  setNextServiceDate(e.target.value);
+                  handleInputChange('nextServiceDate', e.target.value);
+              }}
               className={`input ${errors.nextServiceDate ? 'input-error' : ''}`}
-              required
             />
             {errors.nextServiceDate && <p className="error-message">{errors.nextServiceDate}</p>}
     

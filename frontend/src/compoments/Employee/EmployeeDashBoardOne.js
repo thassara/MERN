@@ -11,7 +11,7 @@ function EmployeeDashBoardOne() {
   const handleDelete = async (EmpID) => {
     if (window.confirm("Are you sure you want to delete this employee?")) {
       try {
-        const response = await fetch(`http://localhost:8080/api/employees/${EmpID}`, {
+        const response = await fetch(`http://localhost:8070/api/employees/${EmpID}`, {
           method: 'DELETE',
         });
         if (response.ok) {
@@ -30,7 +30,7 @@ function EmployeeDashBoardOne() {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await fetch('http://localhost:8080/api/employees');
+        const response = await fetch('http://localhost:8070/api/employees');
         if (response.ok) {
           const data = await response.json();
           setEmployees(data);

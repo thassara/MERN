@@ -21,7 +21,7 @@ function App() {
     const confirmDelete = window.confirm("Are you sure you want to delete this order?");
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:8080/orders/delete/${id}`); 
+        await axios.delete(`http://localhost:8070/orders/delete/${id}`); 
         alert("Order deleted successfully");
         navigate('/OrderDashBoardPage'); 
       } catch (error) {
@@ -33,7 +33,7 @@ function App() {
 
   const handleStatusChange = async (id, newStatus) => {
     try {
-      await axios.put(`http://localhost:8080/orders/update/${id}`, {
+      await axios.put(`http://localhost:8070/orders/update/${id}`, {
         status: newStatus,
       });
       setOrderData((prevData) => ({
@@ -50,7 +50,7 @@ function App() {
 
   const handleTrackingStatus = async (id, newTracking) => {
     try {
-      await axios.put(`http://localhost:8080/orders/update/${id}`, {
+      await axios.put(`http://localhost:8070/orders/update/${id}`, {
         Or_tracking: newTracking,
       });
       setTracking(newTracking);  
@@ -65,7 +65,7 @@ function App() {
   useEffect(() => {
     const fetchOrderData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/orders/read/${id}`);
+        const response = await axios.get(`http://localhost:8070/orders/read/${id}`);
         setOrderData(response.data);
         setTracking(response.data.Or_tracking); 
       } catch (error) {

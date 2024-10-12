@@ -10,7 +10,7 @@ function EditEmployee() {
   useEffect(() => {
     const fetchEmployee = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/api/employees/${empId}`);
+        const response = await fetch(`http://localhost:8070/api/employees/${empId}`);
         if (response.ok) {
           const data = await response.json();
           setEmployee(data);

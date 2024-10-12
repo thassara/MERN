@@ -45,7 +45,7 @@ const OrderUpdateForm = () => {
     useEffect(() => {
         const fetchOrderData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/orders/read/${id}`);
+                const response = await axios.get(`http://localhost:8070/orders/read/${id}`);
                 const data = response.data;
                 setOrderData(data);
                 setCustomerName(data.Cus_name);
@@ -64,7 +64,7 @@ const OrderUpdateForm = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`http://localhost:8080/orders/update/${id}`, {
+            const response = await axios.put(`http://localhost:8070/orders/update/${id}`, {
                 Cus_name: customerName,
                 Cus_email: customerEmail,
                 qty: qty, 

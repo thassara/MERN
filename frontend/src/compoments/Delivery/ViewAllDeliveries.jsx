@@ -95,15 +95,13 @@ const ViewAllDeliveries = () => {
             return;
         }
 
-        const updatedOrder = orders.find(order => order._id === orderId);
-        if (updatedOrder) {
-            updatedOrder.status = newStatus;
-            try {
-                await axios.put(`http://localhost:8070/api/orders/update/${orderId}`, updatedOrder);
-                fetchOrders(); // Refresh orders after status update
-            } catch (error) {
-                console.error('Error updating status:', error);
-            }
+        try {
+            await axios.put(`http://localhost:8070/api/orders/update/${orderId}`, { status: newStatus }); // Update order in backend
+            setOrders(prevOrders => prevOrders.map(order =>
+                order._id === orderId ? { ...order, status: newStatus } : order
+            )); // Update status in local state
+        } catch (error) {
+            console.error('Error updating status:', error);
         }
     };
 
@@ -116,7 +114,7 @@ const ViewAllDeliveries = () => {
         const doc = new jsPDF();
         doc.text('Orders Report', 14, 16);
         doc.autoTable({
-            head: [['Customer Name', 'Quantity', 'Location', 'Issue Date', 'Delivery Date', 'Status']],
+            head: [['Customer Name', 'Quantity', 'Location', 'Issue Date', 'Delivery Date', 'Status', 'Assigned Vehicle']],
             body: filteredOrders.map(order => [
                 order.Cus_name,
                 order.qty,
@@ -124,6 +122,7 @@ const ViewAllDeliveries = () => {
                 order.IssueDate ? new Date(order.IssueDate).toLocaleDateString() : '-',
                 order.DeliveryDate ? new Date(order.DeliveryDate).toLocaleDateString() : '-',
                 order.status,
+                assignedVehicles[order._id] ? allVehicles.find(v => v._id === assignedVehicles[order._id])?.name || 'Not Assigned' : 'Not Assigned',
             ]),
         });
         doc.save('orders_report.pdf');
@@ -143,7 +142,6 @@ const ViewAllDeliveries = () => {
                 />
             </div>
 
-            <button onClick={() => navigate('/IssueDeliveryForm')}>Add New Issue Delivery</button>
             <button onClick={generatePDF}>Generate Report</button>
 
             <table className="table">

@@ -11,7 +11,7 @@ function Or_Analysis() {
     useEffect(() => {
         const fedata = async ()=>{
             try{
-               const response= await axios.get('http://localhost:8080/orders/Allread');
+               const response= await axios.get('http://localhost:8070/orders/Allread');
                SetStatus(response.data);
 
             }catch(error){

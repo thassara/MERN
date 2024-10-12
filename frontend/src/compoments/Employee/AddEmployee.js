@@ -61,7 +61,7 @@ function AddEmployee() {
     }
 
     try {
-      const response = await fetch('http://localhost:8080/api/addEmployee', {
+      const response = await fetch('http://localhost:8070/api/addEmployee', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

@@ -54,7 +54,7 @@ function EditAttendance() {
     const formattedWorkDate = new Date(attendance.WorkDate).toISOString().split('T')[0];
     
     try {
-      const response = await fetch(`http://localhost:8080/api/attendance/${attendance.EmpID}/${formattedWorkDate}`, {
+      const response = await fetch(`http://localhost:8070/api/attendance/${attendance.EmpID}/${formattedWorkDate}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
