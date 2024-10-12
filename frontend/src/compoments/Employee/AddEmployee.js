@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function AddEmployee() {
@@ -18,6 +18,15 @@ function AddEmployee() {
 
   const [errors, setErrors] = useState({});
 
+  // Set Join Date to today's date and disable it
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      EmpJoin: today
+    }));
+  }, []);
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -28,25 +37,14 @@ function AddEmployee() {
   const validate = () => {
     const newErrors = {};
 
-    // Validate EmpID (4-digit number)
-    if (!/^\d{4}$/.test(formData.EmpID)) {
-      newErrors.EmpID = 'Employee ID must be a 4-digit number';
-    }
-
-    // Validate EmpPosition (no numbers allowed)
-    if (/\d/.test(formData.EmpPosition)) {
-      newErrors.EmpPosition = 'Position cannot contain numbers';
-    }
-
-    // Validate EmpPassKey (4-digit number)
-    if (!/^\d{4}$/.test(formData.EmpPassKey)) {
-      newErrors.EmpPassKey = 'PassKey must be a 4-digit number';
-    }
-
-    // Validate EmpWage (positive number)
-    if (formData.EmpWage === '' || formData.EmpWage <= 0) {
-      newErrors.EmpWage = 'Salary/Wage must be a positive number';
-    }
+    // Validation rules
+    if (!/^\d{4}$/.test(formData.EmpID)) newErrors.EmpID = 'Employee ID must be 4 digits';
+    if (/\d/.test(formData.EmpName)) newErrors.EmpName = 'Name cannot contain numbers';
+    if (/\d/.test(formData.EmpFullName)) newErrors.EmpFullName = 'Full Name cannot contain numbers';
+    if (/\d/.test(formData.EmpPosition)) newErrors.EmpPosition = 'Position cannot contain numbers';
+    if (/\d/.test(formData.EmpExperience)) newErrors.EmpExperience = 'Experience cannot contain numbers';
+    if (formData.EmpWage <= 0) newErrors.EmpWage = 'Salary cannot be negative or zero';
+    if (!/^\d{4}$/.test(formData.EmpPassKey)) newErrors.EmpPassKey = 'PassKey must be 4 digits';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -54,18 +52,12 @@ function AddEmployee() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Run validation
-    if (!validate()) {
-      return;
-    }
+    if (!validate()) return;
 
     try {
       const response = await fetch('http://localhost:8070/api/addEmployee', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
       if (response.ok) {
@@ -81,7 +73,62 @@ function AddEmployee() {
   };
 
   return (
-    <div>
+    <div className="container">
+      <h1>Add Employee</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Employee ID:</label>
+          <input type="number" id="EmpID" value={formData.EmpID} onChange={handleChange} />
+          <small className="error">{errors.EmpID}</small>
+        </div>
+
+        <div className="form-group">
+          <label>Emp Name:</label>
+          <input type="text" id="EmpName" value={formData.EmpName} onChange={handleChange} />
+          <small className="error">{errors.EmpName}</small>
+        </div>
+
+        <div className="form-group">
+          <label>Full Name:</label>
+          <input type="text" id="EmpFullName" value={formData.EmpFullName} onChange={handleChange} />
+          <small className="error">{errors.EmpFullName}</small>
+        </div>
+
+        <div className="form-group">
+          <label>Position:</label>
+          <input type="text" id="EmpPosition" value={formData.EmpPosition} onChange={handleChange} />
+          <small className="error">{errors.EmpPosition}</small>
+        </div>
+
+        <div className="form-group">
+          <label>Experience:</label>
+          <input type="text" id="EmpExperience" value={formData.EmpExperience} onChange={handleChange} />
+          <small className="error">{errors.EmpExperience}</small>
+        </div>
+
+        <div className="form-group">
+          <label>Salary/Wage:</label>
+          <input type="number" id="EmpWage" value={formData.EmpWage} onChange={handleChange} />
+          <small className="error">{errors.EmpWage}</small>
+        </div>
+
+        <div className="form-group">
+          <label>Join Date:</label>
+          <input type="date" id="EmpJoin" value={formData.EmpJoin} disabled />
+        </div>
+
+        <div className="form-group">
+          <label>PassKey:</label>
+          <input type="number" id="EmpPassKey" value={formData.EmpPassKey} onChange={handleChange} />
+          <small className="error">{errors.EmpPassKey}</small>
+        </div>
+
+        <div className="button-container">
+          <button type="button" onClick={() => navigate('/EmployeeDashBoardPage')}>Go Back</button>
+          <button type="submit">Add Employee</button>
+        </div>
+      </form>
+
       <style>
         {`
           .container {
@@ -102,17 +149,16 @@ function AddEmployee() {
 
           .form-group {
             margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
           }
 
           .form-group label {
-            flex: 1;
+            display: block;
             font-weight: bold;
+            margin-bottom: 5px;
           }
 
           .form-group input {
-            flex: 2;
+            width: 100%;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -121,6 +167,8 @@ function AddEmployee() {
           .error {
             color: red;
             font-size: 14px;
+            margin-top: 5px;
+            display: block;
           }
 
           .button-container {
@@ -129,7 +177,7 @@ function AddEmployee() {
             margin-top: 20px;
           }
 
-          .button {
+          .button-container button {
             padding: 10px 20px;
             border: none;
             border-radius: 4px;
@@ -138,141 +186,12 @@ function AddEmployee() {
             background-color: #007bff;
             color: white;
           }
-          .button.add {
-            background-color: #0F9D58;
-          }
 
-          .button:hover {
+          .button-container button:hover {
             background-color: #0056b3;
           }
         `}
       </style>
-
-      <div className="container">
-        <h1>Add Employee</h1>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="EmpID">Employee ID:</label>
-            <input
-              type="number"
-              id="EmpID"
-              value={formData.EmpID}
-              onChange={handleChange}
-            />
-            {errors.EmpID && <div className="error">{errors.EmpID}</div>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="EmpName">Emp Name:</label>
-            <input
-              type="text"
-              id="EmpName"
-              value={formData.EmpName}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="EmpFullName">Full Name:</label>
-            <input
-              type="text"
-              id="EmpFullName"
-              value={formData.EmpFullName}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="EmpAddress">Address:</label>
-            <input
-              type="text"
-              id="EmpAddress"
-              value={formData.EmpAddress}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="EmpQualifications">Qualifications:</label>
-            <input
-              type="text"
-              id="EmpQualifications"
-              value={formData.EmpQualifications}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="EmpExperience">Experience:</label>
-            <input
-              type="text"
-              id="EmpExperience"
-              value={formData.EmpExperience}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="EmpPosition">Position:</label>
-            <input
-              type="text"
-              id="EmpPosition"
-              value={formData.EmpPosition}
-              onChange={handleChange}
-            />
-            {errors.EmpPosition && (
-              <div className="error">{errors.EmpPosition}</div>
-            )}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="EmpWage">Salary/Wage:</label>
-            <input
-              type="number"
-              id="EmpWage"
-              value={formData.EmpWage}
-              onChange={handleChange}
-            />
-            {errors.EmpWage && <div className="error">{errors.EmpWage}</div>}
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="EmpJoin">Join Date:</label>
-            <input
-              type="date"
-              id="EmpJoin"
-              value={formData.EmpJoin}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="EmpPassKey">PassKey:</label>
-            <input
-              type="number"
-              id="EmpPassKey"
-              value={formData.EmpPassKey}
-              onChange={handleChange}
-            />
-            {errors.EmpPassKey && (
-              <div className="error">{errors.EmpPassKey}</div>
-            )}
-          </div>
-
-          <div className="button-container">
-            <button
-              className="button"
-              type="button"
-              onClick={() => navigate('/EmployeeDashBoardPage')}
-            >
-              Go Back
-            </button>
-            <button className="button add" type="submit">
-              Add Employee
-            </button>
-          </div>
-        </form>
-      </div>
     </div>
   );
 }
