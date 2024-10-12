@@ -1,64 +1,48 @@
-.unique-dashboard-container {
+.dashboard-container {
   display: flex;
   min-height: 100vh;
   background-color: #f4f5f7;
 }
-
-.unique-dashboard-title {
+.dashboard-title {
   font-size: 28px;
   color: #333;
   font-weight: 600;
   text-align: center;
-  flex: 1; /* Allow title to take available space */
+  
 }
-
-.unique-main-content {
+.main-content {
   flex: 1;
   padding: 20px;
   background-color: #ffffff;
 }
 
-.unique-balance-summary {
+.dashboard-title {
+  font-size: 28px;
+  color: #333;
+  font-weight: 600;
+}
+
+.balance-summary {
   display: flex;
   justify-content: space-between;
   margin: 20px 0;
 }
 
-.unique-summary-card {
+.summary-card {
   flex: 1;
   background-color: #e7f3fe;
   border-radius: 8px;
   padding: 15px;
   text-align: center;
-  margin-right: 10px; /* Space between cards */
+  margin-right: 10px;
 }
 
-.unique-summary-card:last-child {
-  margin-right: 0; /* Remove margin from the last card */
-}
-
-.unique-summary-card h3 {
+.summary-card h3 {
   color: #007bff;
   margin-bottom: 10px;
 }
 
-.unique-summary-card p {
+.summary-card p {
   font-size: 20px;
   font-weight: bold;
-}
-
-/* Pie chart styling */
-.unique-pie-chart-container {
-  width: 200px;  /* Increased width of the pie chart container */
-  height: 200px; /* Increased height of the pie chart container */
-  display: flex; /* Center the chart */
-  justify-content: center; /* Center the chart horizontally */
-  align-items: center; /* Center the chart vertically */
-  margin: 20px 0; /* Margin for spacing */
-  align-self: flex-end; /* Align pie chart to the bottom of the summary */
-}
-
-.unique-pie-chart {
-  width: 100%; /* Make the pie chart fill the container */
-  height: 100%; /* Make the pie chart fill the container */
 }

@@ -5,6 +5,7 @@ const AssignMachine = () => {
   const [orderQueue, setOrderQueue] = useState({ orderId: '', machineId: '' });
   const [infoOrders, setInfoOrders] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
+  const [orderDetails, setOrderDetails] = useState([]); // New state for storing order details from order.js
   const [loading, setLoading] = useState(false);
 
   // Fetch all orders on component mount
@@ -20,7 +21,18 @@ const AssignMachine = () => {
         setLoading(false);
       }
     };
+
+    const fetchOrderDetails = async () => {
+      try {
+        const response = await axios.get('http://localhost:8070/orders/Allread'); // Fetch order details from order.js
+        setOrderDetails(response.data); // Set the response to state
+      } catch (error) {
+        console.error('Error fetching order details:', error);
+      }
+    };
+
     fetchOrders();
+    fetchOrderDetails();
 
     // Load completed orders from localStorage
     const storedCompletedOrders = localStorage.getItem('completedOrders');
@@ -77,19 +89,20 @@ const AssignMachine = () => {
     }
   };
 
-  // Marking an order as completed
-  const handleMarkAsCompleted = (order, index) => {
-    // Move the order to completedOrders list
-    const updatedCompletedOrders = [...completedOrders, order];
-    setCompletedOrders(updatedCompletedOrders);
-
-    // Save completed orders to localStorage
-    localStorage.setItem('completedOrders', JSON.stringify(updatedCompletedOrders));
-
-    // Remove from infoOrders list
-    const updatedOrders = [...infoOrders];
-    updatedOrders.splice(index, 1);
-    setInfoOrders(updatedOrders);
+  // Marking an order as completed without removing it from the assigned orders form
+  const handleMarkAsCompleted = (order) => {
+    const isAlreadyCompleted = completedOrders.some(
+      (completedOrder) => completedOrder._id === order._id
+    );
+    
+    if (!isAlreadyCompleted) {
+      const updatedCompletedOrders = [...completedOrders, order];
+      setCompletedOrders(updatedCompletedOrders);
+      localStorage.setItem('completedOrders', JSON.stringify(updatedCompletedOrders));
+      alert('Order marked as completed.');
+    } else {
+      alert('This order is already marked as completed.');
+    }
   };
 
   return (
@@ -100,7 +113,7 @@ const AssignMachine = () => {
         <form onSubmit={handleAssignOrder} style={styles.box}>
           <div style={styles.details}>
             <div>
-              <label>Order ID:</label>
+              <label>Order Name:</label>
               <input
                 type="text"
                 name="orderId"
@@ -137,13 +150,13 @@ const AssignMachine = () => {
           infoOrders.map((order, index) => (
             <div key={order._id} style={styles.infoBox}>
               <div>
-                <strong>Order ID:</strong> {order.orderid}
+                <strong>Order Name:</strong> {order.orderid}
               </div>
               <div>
                 <strong>Machine ID:</strong> {order.machineid}
               </div>
-              <button onClick={() => handleMarkAsCompleted(order, index)} style={styles.completedButton} disabled={loading}>
-                Mark as Completed
+              <button onClick={() => handleMarkAsCompleted(order)} style={styles.completedButton} disabled={loading}>
+                 Completed
               </button>
               <button onClick={() => handleRemoveOrder(order._id, index)} style={styles.removeButton} disabled={loading}>
                 {loading ? 'Removing...' : 'Remove'}
@@ -162,7 +175,7 @@ const AssignMachine = () => {
           completedOrders.map((order, index) => (
             <div key={order._id} style={styles.infoBox}>
               <div>
-                <strong>Order ID:</strong> {order.orderid}
+                <strong>Order Name:</strong> {order.orderid}
               </div>
               <div>
                 <strong>Machine ID:</strong> {order.machineid}
@@ -173,6 +186,41 @@ const AssignMachine = () => {
             </div>
           ))
         )}
+      </div>
+
+      {/* Order Details Table */}
+      <div style={styles.orderDetailsTable}>
+        <h2>Order Details</h2>
+        <table style={styles.table}>
+          <thead>
+            <tr>
+             
+              <th>Customer Name</th>
+              <th>Email</th>
+              <th>Package Type</th>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orderDetails.length === 0 ? (
+              <tr>
+                <td colSpan="7">No orders found.</td>
+              </tr>
+            ) : (
+              orderDetails.map((order) => (
+                <tr key={order._id}>
+                 
+                  <td>{order.Cus_name}</td>
+                  <td>{order.Cus_email}</td>                 
+                  <td>{order.package_type}</td>
+                  <td>{new Date(order.date).toLocaleDateString()}</td>
+                  <td>{order.status}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );
@@ -252,6 +300,24 @@ const styles = {
     border: '1px solid #ccc',
     marginTop: '5px',
     width: '100%',
+  },
+  orderDetailsTable: {
+    flexBasis: '45%',
+    backgroundColor: '#f5f5f5',
+    padding: '20px',
+    borderRadius: '10px',
+    marginBottom: '20px',
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse',
+  },
+  tableHeader: {
+    backgroundColor: '#007bff',
+    color: '#fff',
+  },
+  tableRow: {
+    borderBottom: '1px solid #ddd',
   },
 };
 

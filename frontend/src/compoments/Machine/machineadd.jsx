@@ -21,6 +21,8 @@ const MachineAdd = () => {
 
         if (invalidSymbols) {
             error = `Invalid symbol(s): ${invalidSymbols.join(', ')} are not allowed in ${field}.`;
+        } else if (!value) {
+            error = `${field} is required.`;
         }
 
         setErrors((prevErrors) => ({
@@ -66,17 +68,28 @@ const MachineAdd = () => {
     const validateFields = () => {
         const validationErrors = {};
 
-        if (symbolRegex.test(machineName)) {
+        if (!machineName) {
+            validationErrors.machineName = 'Machine Name is required.';
+        } else if (symbolRegex.test(machineName)) {
             validationErrors.machineName = 'Symbols are not allowed in Machine Name.';
         }
-        if (symbolRegex.test(description)) {
+
+        if (!durationTime) {
+            validationErrors.durationTime = 'Duration Time is required.';
+        } else if (isNaN(durationTime) || durationTime <= 0) {
+            validationErrors.durationTime = 'Please enter a valid duration time in hours.';
+        }
+
+        if (!description) {
+            validationErrors.description = 'Description is required.';
+        } else if (symbolRegex.test(description)) {
             validationErrors.description = 'Symbols are not allowed in Description.';
         }
-        if (symbolRegex.test(qualityDetails)) {
+
+        if (!qualityDetails) {
+            validationErrors.qualityDetails = 'Quality Details are required.';
+        } else if (symbolRegex.test(qualityDetails)) {
             validationErrors.qualityDetails = 'Symbols are not allowed in Quality Details.';
-        }
-        if (!durationTime || isNaN(durationTime) || durationTime <= 0) {
-            validationErrors.durationTime = 'Please enter a valid duration time in hours.';
         }
 
         return validationErrors;
