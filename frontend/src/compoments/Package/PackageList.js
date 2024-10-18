@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Breadcrumb from './Breadcrumb'; // Import the Breadcrumb component
-import SearchPackages from './SearchPackages'; // Import the SearchPackages component
-import UpdatePackageModal from './UpdatePackageModal'; // Import the UpdatePackageModal component
+import Breadcrumb from './Breadcrumb';
+import SearchPackages from './SearchPackages';
+import UpdatePackageModal from './UpdatePackageModal';
 
 const PackageList = () => {
-    const [packages, setPackages] = useState([]); // State to hold all packages
-    const [filteredPackages, setFilteredPackages] = useState([]); // State to hold filtered packages
-    const [selectedPackage, setSelectedPackage] = useState(null); // State for the selected package to update
-    const [error, setError] = useState(''); // State to hold error messages
+    const [packages, setPackages] = useState([]);
+    const [filteredPackages, setFilteredPackages] = useState([]);
+    const [selectedPackage, setSelectedPackage] = useState(null);
+    const [error, setError] = useState('');
 
-    // Define an array of colors for the package cards
     const cardColors = [
         '#f8f9fa', '#e9ecef', '#f1f3f5', '#fff3cd', '#d4edda', '#cce5ff',
     ];
 
-    // Fetch packages from backend API
     useEffect(() => {
         const fetchPackages = async () => {
             try {
@@ -31,29 +29,31 @@ const PackageList = () => {
         fetchPackages();
     }, []);
 
-    // Function to handle deleting a package
     const deletePackage = async (id) => {
         try {
             await axios.delete(`http://localhost:8070/package/delete/${id}`);
             setPackages(packages.filter(pkg => pkg._id !== id));
             setFilteredPackages(filteredPackages.filter(pkg => pkg._id !== id));
-            
         } catch (err) {
             setError('Error deleting package.');
             console.error(err);
         }
     };
 
-    // Function to handle search/filtering
     const handleSearch = (filteredPackages) => {
         setFilteredPackages(filteredPackages);
     };
 
-    // Function to handle updating a package
+    // Update package list after editing the package
     const handleUpdate = (updatedPackage) => {
-        setPackages(packages.map(pkg => (pkg._id === updatedPackage._id ? updatedPackage : pkg)));
-        setFilteredPackages(filteredPackages.map(pkg => (pkg._id === updatedPackage._id ? updatedPackage : pkg)));
-        setSelectedPackage(null); // Close the modal after updating
+        // Update the list of packages
+        const updatedPackages = packages.map(pkg => 
+            pkg._id === updatedPackage._id ? updatedPackage : pkg
+        );
+
+        setPackages(updatedPackages);
+        setFilteredPackages(updatedPackages);
+        setSelectedPackage(null); // Close the modal after update
     };
 
     return (
@@ -61,12 +61,10 @@ const PackageList = () => {
             <Breadcrumb />
             <h1>Package List</h1>
 
-            {/* Search and Material Filter Component */}
             <SearchPackages packages={packages} onSearch={handleSearch} />
 
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
-            {/* Display filtered packages */}
             <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
                 {filteredPackages.map((pkg, index) => (
                     <div key={pkg._id} style={{ ...cardStyle, backgroundColor: cardColors[index % cardColors.length] }}>
@@ -78,10 +76,10 @@ const PackageList = () => {
                         <div style={buttonContainerStyle}>
                             <button
                                 style={updateButtonStyle}
-                                onClick={() => setSelectedPackage(pkg)}> {/* Open modal for updating */}
+                                onClick={() => setSelectedPackage(pkg)}> {/* Set full package object */}
                                 Update
                             </button>
-                            
+
                             <button
                                 style={deleteButtonStyle}
                                 onClick={() => {
@@ -92,26 +90,22 @@ const PackageList = () => {
                             >
                                 Delete
                             </button>
-                            
-
                         </div>
                     </div>
                 ))}
             </div>
 
-            {/* Conditionally render the update modal */}
             {selectedPackage && (
                 <UpdatePackageModal
-                    pkg={selectedPackage}
+                    selectedPackage={selectedPackage}
                     onClose={() => setSelectedPackage(null)}
-                    onUpdate={handleUpdate}
+                    onUpdate={handleUpdate} // Pass the handleUpdate function
                 />
             )}
         </div>
     );
 };
 
-// Inline styles for card and buttons
 const cardStyle = {
     border: '1px solid #dee2e6',
     borderRadius: '10px',

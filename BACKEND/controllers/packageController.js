@@ -1,4 +1,4 @@
-const Package = require('../Models/Package'); // Import the Package model
+const Package = require('../models/Package'); // Import the Package model
 
 // Create a new package
 const createPackage = async (req, res) => {
@@ -8,10 +8,6 @@ const createPackage = async (req, res) => {
     // Validate input
     if (!PackageName || !PackageType || !Material || !Length || !Width || !Height) {
       return res.status(400).json({ error: 'All required fields must be provided.' });
-    }
-
-    if (Length <= 0 || Width <= 0 || Height <= 0) {
-      return res.status(400).json({ error: 'Length, Width, and Height must be positive numbers.' });
     }
 
     // Create new package
@@ -63,22 +59,15 @@ const getPackageById = async (req, res) => {
 const updatePackage = async (req, res) => {
   try {
     const { package_id } = req.params;
-    const { PackageName, PackageType, PackageDescription, Material, Length, Width, Height } = req.body;
+    const updatedPackageData = req.body;
 
     // Validate input
-    if (!PackageName || !PackageType || !Material || !Length || !Width || !Height) {
-      return res.status(400).json({ error: 'All required fields must be provided.' });
+    if (!updatedPackageData.PackageName || !updatedPackageData.Material) {
+      return res.status(400).json({ error: 'Required fields are missing.' });
     }
 
-    if (Length <= 0 || Width <= 0 || Height <= 0) {
-      return res.status(400).json({ error: 'Length, Width, and Height must be positive numbers.' });
-    }
-
-    const updatedPackage = await Package.findByIdAndUpdate(
-      package_id,
-      { PackageName, PackageType, PackageDescription, Material, Length, Width, Height },
-      { new: true } // Return the updated package
-    );
+    // Update package
+    const updatedPackage = await Package.findByIdAndUpdate(package_id, updatedPackageData, { new: true });
 
     if (!updatedPackage) {
       return res.status(404).json({ error: 'Package not found.' });
@@ -113,4 +102,3 @@ module.exports = {
   updatePackage,
   deletePackage
 };
-//janith
