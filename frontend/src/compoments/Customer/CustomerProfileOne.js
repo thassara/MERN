@@ -34,6 +34,7 @@ function CustomerProfileOne() {
                 display: 'block',
                 backgroundColor: '#34495E',
                 borderRadius: '5px',
+                 
               }}
             >
               Profile

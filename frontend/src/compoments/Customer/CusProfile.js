@@ -2,12 +2,12 @@ import React from 'react';
 
 const CusProfile = () => {
   const customer = {
-    fullName: '',
-    email: '',
-    address: '',
-    age: '',
-    gender: '',
-    username: ';',
+    fullName: 'Rivith Ranjuana',
+    email: 'rivith@gmail.com',
+    address: 'Panadura',
+    age: '22',
+    gender: 'Male',
+    username: 'Silva',
     profilePhoto: 'https://cdn-icons-png.flaticon.com/512/847/847969.png', // Profile icon
   };
 
