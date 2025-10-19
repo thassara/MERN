@@ -5,8 +5,8 @@ const cors = require('cors');
 const app = express();
 require('dotenv').config();
 
-const feedbackRoutes = require('./Routes/feedbackRoutes.js'); // Fix the path
-const customerRoutes = require('./Routes/customerRoutes.js')
+const feedbackRoutes = require('./Routes/feedbackRoutes.js');  
+const customerRoutes = require('./Routes/customerRoutes.js');
 
 // Middleware
 app.use(cors());

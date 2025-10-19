@@ -7,7 +7,7 @@ const CusProfile = () => {
     address: '',
     age: '',
     gender: '',
-    username: '',
+    username: ';',
     profilePhoto: 'https://cdn-icons-png.flaticon.com/512/847/847969.png', // Profile icon
   };
 

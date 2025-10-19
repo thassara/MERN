@@ -6,20 +6,16 @@ import Footer from './compoments/Footer';
 import Intro from './compoments/Intro';
 
 import FeedbackForm from './compoments/Customer/FeedbackForm';
-
 import Cusdetails from './compoments/Customer/Cusdetails';
 import FeedbackList from './compoments/Customer/FeedbackList';
 import CustomerProfileOne from './compoments/Customer/CustomerProfileOne';
-
 import Regi from './compoments/Regi';
-
 import CusProfile from './compoments/Customer/CusProfile';
- 
-
 import CustomerLogin from './compoments/Login/CustomerLogin';
 import AdminLogin from './compoments/AdminLogin';
-
 import CustomerDashBoardPage from './pages/customer/CustomerDashBoardPage';
+import UpdateCustomer from './compoments/Customer/UpdateCustomer';
+
 // import GMLogin from './compoments/Login/GMLogin';
  
 // import PMLogin from './compoments/Login/PMLogin';
@@ -33,8 +29,7 @@ import PMChoose from './compoments/PMChoose';
 // import PaymentDashBoard from './compoments/Payment/PaymentDashBoardOne';
 // import EmployeeDashBoard from './compoments/Employee/EmployeeDashBoardOne';
 
- import UpdateCustomer from './compoments/Customer/UpdateCustomer';
-
+ 
 // import MachineDashBoard from './compoments/Machine/MachineDashBoardOne';
 // import DeliveryDashBoard from './compoments/Delivery/DeliveryDashBoardOne';
 import EditInstructorFeedback from './compoments/DMChoose';
@@ -51,24 +46,23 @@ function App() {
         <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/*" element={<Outlet />}/>
-        <Route path="/CustomerLogin" element={<CustomerLogin/>}/> 
 
+        <Route path="/CustomerLogin" element={<CustomerLogin/>}/> 
         <Route path="/FeedbackForm" element={<FeedbackForm />}/>    
         <Route path="/AdminChoose/DMChoose/CustomerDashBoardPage/FeedbackList" element={<FeedbackList />}/> 
         <Route path="/AdminChoose/DMChoose/CustomerDashBoardPage/Cusdetails" element={<Cusdetails />}/> 
         <Route path="/CustomerDashBoardPage" element={<CustomerDashBoardPage />}/> 
-         
-
         <Route path="/Regi" element={<Regi />}/> 
-
         <Route path="/update-customer/:id" element={<UpdateCustomer />} />
-
         <Route path="/CustomerProfileOne" element={<CustomerProfileOne/>}/>
+        <Route path="/AdminLogin" element={<AdminLogin/>}/>
+        <Route path="/CusProfile" element={<CusProfile />} />
+
         <Route path="/DMChoose" element={<DMChoose/>}/> 
 
-        <Route path="/AdminLogin" element={<AdminLogin/>}/>
+       
 
-        <Route path="/CusProfile" element={<CusProfile />} />
+        
 
          
         {/* <Route path="/AdminChoose/GMLogin" element={<GMLogin/>}/> 
